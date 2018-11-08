@@ -35,8 +35,16 @@ public class BiomeController : MonoBehaviour
         BiomeType.Update();
 	}
 
+    bool CheckCoords(int x, int y, int z)
+    {
+        if (x < 0 || y < 0 || z < 0 || x > Biome.XSize || y > Biome.YSize || z > Biome.ZSize) return false;
+        return true;
+    }
+
     public void SetBlock(int x, int y, int z, string Block)
     {
+        if (!CheckCoords(x, y, z)) return;
+
         Transform t = GameObject.Instantiate(BiomeBlockPrefab, transform);
         t.name = new StringBuilder().Append(x).Append(y).Append(z).ToString();
         t.GetComponent<MeshRenderer>().material = Manager.GetBlockMaterial(Block);
@@ -45,11 +53,15 @@ public class BiomeController : MonoBehaviour
 
     public Transform GetBlock(int x, int y, int z)
     {
+        if (!CheckCoords(x, y, z)) return null;
+
         return transform.Find(new StringBuilder().Append(x).Append(y).Append(z).ToString());
     }
 
     public void RemoveBlock(int x, int y, int z)
     {
+        if (!CheckCoords(x, y, z)) return;
+
         Destroy(transform.Find(new StringBuilder().Append(x).Append(y).Append(z).ToString()));
     }
 }

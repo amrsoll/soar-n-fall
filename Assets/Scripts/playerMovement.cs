@@ -24,9 +24,6 @@ public class playerMovement : MonoBehaviour {
 		float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
-        Transform camera = Camera.main.transform;
-
-
         currentV = Mathf.Lerp(currentV, v, Time.deltaTime * interpolation);
         currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation);
 

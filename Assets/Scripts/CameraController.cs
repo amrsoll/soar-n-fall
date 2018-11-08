@@ -10,9 +10,13 @@ public class CameraController : MonoBehaviour {
 	private Vector3 biomeCenterOffset = new Vector3((float)Biome.XSize/2,
 													(float)Biome.YSize/2,
 													(float)Biome.ZSize/2);         //Private variable to store the offset distance between the player and camera
-	private Vector3 camOffset;         //Private variable to store the offset distance between the player and camera
-	private Vector3Int currentBiomePos;
 
+	private Vector3 prevCamOffset;         //Private variable to store the offset distance between the player and camera
+	private Vector3 curCamOffset;         //Private variable to store the offset distance between the player and camera
+	private Vector3 nextCamOffset;         //Private variable to store the offset distance between the player and camera
+	private Vector3 camTarget;
+	private Vector3Int currentBiomePos;
+	private float delta;
 	private Vector3 rotateOffset90(Vector3 v, int direction) {
 		Quaternion q;
 		if(direction >= 0) {
@@ -29,34 +33,24 @@ public class CameraController : MonoBehaviour {
 		BiomeController biomeController = biomeManager.GetBiome(currentBiomePos.x,
 																currentBiomePos.y,
 																currentBiomePos.z);
-		camOffset = new Vector3(5f,5f,5f);
-		StartCoroutine(waiter());
+		prevCamOffset = new Vector3(5f,5f,5f);
+		curCamOffset = prevCamOffset;
+		nextCamOffset = rotateOffset90(prevCamOffset, 1);
+		delta = 0;
+		transform.position = currentBiomePos + biomeCenterOffset + curCamOffset;
+		// StartCoroutine(waiter());
 	}
 
-	IEnumerator waiter()
-	{
-		Vector3 camTarget = currentBiomePos + biomeCenterOffset;
-		transform.position = currentBiomePos + biomeCenterOffset + camOffset;
-		transform.LookAt(camTarget, Vector3.up);
-		Debug.Log(camOffset);
-		//Rotate 90 deg
-		camOffset = rotateOffset90(camOffset, 1);
-		Debug.Log(camOffset);
-		transform.position = currentBiomePos + biomeCenterOffset + camOffset;
-		transform.LookAt(camTarget, Vector3.up);
-		//Wait for 1 second
-		yield return new WaitForSeconds(1);
-		//Rotate 90 deg
-		camOffset = rotateOffset90(camOffset, 1);
-		Debug.Log(camOffset);
-		transform.position = currentBiomePos + biomeCenterOffset + camOffset;
-		transform.LookAt(camTarget, Vector3.up);
-	}
+	// IEnumerator waiter()
+	// {
+	// }
 	// Update is called once per frame
 	void Update () {
-	    //Wait for 1 second
-	    // yield return new WaitForSeconds(1);
-		// transform.position = currentBiomePos + biomeCenterOffset + camOffset;
-		// transform.LookAt(camTarget, Vector3.up);
+		camTarget = currentBiomePos + biomeCenterOffset;
+		delta = delta + Time.deltaTime;
+		curCamOffset = Vector3.Slerp(prevCamOffset, nextCamOffset,delta);
+		transform.position = currentBiomePos + biomeCenterOffset + curCamOffset;
+		transform.LookAt(camTarget, Vector3.up);
+		Debug.Log(transform.position);
 	}
 }

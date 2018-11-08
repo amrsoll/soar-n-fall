@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BiomeManager : MonoBehaviour
 {
     public Dictionary<string, Material> Blocks;
-    public List<string> Biomes;
     public BiomeController BiomePrefab;
 
-    BiomeController[] _biomes;
     BiomeController _currentBiome;
 
     void LoadBlocks()
@@ -35,9 +33,7 @@ public class BiomeManager : MonoBehaviour
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
-                    b.Manager = this;
-                    b.transform.localPosition = new Vector3(5 * x * Biome.XSize, 5 * y * Biome.YSize, 5 * z * Biome.ZSize);
+                    CreateBiome(x, y, z);
                 }
             }
         }
@@ -46,6 +42,26 @@ public class BiomeManager : MonoBehaviour
 	void Update () {
 		
 	}
+
+    public BiomeController CreateBiome(int x, int y, int z)
+    {
+        BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
+        b.name = String.Format("{0}|{1}|{2}", x, y, z);
+        b.Manager = this;
+        b.transform.localPosition = new Vector3(5 * x * Biome.XSize, 5 * y * Biome.YSize, 5 * z * Biome.ZSize);
+
+        return b;
+    }
+
+    public BiomeController GetBiome(int x, int y, int z)
+    {
+        Transform t = transform.Find(String.Format("{0}|{1}|{2}", x, y, z));
+        if (t == null)
+        {
+            return null;
+        }
+        return t.GetComponent<BiomeController>();
+    }
 
     public Material GetBlockMaterial(string name)
     {

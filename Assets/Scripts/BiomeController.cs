@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Text;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class BiomeController : MonoBehaviour
     }
 
 	void Start () {
-        switch (Random.Range(0, 3))
+        switch (UnityEngine.Random.Range(0, 3))
         {
             case 0:
                 BiomeType = new BiomeForest(this);
@@ -37,7 +36,7 @@ public class BiomeController : MonoBehaviour
 
     bool CheckCoords(int x, int y, int z)
     {
-        if (x < 0 || y < 0 || z < 0 || x > Biome.XSize || y > Biome.YSize || z > Biome.ZSize) return false;
+        if (x < 0 || y < 0 || z < 0 || x >= Biome.XSize || y >= Biome.YSize || z >= Biome.ZSize) return false;
         return true;
     }
 
@@ -45,8 +44,14 @@ public class BiomeController : MonoBehaviour
     {
         if (!CheckCoords(x, y, z)) return;
 
-        Transform t = GameObject.Instantiate(BiomeBlockPrefab, transform);
-        t.name = new StringBuilder().Append(x).Append(y).Append(z).ToString();
+        Transform existingBlock = GetBlock(x, y, z);
+        if (existingBlock != null)
+        {
+            Destroy(existingBlock.gameObject);
+        }
+
+        Transform t = Instantiate(BiomeBlockPrefab, transform);
+        t.name = String.Format("{0}|{1}|{2}", x, y, z);
         t.GetComponent<MeshRenderer>().material = Manager.GetBlockMaterial(Block);
         t.localPosition = new Vector3(x, y, z) * Biome.BlockSize;
     }
@@ -55,13 +60,24 @@ public class BiomeController : MonoBehaviour
     {
         if (!CheckCoords(x, y, z)) return null;
 
-        return transform.Find(new StringBuilder().Append(x).Append(y).Append(z).ToString());
+        return transform.Find(String.Format("{0}|{1}|{2}", x, y, z));
     }
 
     public void RemoveBlock(int x, int y, int z)
     {
-        if (!CheckCoords(x, y, z)) return;
+        Transform block = GetBlock(x, y, z);
+        if (block != null)
+        {
+            Destroy(block.gameObject);
+        }
+    }
 
-        Destroy(transform.Find(new StringBuilder().Append(x).Append(y).Append(z).ToString()));
+    public void RemoveBlock(string xyz)
+    {
+        Transform block = transform.Find(xyz);
+        if (block != null)
+        {
+            Destroy(block.gameObject);
+        }
     }
 }

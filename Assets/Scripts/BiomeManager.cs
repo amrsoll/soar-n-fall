@@ -44,7 +44,8 @@ public class BiomeManager : MonoBehaviour
         LoadBlocks();
         LoadShapes();
 
-        CreateBiome(Vector3Int.zero, typeof(BiomeDesert));
+        CreateBiome(Vector3Int.zero, typeof(BiomeForest));
+        CreateBiome(new Vector3Int(1, 0, 0), typeof(BiomeDesert));
     }
 	
 	void Update () {
@@ -65,7 +66,7 @@ public class BiomeManager : MonoBehaviour
             b.BiomeInstance = (Biome)Activator.CreateInstance(biome, new object[] { b });
         }
         b.Manager = this;
-        Vector3 worldPos = new Vector3(5 * Biome.XSize, 5 * Biome.YSize, 5 * Biome.ZSize);
+        Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + 3 * Vector3.one);
         worldPos.Scale(pos);
         b.transform.localPosition = worldPos;
 

@@ -54,6 +54,7 @@ public class BiomeController : MonoBehaviour
         Transform t = Instantiate(Manager.GetBlockShape(prefab), transform);
         t.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
         t.localPosition = pos * Biome.BlockSize;
+        t.localScale = Biome.BlockSize * Vector3.one;
         return t;
     }
 

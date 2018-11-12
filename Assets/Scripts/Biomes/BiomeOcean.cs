@@ -18,7 +18,7 @@ public class BiomeOcean : Biome
             {
                 for (int z = 0; z < Biome.ZSize; z++)
                 {
-                    _controller.SetBlock(x, y, z, "Water");
+                    _controller.SetBlock(new Vector3Int(x, y, z), BlockType.Water);
                 }
             }
         }

@@ -8,6 +8,7 @@ public class playerMovement : MonoBehaviour {
     private float jumpSpeed = 5;
     public Rigidbody rigidBody;
     private float interpolation = 10;
+    public Camera camera;
 
     float currentV = 0;
     float currentH = 0;
@@ -25,9 +26,11 @@ public class playerMovement : MonoBehaviour {
         float h = Input.GetAxis("Horizontal");
 
         currentV = Mathf.Lerp(currentV, v, Time.deltaTime * interpolation);
-        currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation);
+        currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation); 
 
-        Vector3 direction = new Vector3(0,0,1) * currentV + new Vector3(1,0,0) * currentH;
+        Vector3 rightLeft = Vector3.Cross(camera.transform.right, Vector3.up) * currentV;
+        Vector3 forwardBack =  camera.transform.right * currentH;
+        Vector3 direction = rightLeft + forwardBack;
 
         currentDirection = Vector3.Slerp(currentDirection, direction, Time.deltaTime * interpolation);
         transform.rotation = Quaternion.LookRotation(currentDirection);

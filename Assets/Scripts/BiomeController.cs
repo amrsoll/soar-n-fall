@@ -4,68 +4,89 @@ using UnityEngine;
 
 public class BiomeController : MonoBehaviour
 {
-    public Transform BiomeBlockPrefab;
-    public Biome BiomeType;
-
-    BiomeManager _manager;
-    public BiomeManager Manager
-    {
-        get { return _manager; }
-        set { _manager = value; }
-    }
+    public Biome BiomeInstance;
+    public BiomeManager Manager;
 
 	void Start () {
-        switch (UnityEngine.Random.Range(0, 3))
+        if (BiomeInstance == null)
         {
-            case 0:
-                BiomeType = new BiomeForest(this);
-                break;
-            case 1:
-                BiomeType = new BiomeDesert(this);
-                break;
-            case 2:
-                BiomeType = new BiomeOcean(this);
-                break;
+            switch (UnityEngine.Random.Range(0, 3))
+            {
+                case 0:
+                    BiomeInstance = new BiomeForest(this);
+                    break;
+                case 1:
+                    BiomeInstance = new BiomeDesert(this);
+                    break;
+                case 2:
+                    BiomeInstance = new BiomeOcean(this);
+                    break;
+            }
         }
-        BiomeType.Generate();
+        BiomeInstance.Generate();
 	}
 	
 	void Update () {
-        BiomeType.Update();
+        BiomeInstance.Update();
 	}
 
-    bool CheckCoords(int x, int y, int z)
+    bool CheckCoords(Vector3Int pos)
     {
-        if (x < 0 || y < 0 || z < 0 || x >= Biome.XSize || y >= Biome.YSize || z >= Biome.ZSize) return false;
+        if (pos.x < 0 || pos.y < 0 || pos.z < 0 || pos.x >= Biome.XSize || pos.y >= Biome.YSize || pos.z >= Biome.ZSize) return false;
         return true;
     }
 
-    public void SetBlock(int x, int y, int z, string Block)
+    public Transform SetBlock(Vector3Int pos, BlockType material)
     {
-        if (!CheckCoords(x, y, z)) return;
+        return this.SetBlock(pos, BlockShape.Cube, material);
+    }
 
-        Transform existingBlock = GetBlock(x, y, z);
+    public Transform SetBlock(Vector3Int pos, BlockShape prefab)
+    {
+        if (!CheckCoords(pos)) return null;
+
+        Transform existingBlock = GetBlock(pos);
         if (existingBlock != null)
         {
             Destroy(existingBlock.gameObject);
         }
 
-        Transform t = Instantiate(BiomeBlockPrefab, transform);
-        t.name = String.Format("{0}|{1}|{2}", x, y, z);
-        t.GetComponent<MeshRenderer>().material = Manager.GetBlockMaterial(Block);
-        t.localPosition = new Vector3(x, y, z) * Biome.BlockSize;
+        Transform t = Instantiate(Manager.GetBlockShape(prefab), transform);
+        t.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
+        t.localPosition = pos * Biome.BlockSize;
+        t.localScale = Biome.BlockSize * Vector3.one;
+        return t;
     }
 
-    public Transform GetBlock(int x, int y, int z)
+    public Transform SetBlock(Vector3Int pos, BlockShape shape, BlockType material)
     {
-        if (!CheckCoords(x, y, z)) return null;
-
-        return transform.Find(String.Format("{0}|{1}|{2}", x, y, z));
+        Transform block = SetBlock(pos, shape);
+        Material mat = Manager.GetBlockMaterial(material);
+        MeshRenderer mr = block.GetComponent<MeshRenderer>();
+        if (mr == null)
+        {
+            foreach (MeshRenderer mrchild in block.GetComponentsInChildren<MeshRenderer>())
+            {
+                if (mrchild != null) mrchild.material = mat;
+            }
+        }
+        else
+        {
+            mr.material = mat;
+        }
+        return block;
     }
 
-    public void RemoveBlock(int x, int y, int z)
+    public Transform GetBlock(Vector3Int pos)
     {
-        Transform block = GetBlock(x, y, z);
+        if (!CheckCoords(pos)) return null;
+
+        return transform.Find(String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z));
+    }
+
+    public void RemoveBlock(Vector3Int pos)
+    {
+        Transform block = GetBlock(pos);
         if (block != null)
         {
             Destroy(block.gameObject);

@@ -19,7 +19,7 @@ public class BiomeForest : Biome
                     if (y == 1 && Random.value > 0.6f) continue;
                     if (y == 2 && Random.value > 0.8f) continue;
 
-                    _controller.SetBlock(x, y, z, "Grass");
+                    _controller.SetBlock(new Vector3Int(x, y, z), BlockType.Grass);
                 }
             }
         }

@@ -30,7 +30,7 @@ public class playerMovement : MonoBehaviour {
         Vector3 direction = new Vector3(0,0,1) * currentV + new Vector3(1,0,0) * currentH;
 
         currentDirection = Vector3.Slerp(currentDirection, direction, Time.deltaTime * interpolation);
-        transform.rotation = Quaternion.LookRotation(currentDirection);
+        transform.rotation = Quaternion.LookRotation(currentDirection, Vector3.up);
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){

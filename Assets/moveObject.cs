@@ -6,7 +6,7 @@ public class moveObject : MonoBehaviour {
 
 	public GameObject tempParent;
 	public Transform guide;
-	private bool pickedUpState;
+	public bool pickedUpState;
 	public GameObject item;
 
 	// Use item for initialization
@@ -21,14 +21,17 @@ public class moveObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.E)){
-			if (!pickedUpState) {
+		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
+			if (!pickedUpState && item.name != "Plane") {
 				pickUp();
 				Debug.Log("Picking up");
 			}
 			else {
-				release();
-				Debug.Log("Releasing");
+				if (item.name != "Plane") {
+					release();
+					Debug.Log("Releasing");
+				}
+				
 			}
 		}   
 	}
@@ -40,9 +43,16 @@ public class moveObject : MonoBehaviour {
 
 	}
 
+	void OnCollisionExit(Collision collision) {
+		if (!pickedUpState) {
+			item = null;
+		}
+	}
+
 	void pickUp() {
 		item.GetComponent<Rigidbody>().useGravity = false;
 		item.GetComponent<Rigidbody>().isKinematic = true;
+		item.GetComponent<Collider>().enabled = false;
 		item.transform.position = guide.transform.position;
 		item.transform.rotation = guide.transform.rotation;
 		item.transform.parent = tempParent.transform;
@@ -52,9 +62,11 @@ public class moveObject : MonoBehaviour {
 	void release() {
 		item.GetComponent<Rigidbody>().useGravity = true;
 		item.GetComponent<Rigidbody>().isKinematic = false;
+		item.GetComponent<Collider>().enabled = true;
 		item.transform.parent = null;
 		item.transform.position = guide.transform.position;
-		pickedUpState = false;
 		item = null;
+		pickedUpState = false;
+		
 	}
 }

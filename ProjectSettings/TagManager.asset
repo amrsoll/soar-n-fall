@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - guide
+  - plank
+  - rope
   layers:
   - Default
   - TransparentFX

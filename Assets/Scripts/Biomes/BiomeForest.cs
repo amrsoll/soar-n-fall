@@ -6,7 +6,7 @@ public class BiomeForest : Biome
     {
         for(int x = 0; x < Biome.XSize; x++)
         {
-            for (int y = 0; y < Biome.YSize; y++)
+            for (int y = 0; y < Biome.YSize-2; y++)
             {
                 for (int z = 0; z < Biome.ZSize; z++)
                 {
@@ -18,6 +18,13 @@ public class BiomeForest : Biome
                 }
             }
         }
+        biome.SetBlock(new Vector3Int(1, 3, 1), BlockShape.Tree);
+        biome.SetBlock(new Vector3Int(1, 3, 3), BlockShape.Tree);
+        biome.SetBlock(new Vector3Int(2, 3, 4), BlockShape.Tree);
+        biome.SetBlock(new Vector3Int(5, 3, 5), BlockShape.Tree);
+        biome.SetBlock(new Vector3Int(2, 3, 5), BlockShape.Tree);
+        biome.SetBlock(new Vector3Int(1, 3, 0), BlockShape.Tree);
+        biome.SetBlock(new Vector3Int(2, 3, 0), BlockShape.Tree);
     }
 
     public override void Update(BiomeController biome)

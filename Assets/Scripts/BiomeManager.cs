@@ -58,6 +58,7 @@ public class BiomeManager : MonoBehaviour
         LoadShapes();
 
         CreateBiome(Vector3Int.zero, BiomeType.Home);
+        CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
 
     }
 	

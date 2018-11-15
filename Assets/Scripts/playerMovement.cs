@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour {
 
-	private float moveSpeed = 2;
+    private float moveSpeed = 2;
     private float jumpSpeed = 5;
     public Rigidbody rigidBody;
     private float interpolation = 10;
@@ -14,18 +14,17 @@ public class playerMovement : MonoBehaviour {
 
     private Vector3 currentDirection = Vector3.zero;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		float v = Input.GetAxis("Vertical");
+    // Use this for initialization
+    void Start () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+        float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
         Transform camera = Camera.main.transform;
-
 
         currentV = Mathf.Lerp(currentV, v, Time.deltaTime * interpolation);
         currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation);
@@ -39,5 +38,7 @@ public class playerMovement : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
             rigidBody.velocity += jumpSpeed * Vector3.up;
         }
-	}
+
+    }
+
 }

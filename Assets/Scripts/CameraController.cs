@@ -5,12 +5,12 @@ public class CameraController : MonoBehaviour {
 
 	public const byte LEFT = 1;
 	public const byte RIGHT = 2;
-	private static float DIST_TO_BIOME = (float)Biome.BlockSize*5;
+	private static readonly float BIOME_CAM_SIZE = (float)Biome.BlockSize*5;
 	//load from JSON
 	
 	private const float PLAYER_CAM_SIZE = 2.7f;
-	
 
+	public Camera thisCam;
 	public GameObject player;       //Public variable to store a reference to the player game object
 	public BiomeManager biomeManager;
 
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour {
 	private Vector3 curCamOffset;         //Private variable to store the offset distance between the player and camera
 	private Vector3 nextCamOffset;         //Private variable to store the offset distance between the player and camera
 	private Vector3 camTarget;
-	private float camDistance;
+	private float camSize;
 	private Vector3Int _currentBiomePos;
 	// private float delta;
 	//testing
@@ -31,13 +31,14 @@ public class CameraController : MonoBehaviour {
 	private bool followThePlayer = false;
 
 	// returns true if the camera is already centered on the position v
-	private bool Follow(Vector3 v, float distance = 1f, float strength = 2f) {
+	private bool Follow(Vector3 v, float size, float strength = 2f) {
 		//TODO emulate distance with the size of the viewfield
+		thisCam.orthographicSize = Mathf.Lerp(thisCam.orthographicSize, size, strength*Time.deltaTime );
 		transform.position = Vector3.Slerp(transform.position, v+curCamOffset, strength*Time.deltaTime);
 		Quaternion _w = transform.rotation;
 		transform.LookAt(camTarget, Vector3.up);
 		transform.rotation = Quaternion.Lerp(_w, transform.rotation, strength*Time.deltaTime);
-		return transform.position == v+distance*curCamOffset;
+		return transform.position == v+curCamOffset;
 	}
 
 	private Vector3 RotateBy90Up(Vector3 v, int direction) {
@@ -65,22 +66,21 @@ public class CameraController : MonoBehaviour {
 		followThePlayer = !followThePlayer;
 		if(followThePlayer) {
 			camTarget = player.transform.position;
-			camDistance = PLAYER_CAM_SIZE;
+			camSize = PLAYER_CAM_SIZE;
 		} else {
 			camTarget = _currentBiomePos + BiomeCenterOffset;
-			camDistance = DIST_TO_BIOME;
+			camSize = BIOME_CAM_SIZE;
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
 		_currentBiomePos = new Vector3Int(0,0,0);
-		BiomeController biomeController = biomeManager.GetBiome(_currentBiomePos);
-		prevCamOffset = new Vector3(5f,5f,5f);
+		prevCamOffset = Biome.BlockSize * new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize);
 		curCamOffset = prevCamOffset;
-		nextCamOffset = RotateBy90Up(prevCamOffset, 1);
-		camTarget = _currentBiomePos + BiomeCenterOffset;
-		camDistance = DIST_TO_BIOME;
+		followThePlayer = true;
+		SwitchView();
+		thisCam.orthographicSize = camSize;
 		transform.position = camTarget + curCamOffset;
 		transform.LookAt(camTarget, Vector3.up);
 		
@@ -99,6 +99,6 @@ public class CameraController : MonoBehaviour {
 		}
 		if(followThePlayer)
 			camTarget = player.transform.position; //needs to be refreshed
-		Follow(camTarget, camDistance);
+		Follow(camTarget, camSize);
 	}
 }

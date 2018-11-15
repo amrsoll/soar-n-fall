@@ -63,6 +63,7 @@ GitHub.sublime-settings
 
 ### IntelliJ ###
 .idea
+Assets/Plugins/Editor
 
 ### Unity ###
 [Ll]ibrary/
@@ -129,3 +130,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/unity,macos,windows,sublimetext
+Assets/Plugins/
+
+Assets/ProBuilder Data/

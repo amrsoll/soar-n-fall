@@ -34,6 +34,9 @@ public class CameraController : MonoBehaviour {
 	private bool Follow(Vector3 v, float distance = 1f, float strength = 2f) {
 		//TODO emulate distance with the size of the viewfield
 		transform.position = Vector3.Slerp(transform.position, v+curCamOffset, strength*Time.deltaTime);
+		Quaternion _w = transform.rotation;
+		transform.LookAt(camTarget, Vector3.up);
+		transform.rotation = Quaternion.Lerp(_w, transform.rotation, strength*Time.deltaTime);
 		return transform.position == v+distance*curCamOffset;
 	}
 
@@ -97,6 +100,5 @@ public class CameraController : MonoBehaviour {
 		if(followThePlayer)
 			camTarget = player.transform.position; //needs to be refreshed
 		Follow(camTarget, camDistance);
-		transform.LookAt(camTarget, Vector3.up);
 	}
 }

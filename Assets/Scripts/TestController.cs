@@ -6,6 +6,14 @@ public class TestController : MonoBehaviour {
     public BiomeManager Manager;
     public Camera Camera;
 
+    void Start()
+    {
+        ConfigHandler c = new ConfigHandler();
+        c["a"] = 1;
+        c["b"] = Camera;
+        c.Save();
+    }
+    
 	void Update () {
 		/*if (Input.GetMouseButtonUp(0))
         {

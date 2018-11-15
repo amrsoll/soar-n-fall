@@ -5,12 +5,7 @@ using UnityEngine;
 
 public class BiomeOcean : Biome
 {
-    public BiomeOcean(BiomeController Controller) : base(Controller)
-    {
-
-    }
-
-    public override void Generate()
+    public override void Generate(BiomeController biome)
     {
         for(int x = 0; x < Biome.XSize; x++)
         {
@@ -18,13 +13,13 @@ public class BiomeOcean : Biome
             {
                 for (int z = 0; z < Biome.ZSize; z++)
                 {
-                    _controller.SetBlock(x, y, z, "Water");
+                    biome.SetBlock(new Vector3Int(x, y, z), BlockType.Water);
                 }
             }
         }
     }
 
-    public override void Update()
+    public override void Update(BiomeController biome)
     {
 
     }

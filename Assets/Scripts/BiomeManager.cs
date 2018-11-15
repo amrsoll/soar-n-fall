@@ -2,60 +2,104 @@
 using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class BiomeManager : MonoBehaviour
 {
-    public Dictionary<string, Material> Blocks;
+    public Dictionary<BiomeType, Biome> Biomes;
+    public Dictionary<BlockType, Material> Blocks;
+    public Dictionary<BlockShape, Transform> Shapes;
     public BiomeController BiomePrefab;
 
     BiomeController _currentBiome;
 
+    void RegisterBiomes()
+    {
+        Biomes = new Dictionary<BiomeType, Biome>();
+        Biomes.Add(BiomeType.Forest, new BiomeForest());
+        Biomes.Add(BiomeType.Ocean, new BiomeOcean());
+        Biomes.Add(BiomeType.Desert, new BiomeDesert());
+    }
+
     void LoadBlocks()
     {
-        Blocks = new Dictionary<string, Material>();
-        foreach (string bt in Enum.GetNames(typeof(BlockType)))
+        Blocks = new Dictionary<BlockType, Material>();
+        foreach (BlockType bt in Enum.GetValues(typeof(BlockType)))
         {
             Material m = Resources.Load<Material>("Materials/Blocks/" + bt);
             if (m == null)
             {
-                Blocks.TryGetValue("Missing", out m);
+                Blocks.TryGetValue(BlockType.Missing, out m);
             }
             Blocks.Add(bt, m);
         }
     }
 
-	void Start () {
-        LoadBlocks();
-
-        for (int x = -1; x <= 1; x++)
+    void LoadShapes()
+    {
+        Shapes = new Dictionary<BlockShape, Transform>();
+        foreach (BlockShape bs in Enum.GetValues(typeof(BlockShape)))
         {
-            for (int y = -1; y <= 1; y++)
+            Transform t = Resources.Load<Transform>("Materials/Shapes/" + bs);
+            if (t == null)
             {
-                for (int z = -1; z <= 1; z++)
-                {
-                    CreateBiome(x, y, z);
-                }
+                Shapes.TryGetValue(BlockShape.Cube, out t);
             }
+            Shapes.Add(bs, t);
         }
-	}
+    }
+
+    void Start () {
+        RegisterBiomes();
+        LoadBlocks();
+        LoadShapes();
+
+        //CreateBiome(Vector3Int.zero, BiomeType.Forest);
+        //CreateBiome(new Vector3Int(1, 0, 0), BiomeType.Desert);
+    }
 	
 	void Update () {
 		
 	}
 
-    public BiomeController CreateBiome(int x, int y, int z)
+    /** <summary>
+     * Creates a new biome at the specified biome-space coordinates with the specified type
+     * <para />
+     * If biome is set to null then it picks a random biome
+     */
+    public BiomeController CreateBiome(Vector3Int pos, BiomeType? type = null, bool generate = true)
     {
         BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
-        b.name = String.Format("{0}|{1}|{2}", x, y, z);
+        b.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
+
         b.Manager = this;
-        b.transform.localPosition = new Vector3(5 * x * Biome.XSize, 5 * y * Biome.YSize, 5 * z * Biome.ZSize);
+        Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + 3 * Vector3.one);
+        worldPos.Scale(pos);
+        b.transform.localPosition = worldPos;
+
+        Biome instance = null;
+        if (type != null)
+        {
+            Biomes.TryGetValue(type.Value, out instance);
+        } else
+        {
+            List<BiomeType> biomes = new List<BiomeType>(Biomes.Keys);
+            type = biomes[UnityEngine.Random.Range(0, biomes.Count - 1)];
+            Biomes.TryGetValue(type.Value, out instance);
+        }
+        b.Type = type.Value;
+        b.BiomeInstance = instance;
+        if (generate)
+        {
+            instance.Generate(b);
+        }
 
         return b;
     }
 
-    public BiomeController GetBiome(int x, int y, int z)
+    public BiomeController GetBiome(Vector3Int pos)
     {
-        Transform t = transform.Find(String.Format("{0}|{1}|{2}", x, y, z));
+        Transform t = transform.Find(String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z));
         if (t == null)
         {
             return null;
@@ -63,14 +107,59 @@ public class BiomeManager : MonoBehaviour
         return t.GetComponent<BiomeController>();
     }
 
-    public Material GetBlockMaterial(string name)
+    public Material GetBlockMaterial(BlockType type)
     {
         Material m;
-        Blocks.TryGetValue(name, out m);
+        Blocks.TryGetValue(type, out m);
         if (m == null)
         {
-            Blocks.TryGetValue("Missing", out m);
+            Blocks.TryGetValue(BlockType.Missing, out m);
         }
         return m;
+    }
+
+    public Transform GetBlockShape(BlockShape shape)
+    {
+        Transform t;
+        Shapes.TryGetValue(shape, out t);
+        if (t == null)
+        {
+            Shapes.TryGetValue(BlockShape.Cube, out t);
+        }
+        return t;
+    }
+
+    public void SaveBiomes(string worldName)
+    {
+        string path = Path.Combine(Application.persistentDataPath, worldName + ".map");
+        using (
+            BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create))
+        )
+        {
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<BiomeController>().Save(writer);
+            }
+        }
+    }
+
+    public void LoadBiomes(string worldName)
+    {
+        string path = Path.Combine(Application.persistentDataPath, worldName + ".map");
+        using (
+            BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open))
+        )
+        {
+            while (reader.BaseStream.Position != reader.BaseStream.Length)
+            {
+                BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
+                b.Manager = this;
+                b.name = reader.ReadString();
+                b.Type = (BiomeType)reader.ReadByte();
+                Biomes.TryGetValue(b.Type, out b.BiomeInstance);
+                b.transform.localPosition = reader.ReadVector3();
+                b.Read(reader);
+            }
+        }
     }
 }

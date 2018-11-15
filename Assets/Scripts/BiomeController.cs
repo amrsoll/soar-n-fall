@@ -1,33 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using UnityEngine;
 
 public class BiomeController : MonoBehaviour
 {
+    public BiomeType Type;
     public Biome BiomeInstance;
     public BiomeManager Manager;
 
-	void Start () {
-        if (BiomeInstance == null)
-        {
-            switch (UnityEngine.Random.Range(0, 3))
-            {
-                case 0:
-                    BiomeInstance = new BiomeForest(this);
-                    break;
-                case 1:
-                    BiomeInstance = new BiomeDesert(this);
-                    break;
-                case 2:
-                    BiomeInstance = new BiomeOcean(this);
-                    break;
-            }
-        }
-        BiomeInstance.Generate();
-	}
-	
+    int blockCount = 0;
+
+	void Start () {}
+
 	void Update () {
-        BiomeInstance.Update();
+        BiomeInstance.Update(this);
 	}
 
     bool CheckCoords(Vector3Int pos)
@@ -36,31 +23,33 @@ public class BiomeController : MonoBehaviour
         return true;
     }
 
-    public Transform SetBlock(Vector3Int pos, BlockType material)
+    public BlockController SetBlock(Vector3Int pos, BlockType material)
     {
         return this.SetBlock(pos, BlockShape.Cube, material);
     }
 
-    public Transform SetBlock(Vector3Int pos, BlockShape prefab)
+    public BlockController SetBlock(Vector3Int pos, BlockShape shape)
     {
         if (!CheckCoords(pos)) return null;
+        blockCount++;
 
-        Transform existingBlock = GetBlock(pos);
+        BlockController existingBlock = GetBlock(pos);
         if (existingBlock != null)
         {
             Destroy(existingBlock.gameObject);
         }
 
-        Transform t = Instantiate(Manager.GetBlockShape(prefab), transform);
+        Transform t = Instantiate(Manager.GetBlockShape(shape), transform);
         t.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
         t.localPosition = pos * Biome.BlockSize;
         t.localScale = Biome.BlockSize * Vector3.one;
-        return t;
+
+        return t.gameObject.AddComponent<BlockController>().SetBiomeCoords(pos).SetShape(shape).SetType(BlockType.Missing);
     }
 
-    public Transform SetBlock(Vector3Int pos, BlockShape shape, BlockType material)
+    public BlockController SetBlock(Vector3Int pos, BlockShape shape, BlockType material)
     {
-        Transform block = SetBlock(pos, shape);
+        BlockController block = SetBlock(pos, shape).SetType(material);
         Material mat = Manager.GetBlockMaterial(material);
         MeshRenderer mr = block.GetComponent<MeshRenderer>();
         if (mr == null)
@@ -77,19 +66,23 @@ public class BiomeController : MonoBehaviour
         return block;
     }
 
-    public Transform GetBlock(Vector3Int pos)
+    public BlockController GetBlock(Vector3Int pos)
     {
         if (!CheckCoords(pos)) return null;
 
-        return transform.Find(String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z));
+        Transform t = transform.Find(String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z));
+        if (t != null)
+            return t.GetComponent<BlockController>();
+        return null;
     }
 
     public void RemoveBlock(Vector3Int pos)
     {
-        Transform block = GetBlock(pos);
+        BlockController block = GetBlock(pos);
         if (block != null)
         {
             Destroy(block.gameObject);
+            blockCount--;
         }
     }
 
@@ -99,6 +92,48 @@ public class BiomeController : MonoBehaviour
         if (block != null)
         {
             Destroy(block.gameObject);
+            blockCount--;
+        }
+    }
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write(name);
+        writer.Write((byte)Type);
+        writer.Write(transform.localPosition);
+        writer.Write(blockCount);
+        for (int x = 0; x < Biome.XSize; x++)
+        {
+            for (int y = 0; y < Biome.YSize; y++)
+            {
+                for (int z = 0; z < Biome.ZSize; z++)
+                {
+                    BlockController block = GetBlock(new Vector3Int(x, y, z));
+                    if (block != null) block.Save(writer);
+                }
+            }
+        }
+    }
+
+    public void Read(BinaryReader reader)
+    {
+        int childCount = reader.ReadInt32();
+        for (int i = 0; i < childCount; i++)
+        {
+            string name = reader.ReadString();
+            BlockShape shape = (BlockShape)reader.ReadByte();
+            BlockType material = (BlockType)reader.ReadByte();
+            BlockController block;
+            if (material == BlockType.Missing)
+            {
+                block = SetBlock(reader.ReadVector3Int(), shape);
+            } else
+            {
+                block = SetBlock(reader.ReadVector3Int(), shape, material);
+            }
+
+            block.name = name;
+            block.transform.localRotation = reader.ReadQuaternion();
         }
     }
 }

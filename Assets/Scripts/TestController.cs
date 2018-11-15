@@ -7,7 +7,7 @@ public class TestController : MonoBehaviour {
     public Camera Camera;
 
 	void Update () {
-		if (Input.GetMouseButtonUp(0))
+		/*if (Input.GetMouseButtonUp(0))
         {
             RaycastHit hit;
             Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
@@ -17,6 +17,6 @@ public class TestController : MonoBehaviour {
                 BiomeController biome = hit.transform.parent.GetComponent<BiomeController>();
                 biome.RemoveBlock(hit.transform.name);
             }
-        }
+        }*/
 	}
 }

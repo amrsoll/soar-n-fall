@@ -1,15 +1,9 @@
 ﻿public abstract class Biome {
-    public static int XSize = 5;
-    public static int YSize = 5;
-    public static int ZSize = 5;
-    public static int BlockSize = 2;
+    public const int XSize = 5;
+    public const int YSize = 5;
+    public const int ZSize = 5;
+    public const int BlockSize = 2;
 
-    protected BiomeController _controller;
-    public Biome(BiomeController Controller)
-    {
-        this._controller = Controller;
-    }
-
-    public abstract void Generate();
-    public abstract void Update();
+    public abstract void Generate(BiomeController biome);
+    public abstract void Update(BiomeController biome);
 }

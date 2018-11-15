@@ -5,12 +5,7 @@ using UnityEngine;
 
 public class BiomeDesert : Biome
 {
-    public BiomeDesert(BiomeController Controller) : base(Controller)
-    {
-
-    }
-
-    public override void Generate()
+    public override void Generate(BiomeController biome)
     {
         for(int x = 0; x < Biome.XSize; x++)
         {
@@ -29,7 +24,7 @@ public class BiomeDesert : Biome
                         if (z == ZSize - 1) yAngle = 90;
                         if (x == XSize - 1) yAngle = 180;
                         if (z == 0 && x != 0) yAngle = 270;
-                        _controller.SetBlock(new Vector3Int(x, y, z), shape, BlockType.Sand).Rotate(new Vector3(0, yAngle, 0));
+                        biome.SetBlock(new Vector3Int(x, y, z), shape, BlockType.Sand).Rotate(new Vector3(0, yAngle, 0));
                         continue;
                     }
                     if (y == YSize - 1)
@@ -46,17 +41,17 @@ public class BiomeDesert : Biome
                             if (z == ZSize - 2) yAngle = 90;
                             if (x == XSize - 2) yAngle = 180;
                             if (z == 1 & x != 1) yAngle = 270;
-                            _controller.SetBlock(new Vector3Int(x, y, z), shape, BlockType.Sand).Rotate(new Vector3(0, yAngle, 0));
+                            biome.SetBlock(new Vector3Int(x, y, z), shape, BlockType.Sand).Rotate(new Vector3(0, yAngle, 0));
                             continue;
                         }
                     }
-                    _controller.SetBlock(new Vector3Int(x, y, z), BlockType.Sand);
+                    biome.SetBlock(new Vector3Int(x, y, z), BlockType.Sand);
                 }
             }
         }
     }
 
-    public override void Update()
+    public override void Update(BiomeController biome)
     {
 
     }

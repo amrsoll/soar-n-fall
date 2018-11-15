@@ -6,11 +6,20 @@ using System.IO;
 
 public class BiomeManager : MonoBehaviour
 {
+    public Dictionary<BiomeType, Biome> Biomes;
     public Dictionary<BlockType, Material> Blocks;
     public Dictionary<BlockShape, Transform> Shapes;
     public BiomeController BiomePrefab;
 
     BiomeController _currentBiome;
+
+    void RegisterBiomes()
+    {
+        Biomes = new Dictionary<BiomeType, Biome>();
+        Biomes.Add(BiomeType.Forest, new BiomeForest());
+        Biomes.Add(BiomeType.Ocean, new BiomeOcean());
+        Biomes.Add(BiomeType.Desert, new BiomeDesert());
+    }
 
     void LoadBlocks()
     {
@@ -41,11 +50,12 @@ public class BiomeManager : MonoBehaviour
     }
 
     void Start () {
+        RegisterBiomes();
         LoadBlocks();
         LoadShapes();
 
-        CreateBiome(Vector3Int.zero, typeof(BiomeForest));
-        CreateBiome(new Vector3Int(1, 0, 0), typeof(BiomeDesert));
+        //CreateBiome(Vector3Int.zero, BiomeType.Forest);
+        //CreateBiome(new Vector3Int(1, 0, 0), BiomeType.Desert);
     }
 	
 	void Update () {
@@ -53,22 +63,36 @@ public class BiomeManager : MonoBehaviour
 	}
 
     /** <summary>
-     * Creates a new biome at the specified biome-space coordinates
+     * Creates a new biome at the specified biome-space coordinates with the specified type
      * <para />
-     * TODO: Should be able to choose the biome type</summary>
+     * If biome is set to null then it picks a random biome
      */
-    public BiomeController CreateBiome(Vector3Int pos, Type biome = null)
+    public BiomeController CreateBiome(Vector3Int pos, BiomeType? type = null, bool generate = true)
     {
         BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
         b.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
-        if (biome != null)
-        {
-            b.BiomeInstance = (Biome)Activator.CreateInstance(biome, new object[] { b });
-        }
+
         b.Manager = this;
         Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + 3 * Vector3.one);
         worldPos.Scale(pos);
         b.transform.localPosition = worldPos;
+
+        Biome instance = null;
+        if (type != null)
+        {
+            Biomes.TryGetValue(type.Value, out instance);
+        } else
+        {
+            List<BiomeType> biomes = new List<BiomeType>(Biomes.Keys);
+            type = biomes[UnityEngine.Random.Range(0, biomes.Count - 1)];
+            Biomes.TryGetValue(type.Value, out instance);
+        }
+        b.Type = type.Value;
+        b.BiomeInstance = instance;
+        if (generate)
+        {
+            instance.Generate(b);
+        }
 
         return b;
     }
@@ -105,7 +129,7 @@ public class BiomeManager : MonoBehaviour
         return t;
     }
 
-    public void SaveWorld(string worldName)
+    public void SaveBiomes(string worldName)
     {
         string path = Path.Combine(Application.persistentDataPath, worldName + ".map");
         using (
@@ -114,7 +138,27 @@ public class BiomeManager : MonoBehaviour
         {
             foreach (Transform child in transform)
             {
-                //child.GetComponent<BiomeController>().Save(writer);
+                child.GetComponent<BiomeController>().Save(writer);
+            }
+        }
+    }
+
+    public void LoadBiomes(string worldName)
+    {
+        string path = Path.Combine(Application.persistentDataPath, worldName + ".map");
+        using (
+            BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open))
+        )
+        {
+            while (reader.BaseStream.Position != reader.BaseStream.Length)
+            {
+                BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
+                b.Manager = this;
+                b.name = reader.ReadString();
+                b.Type = (BiomeType)reader.ReadByte();
+                Biomes.TryGetValue(b.Type, out b.BiomeInstance);
+                b.transform.localPosition = reader.ReadVector3();
+                b.Read(reader);
             }
         }
     }

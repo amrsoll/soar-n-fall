@@ -2,12 +2,7 @@
 
 public class BiomeForest : Biome
 {
-    public BiomeForest(BiomeController Controller) : base(Controller)
-    {
-
-    }
-
-    public override void Generate()
+    public override void Generate(BiomeController biome)
     {
         for(int x = 0; x < Biome.XSize; x++)
         {
@@ -19,13 +14,13 @@ public class BiomeForest : Biome
                     if (y == 1 && Random.value > 0.6f) continue;
                     if (y == 2 && Random.value > 0.8f) continue;
 
-                    _controller.SetBlock(new Vector3Int(x, y, z), BlockType.Grass);
+                    biome.SetBlock(new Vector3Int(x, y, z), BlockType.Grass);
                 }
             }
         }
     }
 
-    public override void Update()
+    public override void Update(BiomeController biome)
     {
 
     }

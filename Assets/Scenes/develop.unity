@@ -632,6 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24be2da0684db42f8bfe53e15a18c3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisCam: {fileID: 534669904}
   player: {fileID: 509617909}
   biomeManager: {fileID: 2109915222}
 --- !u!1 &805893175

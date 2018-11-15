@@ -74,9 +74,7 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentBiomePos = new Vector3Int(0,0,0);
-		BiomeController biomeController = biomeManager.GetBiome(currentBiomePos.x,
-																currentBiomePos.y,
-																currentBiomePos.z);
+		BiomeController biomeController = biomeManager.GetBiome(currentBiomePos);
 		prevCamOffset = new Vector3(5f,5f,5f);
 		curCamOffset = prevCamOffset;
 		nextCamOffset = RotateBy90Up(prevCamOffset, 1);

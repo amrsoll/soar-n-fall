@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - guide
+  - plank
+  - rope
+  - axe
+  - tree
+  - bridge
   layers:
   - Default
   - TransparentFX

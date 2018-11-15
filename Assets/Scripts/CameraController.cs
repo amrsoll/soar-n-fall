@@ -1,29 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿using UnityEngine;
 
 
 public class CameraController : MonoBehaviour {
 
 	public const byte LEFT = 1;
 	public const byte RIGHT = 2;
-	private const float DIST_TO_BIOME = 1f;
-	private const float DIST_TO_PLAYER = 0.5f;
+	private static float DIST_TO_BIOME = (float)Biome.BlockSize*5;
+	//load from JSON
+	
+	private const float PLAYER_CAM_SIZE = 2.7f;
+	
 
 	public GameObject player;       //Public variable to store a reference to the player game object
 	public BiomeManager biomeManager;
-	private Vector3 biomeCenterOffset = new Vector3((float)Biome.XSize/2,
-													(float)Biome.YSize/2,
-													(float)Biome.ZSize/2);         //Private variable to store the offset distance between the player and camera
+
+	private readonly Vector3 BiomeCenterOffset = new Vector3((float) Biome.XSize / 2,
+															 (float) Biome.YSize / 2,
+															 (float) Biome.ZSize / 2);
 
 	private Vector3 prevCamOffset;         //Private variable to store the offset distance between the player and camera
 	private Vector3 curCamOffset;         //Private variable to store the offset distance between the player and camera
 	private Vector3 nextCamOffset;         //Private variable to store the offset distance between the player and camera
 	private Vector3 camTarget;
 	private float camDistance;
-	private Vector3Int currentBiomePos;
+	private Vector3Int _currentBiomePos;
 	// private float delta;
 	//testing
 	private bool isDoneRotating = true;
@@ -56,34 +56,32 @@ public class CameraController : MonoBehaviour {
 		if(direction == LEFT) dir = 1;
 		if(direction == RIGHT) dir = -1;
 		curCamOffset = RotateBy90Up(curCamOffset, dir);
-		Debug.Log(curCamOffset);
 	}
 
 	public void SwitchView() {
 		followThePlayer = !followThePlayer;
 		if(followThePlayer) {
 			camTarget = player.transform.position;
-			camDistance = DIST_TO_PLAYER;
+			camDistance = PLAYER_CAM_SIZE;
 		} else {
-			camTarget = currentBiomePos + biomeCenterOffset;
+			camTarget = _currentBiomePos + BiomeCenterOffset;
 			camDistance = DIST_TO_BIOME;
 		}
-
 	}
 
 	// Use this for initialization
 	void Start () {
-		currentBiomePos = new Vector3Int(0,0,0);
-		BiomeController biomeController = biomeManager.GetBiome(currentBiomePos.x,
-																currentBiomePos.y,
-																currentBiomePos.z);
+		_currentBiomePos = new Vector3Int(0,0,0);
+		BiomeController biomeController = biomeManager.GetBiome(_currentBiomePos);
 		prevCamOffset = new Vector3(5f,5f,5f);
 		curCamOffset = prevCamOffset;
 		nextCamOffset = RotateBy90Up(prevCamOffset, 1);
-		camTarget = currentBiomePos + biomeCenterOffset;
+		camTarget = _currentBiomePos + BiomeCenterOffset;
 		camDistance = DIST_TO_BIOME;
 		transform.position = camTarget + curCamOffset;
 		transform.LookAt(camTarget, Vector3.up);
+		
+		
 	}
 
 	void Update() {

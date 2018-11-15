@@ -17,14 +17,14 @@ public class playerMovement : MonoBehaviour {
 
     private Vector3 currentDirection = Vector3.zero;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		float v = Input.GetAxis("Vertical");
+    // Use this for initialization
+    void Start () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+        float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
         currentV = Mathf.Lerp(currentV, v, Time.deltaTime * interpolation);
@@ -50,5 +50,7 @@ public class playerMovement : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
             rigidBody.velocity += jumpSpeed * Vector3.up;
         }
-	}
+
+    }
+
 }

@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class playerMovement : MonoBehaviour {
 
-	private float moveSpeed = 2;
-    private float jumpSpeed = 5;
+	private float moveSpeed = 2.0f;
+    private float jumpSpeed = 5.0f;
     public Rigidbody rigidBody;
-    private float interpolation = 10;
+    private float interpolation = 10.0f;
 
-    float currentV = 0;
-    float currentH = 0;
+    Vector3 currentD = new Vector3(1.0f, 0.0f, 0.0f);
+    float currentV = 0.0f;
+    float currentH = 0.0f;
 
     private Vector3 currentDirection = Vector3.zero;
 
@@ -27,10 +29,18 @@ public class playerMovement : MonoBehaviour {
         currentV = Mathf.Lerp(currentV, v, Time.deltaTime * interpolation);
         currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation);
 
-        Vector3 direction = new Vector3(0,0,1) * currentV + new Vector3(1,0,0) * currentH;
+        Vector3 direction = new Vector3(0.0f,0.0f,1.0f) * currentV + new Vector3(1.0f,0.0f,0.0f) * currentH;
+        if (direction != Vector3.zero) {
+            currentD = direction;
+        }
 
         currentDirection = Vector3.Slerp(currentDirection, direction, Time.deltaTime * interpolation);
-        transform.rotation = Quaternion.LookRotation(currentDirection, Vector3.up);
+        if (currentDirection == Vector3.zero) {
+            transform.rotation = Quaternion.LookRotation(currentD, Vector3.up);
+        }
+        else {
+            transform.rotation = Quaternion.LookRotation(currentDirection, Vector3.up);
+        }
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){

@@ -5,6 +5,7 @@ using UnityEngine;
 public class createStuff : MonoBehaviour {
 
 	public GameObject bridge;
+	public GameObject plank;
 	private bool contact;
 	public GameObject collidingItem;
 
@@ -27,17 +28,33 @@ public class createStuff : MonoBehaviour {
 			if (item2.tag == "rope") {
 				Destroy(item1);
 				Destroy(item2);
+				this.GetComponent<moveObject>().item = null;
+				this.GetComponent<moveObject>().pickedUpState = false;
+
+				Instantiate(bridge, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
+			}
+		}
+		if (item1.tag == "rope") {
+			if (item2.tag == "plank") {
+				Destroy(item1);
+				Destroy(item2);
+				this.GetComponent<moveObject>().item = null;
+				this.GetComponent<moveObject>().pickedUpState = false;
 
 				Instantiate(bridge, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
 			}
 		}
 
-		if (item1.tag == "rope") {
-			if (item2.tag == "plank") {
-				Destroy(item1);
-				Destroy(item2);
+		if (item1.tag == "tree") {
+			if (item2.tag == "axe") {
 
-				Instantiate(bridge, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
+				Instantiate(plank, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
+			}
+		}
+		if (item1.tag == "axe") {
+			if (item2.tag == "tree") {
+
+				Instantiate(plank, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
 			}
 		}
 
@@ -45,8 +62,6 @@ public class createStuff : MonoBehaviour {
 			Debug.Log("Can't combine elements");
 			return;
 		}
-		this.GetComponent<moveObject>().item = null;
-		this.GetComponent<moveObject>().pickedUpState = false;
 	}
 
 	void OnCollisionEnter(Collision collision) {

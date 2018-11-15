@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 96685d394b8f34b3f981a7c07863add0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dutch & Harley
+  fontNames:
+  - Dutch & Harley
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4c7a26c5c08264ed1a8a85ab4cb1c84f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

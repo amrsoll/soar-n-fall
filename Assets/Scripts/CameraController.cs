@@ -78,7 +78,7 @@ public class CameraController : MonoBehaviour {
 		_currentBiomePos = new Vector3Int(0,0,0);
 		prevCamOffset = Biome.BlockSize * new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize);
 		curCamOffset = prevCamOffset;
-		followThePlayer = true;
+		followThePlayer = false;
 		SwitchView();
 		thisCam.orthographicSize = camSize;
 		transform.position = camTarget + curCamOffset;

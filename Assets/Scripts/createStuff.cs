@@ -32,8 +32,9 @@ public class createStuff : MonoBehaviour {
 				this.GetComponent<moveObject>().pickedUpState = false;
 
 
-                Instantiate(bridge, new Vector3(3.0f,5.2f,10.9f), Quaternion.identity);
-			}
+                Instantiate(bridge, new Vector3(3.0f, 5f, 12f), Quaternion.identity);
+
+            }
 		}
 		if (item1.tag == "rope") {
 			if (item2.tag == "plank") {

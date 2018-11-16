@@ -97,8 +97,14 @@ public class CameraController : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.V)) {
 			SwitchView();
 		}
-		if(followThePlayer)
-			camTarget = player.transform.position; //needs to be refreshed
-		Follow(camTarget, camSize);
+        if (followThePlayer)
+        {
+            camTarget = player.transform.position; //needs to be refreshed
+        } else
+        {
+            _currentBiomePos = BiomeManager.WorldToBiomePos(player.transform.position);
+            camTarget = BiomeManager.BiomeToWorldPos(_currentBiomePos) + BiomeCenterOffset;
+        }
+        Follow(camTarget, camSize);
 	}
 }

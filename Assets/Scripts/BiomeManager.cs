@@ -11,7 +11,27 @@ public class BiomeManager : MonoBehaviour
     public Dictionary<BlockShape, Transform> Shapes;
     public BiomeController BiomePrefab;
 
-    BiomeController _currentBiome;
+    public static Vector3Int WorldToBiomePos(Vector3 worldPos)
+    {
+        worldPos /= Biome.BlockSize;
+        Vector3Int biomePos = new Vector3Int(
+            (int)Math.Floor((worldPos.x + Biome.BiomeSpacing / 2) / (Biome.XSize + Biome.BiomeSpacing - 1)),
+            (int)Math.Floor((worldPos.y + Biome.BiomeSpacing / 2) / (Biome.YSize + Biome.BiomeSpacing - 1)),
+            (int)Math.Floor((worldPos.z + Biome.BiomeSpacing / 2) / (Biome.ZSize + Biome.BiomeSpacing - 1))
+        );
+        return biomePos;
+    }
+
+    public static Vector3 BiomeToWorldPos(Vector3Int biomePos)
+    {
+        biomePos *= Biome.BlockSize;
+        Vector3 worldPos = new Vector3(
+            biomePos.x * (Biome.XSize + Biome.BiomeSpacing - 1),
+            biomePos.y * (Biome.YSize + Biome.BiomeSpacing - 1),
+            biomePos.z * (Biome.ZSize + Biome.BiomeSpacing - 1)
+        );
+        return worldPos;
+    }
 
     void RegisterBiomes()
     {
@@ -20,8 +40,6 @@ public class BiomeManager : MonoBehaviour
         Biomes.Add(BiomeType.Forest, new BiomeForest());
         Biomes.Add(BiomeType.Ocean, new BiomeOcean());
         Biomes.Add(BiomeType.Desert, new BiomeDesert());
-
-
     }
 
     void LoadBlocks()
@@ -62,7 +80,6 @@ public class BiomeManager : MonoBehaviour
         CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
-
     }
 	
 	void Update () {
@@ -80,7 +97,7 @@ public class BiomeManager : MonoBehaviour
         b.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
 
         b.Manager = this;
-        Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + 3 * Vector3.one);
+        Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + Biome.BiomeSpacing * Vector3.one);
         worldPos.Scale(pos);
         b.transform.localPosition = worldPos;
 

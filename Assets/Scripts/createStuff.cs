@@ -42,7 +42,7 @@ public class createStuff : MonoBehaviour {
 				this.GetComponent<moveObject>().item = null;
 				this.GetComponent<moveObject>().pickedUpState = false;
 
-                Instantiate(bridge, new Vector3(3.0f, 5.2f, 10.9f), Quaternion.identity);
+                Instantiate(bridge, new Vector3(3.0f, 5f, 12f), Quaternion.identity);
                 //GameObject bridgex = GameObject.FindWithTag("bridge");
                 //bridgex.SetActive(true);
                 //Instantiate(bridge, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);

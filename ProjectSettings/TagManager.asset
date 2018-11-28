@@ -9,6 +9,7 @@ TagManager:
   - rope
   - axe
   - tree
+  - bridge
   layers:
   - Default
   - TransparentFX

@@ -22,12 +22,12 @@ public class moveObject : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
-			if (!pickedUpState && item.name != "Plane") {
+            if (!pickedUpState && item.GetComponent<BlockController>()==null) {
 				pickUp();
 				Debug.Log("Picking up");
 			}
 			else {
-				if (item.name != "Plane") {
+				if (item.GetComponent<BlockController>() == null) {
 					release();
 					Debug.Log("Releasing");
 				}

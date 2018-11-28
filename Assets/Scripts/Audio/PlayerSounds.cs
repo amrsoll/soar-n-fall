@@ -22,7 +22,7 @@ public class PlayerSounds : MonoBehaviour {
         if ( isGrounded() && isWalking() ) {
             if ( !source.isPlaying ) {
                 source.pitch = Random.Range(1.1f, 1.3f);
-                source.volume = Random.Range(0.05f, 0.08f);
+                source.volume = Random.Range(0.010f, 0.025f);
                 source.Play();
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class playerMovement : MonoBehaviour {
 
@@ -24,6 +25,11 @@ public class playerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.JoystickButton7))
+        {
+            SceneManager.LoadScene(0);
+        }
+
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 

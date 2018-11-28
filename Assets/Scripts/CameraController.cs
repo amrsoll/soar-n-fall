@@ -78,7 +78,7 @@ public class CameraController : MonoBehaviour {
 		_currentBiomePos = new Vector3Int(0,0,0);
 		prevCamOffset = Biome.BlockSize * new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize);
 		curCamOffset = prevCamOffset;
-		followThePlayer = true;
+		followThePlayer = false;
 		SwitchView();
 		thisCam.orthographicSize = camSize;
 		transform.position = camTarget + curCamOffset;
@@ -97,8 +97,14 @@ public class CameraController : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.V)) {
 			SwitchView();
 		}
-		if(followThePlayer)
-			camTarget = player.transform.position; //needs to be refreshed
-		Follow(camTarget, camSize);
+        if (followThePlayer)
+        {
+            camTarget = player.transform.position; //needs to be refreshed
+        } else
+        {
+            _currentBiomePos = BiomeManager.WorldToBiomePos(player.transform.position);
+            camTarget = BiomeManager.BiomeToWorldPos(_currentBiomePos) + BiomeCenterOffset;
+        }
+        Follow(camTarget, camSize);
 	}
 }

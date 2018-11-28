@@ -2,5 +2,6 @@
 {
     Forest,
     Desert,
-    Ocean
+    Ocean,
+    Home
 }

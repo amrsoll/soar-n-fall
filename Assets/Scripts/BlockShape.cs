@@ -2,5 +2,7 @@
 {
     Cube,
     Slope,
-    SlopeAngle
+    SlopeAngle,
+    Tree,
+    Tent
 }

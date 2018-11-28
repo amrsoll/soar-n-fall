@@ -37,7 +37,7 @@ public class BiomeManager : MonoBehaviour
     {
         Biomes = new Dictionary<BiomeType, Biome>();
         Biomes.Add(BiomeType.BaseEditor, new BiomeBaseEditor());
-        Biomes.Add(BiomeType.Home, new BiomeHome());
+        Biomes.Add(BiomeType.Home, new BiomePremade("home"));
         Biomes.Add(BiomeType.Forest, new BiomeForest());
         Biomes.Add(BiomeType.Ocean, new BiomeOcean());
         Biomes.Add(BiomeType.Desert, new BiomeDesert());
@@ -76,11 +76,11 @@ public class BiomeManager : MonoBehaviour
         LoadBlocks();
         LoadShapes();
 
-        /*CreateBiome(Vector3Int.zero, BiomeType.Home);
+        CreateBiome(Vector3Int.zero, BiomeType.Home);
         CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);*/
+        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
     }
 	
 	void Update () {

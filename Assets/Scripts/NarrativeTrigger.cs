@@ -6,31 +6,39 @@ public class NarrativeTrigger : MonoBehaviour
 {
     //public AudioClip narratorSound;
     AudioClip clip2;
-    AudioSource narratorSource;
+    public AudioSource narratorSource;
     AudioClip[] audioClipArray;
-    private Dictionary<string, AudioClip> audioClipDic;
+    Dictionary<string, AudioClip> audioClipDic;
+
 
     // Use this for initialization 
     void Start()
     {
+        bool soundplayed = false;
+
         audioClipArray = Resources.LoadAll<AudioClip>("Audio/Narration");
 
         audioClipDic = new Dictionary<string, AudioClip>();
         foreach (AudioClip clip in audioClipArray) {
 
             audioClipDic.Add(clip.name, clip);
-            Debug.Log(clip.name);
 
         }
 
         narratorSource = GetComponent<AudioSource>();
+
+        if (!soundplayed)
+        {
+            PlayClip("startNarration");
+            soundplayed = true;
+        }
     }
 
 
     public void PlayClip(string clipName)
     {
 
-        narratorSource.PlayOneShot(audioClipDic[clipName], 1f);
+        narratorSource.PlayOneShot(audioClipDic[clipName], 10.0f);
 
     }
 }

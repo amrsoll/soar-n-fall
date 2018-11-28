@@ -47,7 +47,7 @@ public class createStuff : MonoBehaviour {
             //open new biome
 
             // Play a narrator sound
-            narrativeSounds.PlayClip("goodJob");
+            narrativeSounds.PlayClip("firstBridgeNarration");
         }
 
 		//Create plank

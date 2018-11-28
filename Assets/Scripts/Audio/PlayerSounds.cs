@@ -8,7 +8,7 @@ public class PlayerSounds : MonoBehaviour {
     public AudioClip jumpSound2;
     public float distToGround = 0.35f;
 
-    private AudioSource source;
+    public AudioSource source;
 
     void Start () {
 

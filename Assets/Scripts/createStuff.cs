@@ -16,9 +16,11 @@ public class createStuff : MonoBehaviour {
 
 	private bool contact;
 	public GameObject collidingItem;
+    public NarrativeTrigger narrativeSounds;
 
 	// Use this for initialization
 	void Start () {
+
 		contact = false;
 	}
 	
@@ -41,14 +43,19 @@ public class createStuff : MonoBehaviour {
 			this.GetComponent<moveObject>().pickedUpState = false;
 
             Instantiate(bridge, new Vector3(3.0f, 5f, 12f), Quaternion.identity);
+
             //open new biome
-		}
+
+            // Play a narrator sound
+            narrativeSounds.PlayClip("goodJob");
+        }
 
 		//Create plank
 		if ((item1.name == "Tree" && item2.name == "Axe") || (item1.name == "Axe" && item2.name == "Tree")) {
 			GameObject Aplank = Instantiate(plank, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
 			Aplank.name = "Plank";
-		}
+
+        }
 
 		//Dig
 		if ((item1.name == "Shovel" && item2.name == "SoftGround") || (item1.name == "SoftGround" && item2.name == "Shovel")) {

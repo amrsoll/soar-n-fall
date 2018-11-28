@@ -10,6 +10,7 @@ TagManager:
   - axe
   - tree
   - bridge
+  - Interactable
   layers:
   - Default
   - TransparentFX

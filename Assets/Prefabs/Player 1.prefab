@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4245353967554244}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Guide
   m_TagString: guide
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 4291112913963808}
   - component: {fileID: 114332993476557052}
   - component: {fileID: 54013294547908930}
-  - component: {fileID: 65264619414839610}
+  - component: {fileID: 65160447988529336}
   - component: {fileID: 114394673940819522}
   - component: {fileID: 114002642550653686}
   - component: {fileID: 82198054393897974}
@@ -797,6 +797,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65160447988529336
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1664271487628514}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.6109319, z: 1}
+  m_Center: {x: 0, y: 0.031832933, z: 0}
 --- !u!65 &65258510563736976
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -809,18 +821,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65264619414839610
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1664271487628514}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.6, z: 0.4}
-  m_Center: {x: 0, y: -0.05, z: 0}
 --- !u!65 &65655761615493396
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -966,6 +966,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bridge: {fileID: 1951336970986790, guid: 46272597e649e4299ba29245a4aac1a1, type: 2}
   plank: {fileID: 1129646932672080, guid: 44dce12d3edf1e74fbaae9f339fbf667, type: 2}
+  metal: {fileID: 1615037611481636, guid: 92582820fbfdbe84183e57eecc8b2134, type: 2}
+  nails: {fileID: 1181787243596430, guid: 5640ffccc28ae1f47b1d022a53a69a40, type: 2}
+  ladder: {fileID: 1183371095698102, guid: 4516dd4ba900277498b0683c78bc445b, type: 2}
+  bigFlower: {fileID: 1041044505239254, guid: 0770e47ea10f13c4184b35f1f4dc1f16, type: 2}
+  treasureChestOpen: {fileID: 1302062540808864, guid: 5efe04b2df80b1a41a8bb3ab5728bd6e,
+    type: 2}
+  wateringPot: {fileID: 1278843996299348, guid: 08bf59d392332a9469a04f563e8e3bc2,
+    type: 2}
+  wateringPotFilled: {fileID: 1137593856579750, guid: fb9a82ac3bd2bba4498a9024f0f0b0a1,
+    type: 2}
   collidingItem: {fileID: 0}
 --- !u!114 &114222081044492160
 MonoBehaviour:

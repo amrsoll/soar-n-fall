@@ -35,6 +35,12 @@ public class BlockController : MonoBehaviour {
         return this;
     }
 
+    public BlockController SetRotation(Vector3 eulerAngles)
+    {
+        transform.localEulerAngles = eulerAngles;
+        return this;
+    }
+
     public BlockController Rotate(Vector3 eulerAngles)
     {
         transform.Rotate(eulerAngles);

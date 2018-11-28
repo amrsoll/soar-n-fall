@@ -1,7 +1,8 @@
 ﻿public enum BiomeType
 {
+    BaseEditor,
+    Home,
     Forest,
     Desert,
-    Ocean,
-    Home
+    Ocean
 }

@@ -36,6 +36,7 @@ public class BiomeManager : MonoBehaviour
     void RegisterBiomes()
     {
         Biomes = new Dictionary<BiomeType, Biome>();
+        Biomes.Add(BiomeType.BaseEditor, new BiomeBaseEditor());
         Biomes.Add(BiomeType.Home, new BiomeHome());
         Biomes.Add(BiomeType.Forest, new BiomeForest());
         Biomes.Add(BiomeType.Ocean, new BiomeOcean());
@@ -75,11 +76,11 @@ public class BiomeManager : MonoBehaviour
         LoadBlocks();
         LoadShapes();
 
-        CreateBiome(Vector3Int.zero, BiomeType.Home);
+        /*CreateBiome(Vector3Int.zero, BiomeType.Home);
         CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);*/
     }
 	
 	void Update () {
@@ -89,12 +90,12 @@ public class BiomeManager : MonoBehaviour
     /** <summary>
      * Creates a new biome at the specified biome-space coordinates with the specified type
      * <para />
-     * If biome is set to null then it picks a random biome
+     * If biome is set to null then it picks a random biome except Premade
      */
     public BiomeController CreateBiome(Vector3Int pos, BiomeType? type = null, bool generate = true)
     {
         BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
-        b.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
+        b.name = String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z);
 
         b.Manager = this;
         Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + Biome.BiomeSpacing * Vector3.one);
@@ -108,7 +109,7 @@ public class BiomeManager : MonoBehaviour
         } else
         {
             List<BiomeType> biomes = new List<BiomeType>(Biomes.Keys);
-            type = biomes[UnityEngine.Random.Range(1, biomes.Count - 1)];
+            type = biomes[UnityEngine.Random.Range(2, biomes.Count - 1)];
             Biomes.TryGetValue(type.Value, out instance);
         }
         b.Type = type.Value;
@@ -123,12 +124,21 @@ public class BiomeManager : MonoBehaviour
 
     public BiomeController GetBiome(Vector3Int pos)
     {
-        Transform t = transform.Find(String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z));
+        Transform t = transform.Find(String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z));
         if (t == null)
         {
             return null;
         }
         return t.GetComponent<BiomeController>();
+    }
+
+    public void RemoveBiome(Vector3Int pos)
+    {
+        Transform t = transform.Find(String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z));
+        if (t != null)
+        {
+            Destroy(t.gameObject);
+        }
     }
 
     public Material GetBlockMaterial(BlockType type)

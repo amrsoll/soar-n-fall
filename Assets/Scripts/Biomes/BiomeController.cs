@@ -10,12 +10,16 @@ public class BiomeController : MonoBehaviour
     public BiomeManager Manager;
 
     int blockCount = 0;
+    public int GetBlockCount()
+    {
+        return blockCount;
+    }
 
 	void Start () {}
 
 	void Update () {
         BiomeInstance.Update(this);
-	}
+    }
 
     bool CheckCoords(Vector3Int pos)
     {
@@ -40,7 +44,7 @@ public class BiomeController : MonoBehaviour
         }
 
         Transform t = Instantiate(Manager.GetBlockShape(shape), transform);
-        t.name = String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z);
+        t.name = String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z);
         t.localPosition = (t.localPosition + pos) * Biome.BlockSize;
         t.localScale *= Biome.BlockSize;
 
@@ -49,7 +53,9 @@ public class BiomeController : MonoBehaviour
 
     public BlockController SetBlock(Vector3Int pos, BlockShape shape, BlockType material)
     {
-        BlockController block = SetBlock(pos, shape).SetType(material);
+        BlockController block = SetBlock(pos, shape);
+        if (block == null) return null;
+        block.SetType(material);
         Material mat = Manager.GetBlockMaterial(material);
         MeshRenderer mr = block.GetComponent<MeshRenderer>();
         if (mr == null)
@@ -70,7 +76,7 @@ public class BiomeController : MonoBehaviour
     {
         if (!CheckCoords(pos)) return null;
 
-        Transform t = transform.Find(String.Format("{0}|{1}|{2}", pos.x, pos.y, pos.z));
+        Transform t = transform.Find(String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z));
         if (t != null)
             return t.GetComponent<BlockController>();
         return null;
@@ -96,11 +102,14 @@ public class BiomeController : MonoBehaviour
         }
     }
 
-    public void Save(BinaryWriter writer)
+    public void Save(BinaryWriter writer, bool forPremade = false)
     {
-        writer.Write(name);
-        writer.Write((byte)Type);
-        writer.Write(transform.localPosition);
+        if(!forPremade)
+        {
+            writer.Write(name);
+            writer.Write((byte)Type);
+            writer.Write(transform.localPosition);
+        }
         writer.Write(blockCount);
         for (int x = 0; x < Biome.XSize; x++)
         {
@@ -117,8 +126,8 @@ public class BiomeController : MonoBehaviour
 
     public void Read(BinaryReader reader)
     {
-        int childCount = reader.ReadInt32();
-        for (int i = 0; i < childCount; i++)
+        int fileBlockCount = reader.ReadInt32();
+        for (int i = 0; i < fileBlockCount; i++)
         {
             string name = reader.ReadString();
             BlockShape shape = (BlockShape)reader.ReadByte();

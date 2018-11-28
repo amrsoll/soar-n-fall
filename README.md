@@ -1,4 +1,4 @@
 # 555game5
 KTH Computer Game Design project team 5
 
-testing yoooo
+We should add stuff that are relative to the game here.

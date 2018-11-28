@@ -38,7 +38,8 @@ public class NarrativeTrigger : MonoBehaviour
     public void PlayClip(string clipName)
     {
 
-        narratorSource.PlayOneShot(audioClipDic[clipName], 10.0f);
+        narratorSource.PlayOneShot(audioClipDic[clipName], 15.0f);
 
     }
+
 }

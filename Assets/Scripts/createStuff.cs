@@ -51,7 +51,7 @@ public class createStuff : MonoBehaviour {
         }
 
 		//Create plank
-		if ((item1.name == "Tree" && item2.name == "Axe") || (item1.name == "Axe" && item2.name == "Tree")) {
+		if ((item1.name == "Tree" && item2.name == "Axe") || (item1.name == "Axe" && item2.GetComponent<BlockController>() != null && item2.GetComponent<BlockController>().shape == BlockShape.Tree)) {
 			GameObject Aplank = Instantiate(plank, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
 			Aplank.name = "Plank";
 
@@ -93,7 +93,7 @@ public class createStuff : MonoBehaviour {
 
 		//Water plant
 		if ((item1.name == "WateringPotFilled" && item2.name == "Flower") || (item1.name == "Flower" && item2.name == "WateringPotFilled")) {
-			Instantiate(bigFlower, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
+			Instantiate(bigFlower);
 			GameObject emptyWateringPot = Instantiate(wateringPot, this.GetComponent<moveObject>().guide.position, this.GetComponent<moveObject>().guide.rotation);
 			emptyWateringPot.name = "WateringPot";
 		

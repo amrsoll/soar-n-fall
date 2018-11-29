@@ -78,6 +78,7 @@ public class BiomeManager : MonoBehaviour
 
         CreateBiome(Vector3Int.zero, BiomeType.Home);
         CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
+        CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
         CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);

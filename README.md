@@ -17,7 +17,8 @@ By chopping more wood, it realizes that it can combine some nails that are layin
 On this third biome, the climate is somewhat different. There are rivers and waterfalls that makes it harder to get around. There aren't any stuff laying around either - how is it going to make anything here that can take it further?
 After going back to the previous biome, the cubanoid brings with it a bucket and fills it with the water from the new biome. It waters some flowers that are growing next to it, and all of a sudden, the flowers grows and grows, building a bridge over to a new biome!
 
-Lucky, the cubaoind thinks to itself. The god-like voice laughs at it and says "Well aren't you lucky? Who could have thought that some flowers would take you to the next island - you sure are a clever little cube."
+Lucky, the cubaoind thinks to itself. The god-like voice laughs at it and says
+ > Well aren't you lucky? Who could have thought that some flowers would take you to the next island - you sure are a clever little cube.
 
 On the fourth island, the cubanoid encounters new problems: there are quicksand that looks life-threatening. And there are no stuff laying around, what should the cubanoid do?
 

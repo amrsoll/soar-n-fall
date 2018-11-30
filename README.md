@@ -41,6 +41,13 @@ On this fifth island, the cubanoid looks for different things to build or differ
 5. Not sure yet..
 6. Nothing
 
+## Story presentation
+The story is going to be told by a narrator giving hints, clues, and mocking the player. This way, the player will get small hints on how to solve the puzzles but also getting humoristic comments by the narrator. The idea is that the game won't be very clear, but rather the player needs to explore the different options etc. to understand what the puzzles are and how to solve them. We want to support a mysterious feeling surrounding the gameplay.
+
+## Characters
+1. The main cubanoid
+2. The narrator
+
 ## Narration
 
 **On awake:**

@@ -30,7 +30,9 @@ On this fifth island, the cubanoid looks for different things to build or differ
 
 
 ## Details
+
 **Amount of biomes:** 6
+
 **Different kinds of challenges:**
 1. Chop down wood, combine the wood with rope to build a bridge.
 2. Chop down more wood, mine minerals from stone, melt minerals to make nails and then combine nails and wood to build a ladder.

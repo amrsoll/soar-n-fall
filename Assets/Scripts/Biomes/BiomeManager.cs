@@ -41,6 +41,7 @@ public class BiomeManager : MonoBehaviour
         Biomes.Add(BiomeType.Forest, new BiomeForest());
         Biomes.Add(BiomeType.Ocean, new BiomeOcean());
         Biomes.Add(BiomeType.Desert, new BiomeDesert());
+        Biomes.Add(BiomeType.Volcano, new BiomePremade("volcano"));
     }
 
     void LoadBlocks()
@@ -77,6 +78,7 @@ public class BiomeManager : MonoBehaviour
         LoadShapes();
 
         CreateBiome(Vector3Int.zero, BiomeType.Home);
+        CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
         CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
         CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
         CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);

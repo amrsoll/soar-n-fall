@@ -16,7 +16,7 @@ public class playerMovement : MonoBehaviour {
     float currentV = 0.0f;
     float currentH = 0.0f;
 
-    private Vector3 currentDirection = Vector3.zero;
+    public Vector3 currentDirection = Vector3.zero;
 
     // Use this for initialization
     void Start () {

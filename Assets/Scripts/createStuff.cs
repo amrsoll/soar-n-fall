@@ -16,7 +16,7 @@ public class createStuff : MonoBehaviour {
 
 	private bool contact;
 	public GameObject collidingItem;
-    public NarrativeTrigger narrativeSounds;
+    public NarrationTrigger narrationSounds;
 
 	// Use this for initialization
 	void Start () {
@@ -47,7 +47,7 @@ public class createStuff : MonoBehaviour {
             //open new biome
 
             // Play a narrator sound
-            narrativeSounds.PlayClip("firstBridgeNarration");
+            narrationSounds.PlayClip("firstBridgeNarration");
         }
 
 		//Create plank

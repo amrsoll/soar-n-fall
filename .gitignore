@@ -129,3 +129,9 @@ $RECYCLE.BIN/
 .idea
 
 # End of https://www.gitignore.io/api/unity,macos,windows,sublimetext
+
+ProjectSettings/ProjectVersion\.txt
+
+Assets/Plugins/Editor/
+
+Assets/Plugins/Editor\.meta

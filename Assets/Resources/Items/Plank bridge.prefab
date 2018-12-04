@@ -577,8 +577,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4037848201673390}
+  - component: {fileID: 114541288679427780}
   m_Layer: 0
-  m_Name: Bridge
+  m_Name: Plank bridge
   m_TagString: bridge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2855,3 +2856,15 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300014, guid: aa0e5bf7c30264b7d9282483df3b465e, type: 3}
+--- !u!114 &114541288679427780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1951336970986790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f115b44f32e5046df8b3e60d898f6e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Manager: {fileID: 0}

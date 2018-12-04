@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,10 +46,11 @@ public class moveObject : MonoBehaviour {
 
 	void OnCollisionExit(Collision collision) {
 		if (!pickedUpState) {
-			item = null;
+			item = null;	
 		}
 	}
-
+	
+	[Obsolete("moveObject.pickUp is deprecated, please use ItemController.pickUp instead.")]
 	void pickUp() {
 		item.GetComponent<Rigidbody>().useGravity = false;
 		item.GetComponent<Rigidbody>().isKinematic = true;
@@ -58,7 +60,8 @@ public class moveObject : MonoBehaviour {
 		item.transform.parent = tempParent.transform;
 		pickedUpState = true;
 	}
-
+	
+	[Obsolete("moveObject.release is deprecated, please use ItemController.release instead.")]
 	void release() {
 		item.GetComponent<Rigidbody>().useGravity = true;
 		item.GetComponent<Rigidbody>().isKinematic = false;

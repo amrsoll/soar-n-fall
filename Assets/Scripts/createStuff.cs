@@ -65,7 +65,6 @@ public class createStuff : MonoBehaviour {
 
 		else {
 			Debug.Log("Can't combine elements");
-			return;
 		}
 	}
 

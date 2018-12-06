@@ -81,7 +81,7 @@ public class BiomeManager : MonoBehaviour
         if (!isEditor)
         {
             CreateBiome(Vector3Int.zero, BiomeType.Home);
-            CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
+            //CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
             CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
             CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
             CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);

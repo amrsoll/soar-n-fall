@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33276642654356264}
   - component: {fileID: 23740863058973262}
   m_Layer: 0
-  m_Name: key 1
+  m_Name: Key Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 65931690743785014}
   - component: {fileID: 114662957544034446}
   m_Layer: 0
-  m_Name: key
+  m_Name: Key
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ Transform:
   m_GameObject: {fileID: 1678519170488348}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -15.62, y: 6.62, z: 18.48}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4832729437007334}
   m_Father: {fileID: 0}
@@ -140,7 +140,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000002, y: 2.2258, z: 4.1503043}
+  m_Size: {x: 0.1, y: 0.222, z: 0.415}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114662957544034446
 MonoBehaviour:

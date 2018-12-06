@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour {
 
 	void Update () {
 
-        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.JoystickButton7))
+        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.JoystickButton7))
         {
             if (GameIsPaused)
             {

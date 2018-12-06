@@ -278,6 +278,15 @@ Prefab:
       propertyPath: narrationSounds
       value: 
       objectReference: {fileID: 1356634064}
+    - target: {fileID: 1664271487628514, guid: 807bde9fa92424528b3882831db7c3c8, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 65160447988529336, guid: 807bde9fa92424528b3882831db7c3c8,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 807bde9fa92424528b3882831db7c3c8, type: 2}
   m_IsPrefabAsset: 0
@@ -333,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BiomePrefab: {fileID: 114431959390483522, guid: 52df19d2f7c62ad4bbb2b42834875738,
     type: 2}
+  isEditor: 0
 --- !u!4 &193480185
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,6 +1954,26 @@ Prefab:
         type: 2}
       propertyPath: m_Center.z
       value: -0.008001924
+      objectReference: {fileID: 0}
+    - target: {fileID: 65389340029537092, guid: de17b7a4f7ed3ab4980b8df57d155662,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65389340029537092, guid: de17b7a4f7ed3ab4980b8df57d155662,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 65389340029537092, guid: de17b7a4f7ed3ab4980b8df57d155662,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 65389340029537092, guid: de17b7a4f7ed3ab4980b8df57d155662,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de17b7a4f7ed3ab4980b8df57d155662, type: 2}

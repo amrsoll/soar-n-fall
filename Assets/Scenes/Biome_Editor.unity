@@ -427,6 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BiomePrefab: {fileID: 114431959390483522, guid: 52df19d2f7c62ad4bbb2b42834875738,
     type: 2}
+  isEditor: 1
 --- !u!4 &517452781
 Transform:
   m_ObjectHideFlags: 0

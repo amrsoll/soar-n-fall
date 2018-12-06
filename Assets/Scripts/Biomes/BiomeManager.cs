@@ -10,6 +10,7 @@ public class BiomeManager : MonoBehaviour
     public Dictionary<BlockType, Material> Blocks;
     public Dictionary<BlockShape, Transform> Shapes;
     public BiomeController BiomePrefab;
+    public bool isEditor = false;
 
     public static Vector3Int WorldToBiomePos(Vector3 worldPos)
     {
@@ -77,13 +78,16 @@ public class BiomeManager : MonoBehaviour
         LoadBlocks();
         LoadShapes();
 
-        CreateBiome(Vector3Int.zero, BiomeType.Home);
-        CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
-        CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
-        CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+        if (!isEditor)
+        {
+            CreateBiome(Vector3Int.zero, BiomeType.Home);
+            CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
+            CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
+            CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+        }
     }
 	
 	void Update () {

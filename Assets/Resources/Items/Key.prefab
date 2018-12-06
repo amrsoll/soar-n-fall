@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 65931690743785014}
   - component: {fileID: 114662957544034446}
   m_Layer: 0
-  m_Name: key
+  m_Name: Key
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1012607357170290}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.111, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4838936609694184}
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1678519170488348}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.62, y: 6.62, z: 18.48}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4832729437007334}
@@ -141,7 +141,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.222, z: 0.415}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.111, z: 0}
 --- !u!114 &114662957544034446
 MonoBehaviour:
   m_ObjectHideFlags: 1

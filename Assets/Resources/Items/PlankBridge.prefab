@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 4037848201673390}
   - component: {fileID: 114541288679427780}
   m_Layer: 0
-  m_Name: Plank bridge
+  m_Name: PlankBridge
   m_TagString: bridge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2868,3 +2868,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
+  type: 7

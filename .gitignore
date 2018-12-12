@@ -137,3 +137,5 @@ ProjectSettings/ProjectVersion\.txt
 Assets/Plugins/Editor/
 
 Assets/Plugins/Editor\.meta
+
+ProjectSettings/Project*

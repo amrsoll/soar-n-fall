@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Axe : ItemController
 {
-	private static bool Movable = true;
-	
-	
 	void Start()
 	{
 	}
@@ -14,7 +11,6 @@ public class Axe : ItemController
 	void Update () {
 		
 	}
-	
 	
 	override public bool InteractWith(ItemController item)
 	{
@@ -31,11 +27,6 @@ public class Axe : ItemController
 
 			return true;
 		}
-		return false;
-	}
-	
-	override public bool Place(BlockController block)
-	{
 		return false;
 	}
 }

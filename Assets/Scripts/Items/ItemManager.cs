@@ -148,4 +148,46 @@ public class ItemManager : MonoBehaviour {
 		return item;
 	}
 	
+	// place an object on top of a block
+	public bool Place(ItemController item, BlockController block)
+	{
+		bool youMayPlaceThis = false;
+		Vector3 pos = Vector3.zero;
+		Quaternion q = Quaternion.identity;
+		// case of the bridge
+		if (item.type == Item.PlankBridge)
+		{
+			int bx = block.biomeCoords.x;
+			int by = block.biomeCoords.y;
+			int bz = block.biomeCoords.z;
+			if (bx == Biome.XSize - 1 ||
+			    bx == 0)
+			{
+				q = Quaternion.identity * Quaternion.AngleAxis(90,Vector3.up);
+				if (bx == 0) pos.x -= (float)Biome.BiomeSpacing / 2; 
+				else         pos.x += (float)Biome.BiomeSpacing / 2; 
+				youMayPlaceThis = true;
+			}
+			else if (bz == Biome.ZSize - 1 ||
+			         bz == 0)
+			{
+				q = Quaternion.identity;
+				if (bz == 0) pos.z -= (float)Biome.BiomeSpacing / 2; 
+				else         pos.z += (float)Biome.BiomeSpacing / 2; 
+				youMayPlaceThis = true;
+			}
+			if(youMayPlaceThis)
+			{
+				Vector3Int blockPos = new Vector3Int(bx, by, bz);
+				Vector3Int biomePos = BiomeManager.WorldToBiomePos(Player.transform.position);
+				pos += BiomeManager.BiomeToWorldPos(biomePos) + blockPos * Biome.BlockSize;
+			}
+			return true;
+		}
+		
+		if(youMayPlaceThis)
+			SpawnObject(item.type, pos, q);
+		return false;
+	}
+	
 }

@@ -29,7 +29,6 @@ public class Respawn : MonoBehaviour {
 	}
 
 	public void respawnPlayer() {
-        Debug.Log("WTF?!");
         player.transform.rotation = startRotation;
         player.transform.position = startPosition;
 

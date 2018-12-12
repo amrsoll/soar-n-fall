@@ -40,9 +40,10 @@ public class ItemManager : MonoBehaviour {
 		}
 
 		if ((/*Input.GetKeyDown(KeyCode.JoystickButton4) || */Input.GetKeyDown(KeyCode.Q))
-			|| (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0))
+			&& Player.Inventory.Count > 0 
+		    && Player.CollidingItems.Count > 0)
 		{
-			Player.CollidingItems.First().InteractWith(Player.CollidingItems.Last());
+			Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
 		}
 	}
 	
@@ -100,7 +101,8 @@ public class ItemManager : MonoBehaviour {
 	public static ItemController Instantiate(ItemController item, Transform parent)
 	{
 		// TODO check if object is inside a biome
-		return Instantiate(item, Vector3.zero, Quaternion.identity, parent);
+		GameObject a = Instantiate(item.gameObject, parent);
+		return a.GetComponent<ItemController>();
 	}
 
 	public static ItemController Instantiate(ItemController item)
@@ -109,9 +111,9 @@ public class ItemManager : MonoBehaviour {
 		return a.GetComponent<ItemController>();
 	}
 	
-	public ItemController SpawnObject(Item itemType, Transform parent)
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
 	{
-		ItemController item = Instantiate(Items[itemType]);
+		ItemController item = Instantiate(Items[itemType], pos, q, this.transform);
 		item.Manager = this;
 		return item;
 	}

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Axe : ItemController
 {
 	private static bool Movable = true;
+	
+	
 	void Start()
 	{
 	}
@@ -16,10 +18,12 @@ public class Axe : ItemController
 	
 	override public bool InteractWith(ItemController item)
 	{
+		Debug.Log(item.name.ToString());
 		if (item.type == Item.Tree)
 		{
-			Manager.SpawnObject(Item.Plank, item.transform);
+			ItemController plank = Manager.SpawnObject(Item.Plank, item.transform.position, Quaternion.identity);
 			Destroy(item.gameObject);
+			return true;
 		}
 		return false;
 	}

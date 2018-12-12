@@ -4,5 +4,6 @@
     Home,
     Forest,
     Desert,
-    Ocean
+    Ocean,
+    Volcano
 }

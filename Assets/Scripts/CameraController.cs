@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour {
 	public GameObject player;       //Public variable to store a reference to the player game object
 	public BiomeManager biomeManager;
 
-	private readonly Vector3 BiomeCenterOffset = new Vector3((float) Biome.XSize / 2,
+	public static readonly Vector3 BiomeCenterOffset = new Vector3((float) Biome.XSize / 2,
 															 (float) Biome.YSize / 2,
 															 (float) Biome.ZSize / 2);
 

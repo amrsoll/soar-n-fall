@@ -133,6 +133,8 @@ public class BiomeEditor : MonoBehaviour {
                 {
                     currentShape = 0;
                 }
+                if (currentShape != 0)
+                    currentType = -1;
                 RefreshPreview();
             }
 
@@ -160,14 +162,20 @@ public class BiomeEditor : MonoBehaviour {
                 {
                     BiomeController biome = hit.transform.parent.GetComponent<BiomeController>();
                     Vector3Int newPos = GetNewBlockPos(hit);
+                    BlockController newBlock;
                     if (currentType == -1)
                     {
-                        biome.SetBlock(newPos, shapes[currentShape]).SetRotation(Vector3.up * currentRotation);
+                        newBlock = biome.SetBlock(newPos, shapes[currentShape]);
                     }
                     else
                     {
-                        biome.SetBlock(newPos, shapes[currentShape], types[currentType]).SetRotation(Vector3.up * currentRotation);
+                        newBlock = biome.SetBlock(newPos, shapes[currentShape], types[currentType]);
                     }
+
+                    if (newBlock != null)
+                    {
+                        newBlock.SetRotation(Vector3.up * currentRotation);
+                    } 
                 }
             }
         }

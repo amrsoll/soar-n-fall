@@ -1,9 +1,11 @@
-﻿public enum BlockShape
+public enum BlockShape
 {
     Cube,
     Slope,
     SlopeAngle,
     Tree,
     Tent,
-    Lava
+    Lava,
+    River,
+    Quicksand
 }

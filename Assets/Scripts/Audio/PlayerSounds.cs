@@ -9,12 +9,6 @@ public class PlayerSounds : MonoBehaviour {
     public float distToGround = 0.35f;
 
     public AudioSource source;
-
-    void Start () {
-
-        source = GetComponent<AudioSource>();
-
-    }
 	
     void Update () {
     
@@ -22,7 +16,7 @@ public class PlayerSounds : MonoBehaviour {
         if ( isGrounded() && isWalking() ) {
             if ( !source.isPlaying ) {
                 source.pitch = Random.Range(1.1f, 1.3f);
-                source.volume = Random.Range(0.010f, 0.025f);
+                source.volume = Random.Range(0.10f, 0.25f);
                 source.Play();
             }
         }
@@ -30,17 +24,20 @@ public class PlayerSounds : MonoBehaviour {
         // If the player is on the ground and jumping, play jumpsound1
         if ( isGrounded() && isJumping() ) {
         
-            source.PlayOneShot(jumpSound);
+            source.PlayOneShot(jumpSound, 2f);
 
         }
 
         // If the player is NOT on the ground and jumping, play jumpsound2
         if ( !isGrounded() && isJumping()) {
 
-            source.PlayOneShot(jumpSound2);
+            source.PlayOneShot(jumpSound2, 2f);
 
         }
 
+        if (PauseMenu.GameIsPaused) {
+            source.Pause();
+        }
 
     }
 

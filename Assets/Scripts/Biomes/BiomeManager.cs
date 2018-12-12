@@ -10,6 +10,7 @@ public class BiomeManager : MonoBehaviour
     public Dictionary<BlockType, Material> Blocks;
     public Dictionary<BlockShape, Transform> Shapes;
     public BiomeController BiomePrefab;
+    public bool isEditor = false;
 
     public static Vector3Int WorldToBiomePos(Vector3 worldPos)
     {
@@ -49,7 +50,7 @@ public class BiomeManager : MonoBehaviour
         Blocks = new Dictionary<BlockType, Material>();
         foreach (BlockType bt in Enum.GetValues(typeof(BlockType)))
         {
-            Material m = Resources.Load<Material>("Materials/Blocks/" + bt);
+            Material m = Resources.Load<Material>("Blocks/" + bt);
             if (m == null)
             {
                 Blocks.TryGetValue(BlockType.Missing, out m);
@@ -63,7 +64,7 @@ public class BiomeManager : MonoBehaviour
         Shapes = new Dictionary<BlockShape, Transform>();
         foreach (BlockShape bs in Enum.GetValues(typeof(BlockShape)))
         {
-            Transform t = Resources.Load<Transform>("Materials/Shapes/" + bs);
+            Transform t = Resources.Load<Transform>("Shapes/" + bs);
             if (t == null)
             {
                 Shapes.TryGetValue(BlockShape.Cube, out t);
@@ -77,13 +78,16 @@ public class BiomeManager : MonoBehaviour
         LoadBlocks();
         LoadShapes();
 
-        CreateBiome(Vector3Int.zero, BiomeType.Home);
-        CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
-        CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
-        CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+        if (!isEditor)
+        {
+            CreateBiome(Vector3Int.zero, BiomeType.Home);
+            //CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
+            CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
+            CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+        }
     }
 	
 	void Update () {

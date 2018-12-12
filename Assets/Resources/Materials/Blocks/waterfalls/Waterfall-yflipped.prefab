@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4585182195000264}
   - component: {fileID: 65540525707720352}
   m_Layer: 0
-  m_Name: Waterfall (4)
+  m_Name: Waterfall-yflipped
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,7 +153,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 58bf0cc9665f64f05a4d101bf08a6476, type: 2}
+  - {fileID: 2100000, guid: 67973f6f4262e44fa81ec688272109b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

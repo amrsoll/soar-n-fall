@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4507309065317906}
   - component: {fileID: 65347432609446976}
   m_Layer: 0
-  m_Name: Waterfall
+  m_Name: Waterfall-x
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

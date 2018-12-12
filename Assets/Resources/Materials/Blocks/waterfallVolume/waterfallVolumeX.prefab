@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4041607147544686}
   m_Layer: 0
-  m_Name: riverVolume (3) 1
+  m_Name: waterfallVolumeX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 5b84639cf7bdc463ca6a3f67a23fbadf, type: 2}
+  - {fileID: 2100000, guid: 58bf0cc9665f64f05a4d101bf08a6476, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

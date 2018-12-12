@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4244878154873420}
   - component: {fileID: 65844022175365524}
   m_Layer: 0
-  m_Name: Waterfall-x 1
+  m_Name: Waterfall-y
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 58bf0cc9665f64f05a4d101bf08a6476, type: 2}
+  - {fileID: 2100000, guid: 10f6013a739e84b4cbe4f86de5aa2723, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

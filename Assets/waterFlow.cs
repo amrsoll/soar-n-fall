@@ -7,7 +7,9 @@ public class waterFlow : MonoBehaviour {
 
     void Start () {
         BiomeController biomeController = transform.parent.GetComponent<BiomeController>();
-
+        if (biomeController == null){
+            return;
+        }
         Vector3Int myCordinates = GetComponent<BlockController>().biomeCoords;
 
         if (biomeController.GetBlock(new Vector3Int(myCordinates.x, myCordinates.y + 1, myCordinates.z)) == null){

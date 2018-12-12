@@ -52,6 +52,7 @@ Shader "Unlit/waterfallStyle"
                 float3 normalDir : TEXCOORD4;
                 float4 posWorld : TEXCOORD5;
                 float displ : TEXCOORD6;
+                float transparencyFromFall : TEXCOORD7;
                 
                 
 			};
@@ -83,9 +84,9 @@ Shader "Unlit/waterfallStyle"
                 float displacement = ((_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x+worldPos.z)*1000)/2300+_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x-worldPos.z)*500)/1000)-0.002);
                 
                 float fall = (0-step(0.3, 1 + worldPos.x-objectOrigin.x)); //the last part goes from -1 to 0 and should output 0.1 to 5
-                fall = step(0.3, 1 + worldPos.x-objectOrigin.x)/70;
-                fall = 0.02*step(0.1, 1 + worldPos.x-objectOrigin.x) * (1-step(0.3, 1 + worldPos.x-objectOrigin.x));
-                
+                fall = step(0.1, 1 + worldPos.x-objectOrigin.x)/10;
+                //fall = 0.02*step(0.1, 1 + worldPos.x-objectOrigin.x) * (1-step(0.3, 1 + worldPos.x-objectOrigin.x));
+                o.transparencyFromFall = 1-step(-0.8, worldPos.x-objectOrigin.x);
                 //v.normal = newNormal.xyz;
                 
                 
@@ -133,7 +134,8 @@ Shader "Unlit/waterfallStyle"
 			{
                 //fixed4 col = tex2D(_MainTex, i.uv);
                 fixed4 col = calculateBaseColor(i);
-                col.a = step(0.0,i.normal.y)*_Transparency;
+                float tft = i.transparencyFromFall;
+                col.a = step(0.0,i.normal.y)*_Transparency*tft;
                 return col;
                 
                 //return calculateBaseColor(i);

@@ -54,7 +54,10 @@ public class playerMovement : MonoBehaviour {
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
+            //HARDCODED LIMIT FOR HOW HIGH YOU CAN JUMP
+            if (transform.position.y < 15.0) {
                 rigidBody.AddForce(Vector3.up * jumpSpeed);
+            }
         }
 
     }

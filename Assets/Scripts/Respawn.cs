@@ -18,6 +18,7 @@ public class Respawn : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//change to: look if you've changed biome
+		//HARDCODED LIMIT FOR HOW LOW YOU CAN FALL
 		if (this.transform.position.y < -50.0) {
 			respawnPlayer();
 			return;

@@ -13,8 +13,6 @@ public class ItemManager : MonoBehaviour {
 	public Dictionary<List<Item>, Item> Recipees;
 	public Dictionary<Item, ItemController> Items;
 	
-	
-
 	// Use this for initialization
 	void Start ()
 	{
@@ -26,8 +24,9 @@ public class ItemManager : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.C)){
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
-				ItemController result = Craft(Player.Inventory.First(), Player.CollidingItems.First());
-				Player.Inventory.Add(result);
+				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
+				if(result != Item.Undefined)
+					Player.Inventory.Add(SpawnObject(result, Player.Guide.transform.position, Quaternion.identity));
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
@@ -48,18 +47,46 @@ public class ItemManager : MonoBehaviour {
 	}
 	
 	
-	private ItemController Craft(params ItemController[] items) {
+	private Item Craft(params ItemController[] items) {
 		List<Item> ingredients = new List<Item>();
 		foreach (ItemController item in items)
 			ingredients.Add(item.type);
-		ingredients.Sort();
-		if (Recipees.Keys.Contains(ingredients))
+		// sort the present ingredients before comparing to the recipees
+		ingredients.Sort(delegate(Item x, Item y) { return (""+x).CompareTo(""+y); });
+		// compare each ingredients individualy
+		Item recipeeRes = Item.Undefined;
+		foreach (KeyValuePair<List<Item>, Item> recipee in Recipees)
 		{
-			foreach (ItemController item in items)
-				Destroy(item.gameObject);
-			return Instantiate(Items[Recipees[ingredients]], Player.Guide.transform);
+			bool found = true;
+			if (recipee.Key.Count != ingredients.Count)
+				continue;
+			int k = 0;
+			foreach (var i in ingredients)
+			{
+				if (i != recipee.Key[k])
+				{
+					found = false;
+					break;
+				}
+				k++;
+			}
+			if (found)
+			{
+				recipeeRes = recipee.Value;
+				break;
+			}
 		}
-		return null;
+		if (recipeeRes != Item.Undefined)
+		{
+//			ItemController res = SpawnObject(recipeeRes, Player.Guide.transform.position, Quaternion.identity);
+			foreach (ItemController item in items)
+			{
+				Player.Inventory.Remove(item);
+				Destroy(item.gameObject);
+			}
+			return recipeeRes;
+		}
+		return recipeeRes;
 	}
 	
 	public void Interact(ItemController tool, ItemController item) {
@@ -71,7 +98,10 @@ public class ItemManager : MonoBehaviour {
 		List<Item> ing = new List<Item>();
 		foreach (var i in ingredients)
 			ing.Add(i);
-		ing.Sort();
+		ing.Sort(delegate(Item x, Item y)
+		{
+			return (""+x).CompareTo(""+y);
+		});
 		Recipees.Add(ing, result);
 	}
 	
@@ -116,6 +146,48 @@ public class ItemManager : MonoBehaviour {
 		ItemController item = Instantiate(Items[itemType], pos, q, this.transform);
 		item.Manager = this;
 		return item;
+	}
+	
+	// place an object on top of a block
+	public bool Place(ItemController item, BlockController block)
+	{
+		bool youMayPlaceThis = false;
+		Vector3 pos = Vector3.zero;
+		Quaternion q = Quaternion.identity;
+		// case of the bridge
+		if (item.type == Item.PlankBridge)
+		{
+			int bx = block.biomeCoords.x;
+			int by = block.biomeCoords.y;
+			int bz = block.biomeCoords.z;
+			if (bx == Biome.XSize - 1 ||
+			    bx == 0)
+			{
+				q = Quaternion.identity * Quaternion.AngleAxis(90,Vector3.up);
+				if (bx == 0) pos.x -= (float)Biome.BiomeSpacing / 2; 
+				else         pos.x += (float)Biome.BiomeSpacing / 2; 
+				youMayPlaceThis = true;
+			}
+			else if (bz == Biome.ZSize - 1 ||
+			         bz == 0)
+			{
+				q = Quaternion.identity;
+				if (bz == 0) pos.z -= (float)Biome.BiomeSpacing / 2; 
+				else         pos.z += (float)Biome.BiomeSpacing / 2; 
+				youMayPlaceThis = true;
+			}
+			if(youMayPlaceThis)
+			{
+				Vector3Int blockPos = new Vector3Int(bx, by, bz);
+				Vector3Int biomePos = BiomeManager.WorldToBiomePos(Player.transform.position);
+				pos += BiomeManager.BiomeToWorldPos(biomePos) + blockPos * Biome.BlockSize;
+			}
+			return true;
+		}
+		
+		if(youMayPlaceThis)
+			SpawnObject(item.type, pos, q);
+		return false;
 	}
 	
 }

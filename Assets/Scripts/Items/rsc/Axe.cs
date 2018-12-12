@@ -21,8 +21,14 @@ public class Axe : ItemController
 		Debug.Log(item.name.ToString());
 		if (item.type == Item.Tree)
 		{
-			ItemController plank = Manager.SpawnObject(Item.Plank, item.transform.position, Quaternion.identity);
-			Destroy(item.gameObject);
+            ItemController plank = Manager.SpawnObject(Item.Plank, item.transform.position + new Vector3(0.1f, 0.5f, 0f), Quaternion.identity);
+
+            Transform tree = item.transform.Find("Tree (1)");
+            Transform treeStump = item.transform.Find("tree-cut");
+            
+            tree.gameObject.SetActive(false);
+            treeStump.gameObject.SetActive(true);
+
 			return true;
 		}
 		return false;

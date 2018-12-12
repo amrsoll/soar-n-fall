@@ -13,8 +13,6 @@ public class ItemManager : MonoBehaviour {
 	public Dictionary<List<Item>, Item> Recipees;
 	public Dictionary<Item, ItemController> Items;
 	
-	
-
 	// Use this for initialization
 	void Start ()
 	{
@@ -26,8 +24,9 @@ public class ItemManager : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.C)){
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
-				ItemController result = Craft(Player.Inventory.First(), Player.CollidingItems.First());
-				Player.Inventory.Add(result);
+				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
+				if(result != Item.Undefined)
+					Player.Inventory.Add(SpawnObject(result, Player.Guide.transform.position, Quaternion.identity));
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
@@ -48,18 +47,46 @@ public class ItemManager : MonoBehaviour {
 	}
 	
 	
-	private ItemController Craft(params ItemController[] items) {
+	private Item Craft(params ItemController[] items) {
 		List<Item> ingredients = new List<Item>();
 		foreach (ItemController item in items)
 			ingredients.Add(item.type);
-		ingredients.Sort();
-		if (Recipees.Keys.Contains(ingredients))
+		// sort the present ingredients before comparing to the recipees
+		ingredients.Sort(delegate(Item x, Item y) { return (""+x).CompareTo(""+y); });
+		// compare each ingredients individualy
+		Item recipeeRes = Item.Undefined;
+		foreach (KeyValuePair<List<Item>, Item> recipee in Recipees)
 		{
-			foreach (ItemController item in items)
-				Destroy(item.gameObject);
-			return Instantiate(Items[Recipees[ingredients]], Player.Guide.transform);
+			bool found = true;
+			if (recipee.Key.Count != ingredients.Count)
+				continue;
+			int k = 0;
+			foreach (var i in ingredients)
+			{
+				if (i != recipee.Key[k])
+				{
+					found = false;
+					break;
+				}
+				k++;
+			}
+			if (found)
+			{
+				recipeeRes = recipee.Value;
+				break;
+			}
 		}
-		return null;
+		if (recipeeRes != Item.Undefined)
+		{
+//			ItemController res = SpawnObject(recipeeRes, Player.Guide.transform.position, Quaternion.identity);
+			foreach (ItemController item in items)
+			{
+				Player.Inventory.Remove(item);
+				Destroy(item.gameObject);
+			}
+			return recipeeRes;
+		}
+		return recipeeRes;
 	}
 	
 	public void Interact(ItemController tool, ItemController item) {
@@ -71,7 +98,10 @@ public class ItemManager : MonoBehaviour {
 		List<Item> ing = new List<Item>();
 		foreach (var i in ingredients)
 			ing.Add(i);
-		ing.Sort();
+		ing.Sort(delegate(Item x, Item y)
+		{
+			return (""+x).CompareTo(""+y);
+		});
 		Recipees.Add(ing, result);
 	}
 	

@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4748801474756434}
   m_Layer: 0
-  m_Name: rope (1)
+  m_Name: rope-new
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

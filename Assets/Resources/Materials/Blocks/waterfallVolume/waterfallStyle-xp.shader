@@ -12,13 +12,14 @@ Shader "Unlit/waterfallStyle"
         _AnimationSpeed("Animation speed", Range(0,3)) = 0
         _waveAmplitude("Amp range", Range(0,10)) = 0
         _Transparency("Transparency", Range(0.0,1)) = 0.99
-        _edgePosition("Edge position",Vector) = (0,0,0,0)
+
        
 	}
 	SubShader
 	{
 		Tags {"Queue"="Transparent" "RenderType"="Transparent" }
 		LOD 100
+        Cull Off
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
@@ -63,6 +64,7 @@ Shader "Unlit/waterfallStyle"
             float _AnimationSpeed;
             float _waveAmplitude;
             float _Transparency;
+            float4 _edgePosition;
             
             
 
@@ -72,31 +74,22 @@ Shader "Unlit/waterfallStyle"
 				v2f o;
                 float3 objectOrigin = mul(unity_ObjectToWorld, float4(0.0,0.0,0.0,1.0) );
                 float3 worldPos = mul (unity_ObjectToWorld, v.vertex).xyz;
-                half3   offsets = half3(0,0,0);
-                
-                o.viewToPixel.w = saturate(offsets.y);
-                o.viewToPixel.xyz = worldPos - _WorldSpaceCameraPos;
-                o.normalInterpolator.xyz = half3(0,1,0);
-                o.normalInterpolator.w = 1; 
-                
-                //this is what offsets the water
-                //the step makes sure that only the top of the water i affected
+                half3 offsets = half3(0,0,0);
+                float3 placement = worldPos.x-objectOrigin.x;
+                //_edgePosition.x*(worldPos.x-objectOrigin.x)+_edgePosition.y*(worldPos.z-objectOrigin.z);
+
                 float displacement = ((_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x+worldPos.z)*1000)/2300+_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x-worldPos.z)*500)/1000)-0.002);
                 
-                float fall = (0-step(0.3, 1 + worldPos.x-objectOrigin.x)); //the last part goes from -1 to 0 and should output 0.1 to 5
-                fall = step(0.1, 1 + worldPos.x-objectOrigin.x)/10;
-                //fall = 0.02*step(0.1, 1 + worldPos.x-objectOrigin.x) * (1-step(0.3, 1 + worldPos.x-objectOrigin.x));
-                o.transparencyFromFall = 1-step(-0.8, worldPos.x-objectOrigin.x);
-                //v.normal = newNormal.xyz;
-                
-                
-                //add the displacement
+                float fall = (0-step(0.3, 1 + placement)); //the last part goes from -1 to 0 and should output 0.1 to 5
+                fall = step(0.1, 1 + placement)/10;
+                o.transparencyFromFall = 1-step(-0.8, placement);
+
                 v.vertex.z += displacement - fall;
-                //change it to ??
+
 				o.position = UnityObjectToClipPos(v.vertex);
                 
                 o.displ = displacement;
-                //?? to change the normal to object?
+
                 o.normal = mul(
                     transpose((float3x3)unity_WorldToObject),
                     v.normal);
@@ -112,20 +105,7 @@ Shader "Unlit/waterfallStyle"
                UNITY_LIGHTMODEL_AMBIENT.rgb * _BaseColor.rgb;
 
             ambientLighting = float3(0.2,0.6+60*input.displ,0.8+(20*input.displ));
-            
-            
-            
-            //float3 specularReflection;
-            //if (dot(normalDirection, lightDirection) < 0.0) 
-            //   // light source on the wrong side?
-            //{
-            //   specularReflection = float3(0.0, 0.0, 0.0); 
-            //      // no specular reflection
-            //}
-            //else  
-            //{
-            //   specularReflection = attenuation * _LightColor0.rgb  * _SpecColor.rgb * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
-            //}
+
 
             return half4(ambientLighting, .9);
          }
@@ -137,16 +117,7 @@ Shader "Unlit/waterfallStyle"
                 float tft = i.transparencyFromFall;
                 col.a = step(0.0,i.normal.y)*_Transparency*tft;
                 return col;
-                
-                //return calculateBaseColor(i);
-				// sample the texture
-				//fixed4 col = fixed4(0,1,sqrt(i.position.z),0);
-                
-               // float3 worldPos = mul (unity_ObjectToWorld, i.position).xyz;
-                //return saturate(dot(float3(0, 1, 0), i.normal));
-               // return float4(0,0.2,1,1);
-                
-				// apply fog
+
 
 			}
 			ENDCG

@@ -50,7 +50,7 @@ public class BiomeManager : MonoBehaviour
         Blocks = new Dictionary<BlockType, Material>();
         foreach (BlockType bt in Enum.GetValues(typeof(BlockType)))
         {
-            Material m = Resources.Load<Material>("Materials/Blocks/" + bt);
+            Material m = Resources.Load<Material>("Blocks/" + bt);
             if (m == null)
             {
                 Blocks.TryGetValue(BlockType.Missing, out m);
@@ -64,7 +64,7 @@ public class BiomeManager : MonoBehaviour
         Shapes = new Dictionary<BlockShape, Transform>();
         foreach (BlockShape bs in Enum.GetValues(typeof(BlockShape)))
         {
-            Transform t = Resources.Load<Transform>("Materials/Shapes/" + bs);
+            Transform t = Resources.Load<Transform>("Shapes/" + bs);
             if (t == null)
             {
                 Shapes.TryGetValue(BlockShape.Cube, out t);

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class playerMovement : MonoBehaviour {
 
 	private float moveSpeed = 2.0f;
-    private float jumpSpeed = 5.0f;
+    private float jumpSpeed = 250.0f;
     public Rigidbody rigidBody;
     public Camera camera;
     private float interpolation = 10.0f;
@@ -54,7 +54,10 @@ public class playerMovement : MonoBehaviour {
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
-            rigidBody.velocity += jumpSpeed * Vector3.up;
+            //HARDCODED LIMIT FOR HOW HIGH YOU CAN JUMP
+            if (transform.position.y < 15.0) {
+                rigidBody.AddForce(Vector3.up * jumpSpeed);
+            }
         }
 
     }

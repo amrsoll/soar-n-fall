@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "Unlit/riverStyle"
+Shader "Unlit/waterfallStyle"
 {
 	Properties
 	{
@@ -12,6 +12,7 @@ Shader "Unlit/riverStyle"
         _AnimationSpeed("Animation speed", Range(0,3)) = 0
         _waveAmplitude("Amp range", Range(0,10)) = 0
         _Transparency("Transparency", Range(0.0,1)) = 0.99
+        _edgePosition("Edge position",Vector) = (0,0,0,0)
        
 	}
 	SubShader
@@ -79,26 +80,17 @@ Shader "Unlit/riverStyle"
                 
                 //this is what offsets the water
                 //the step makes sure that only the top of the water i affected
-                float displacement = step(0.0, worldPos.y-objectOrigin.y)*((_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x+worldPos.z)*1000)/2300+_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x-worldPos.z)*500)/1000)-0.002);
+                float displacement = ((_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x+worldPos.z)*1000)/2300+_waveAmplitude*sin(_Time.y*_AnimationSpeed + (worldPos.x-worldPos.z)*500)/1000)-0.002);
                 
-                //this is to calc Tangent and bit tangent to new pos - so we can find new normal for the light
-                //http://diary.conewars.com/vertex-displacement-shader/ ?
-
-                // TangentDisplacement = 
-                 float displacementx = step(0.0, worldPos.y-objectOrigin.y)*((_waveAmplitude*sin(_Time.y*_AnimationSpeed + v.vertex.y*1000)/3000+_waveAmplitude*sin(_Time.y*_AnimationSpeed + (v.vertex.x+0.1)*1000)/1000)-0.002);
+                float fall = (0-step(0.3, 1 + worldPos.x-objectOrigin.x)); //the last part goes from -1 to 0 and should output 0.1 to 5
+                fall = step(0.3, 1 + worldPos.x-objectOrigin.x)/70;
+                fall = 0.02*step(0.1, 1 + worldPos.x-objectOrigin.x) * (1-step(0.3, 1 + worldPos.x-objectOrigin.x));
                 
-                
-                float3 newTangent = (float3(0,0.1,displacementx)); // leaves just 'tangent'
-                float3 newBitangent = (float3(0.1,0,displacementx)); // leaves just 'bitangent'
-                float3 newNormal = cross( newTangent, newBitangent);
                 //v.normal = newNormal.xyz;
-                //this makes the normal negative if the dot is bellow the origin.
-                //this makes the normal negative if the dot is bellow the origin.
-                float y = 0.5+(1-step(0.0, worldPos.y-objectOrigin.y))*-1.0;
-                newNormal=float3(0,y,0);
-                v.normal = newNormal.xyz;
+                
+                
                 //add the displacement
-                v.vertex.y += displacement;
+                v.vertex.z += displacement - fall;
                 //change it to ??
 				o.position = UnityObjectToClipPos(v.vertex);
                 
@@ -114,35 +106,14 @@ Shader "Unlit/riverStyle"
             //inspired by  https://github.com/danielzeller/Lowpoly-Water-Unity/blob/master/Assets/Shaders/FlatShadedWaterWithEdgeBlend.shader
          half4 calculateBaseColor(v2f input)  
          {
-            float3 normalDirection = normalize(input.normalDir);
- 
-            float3 viewDirection = normalize(
-               _WorldSpaceCameraPos - input.posWorld.xyz);
-            float3 lightDirection;
-            float attenuation;
- 
-            if (0.0 == _WorldSpaceLightPos0.w) // directional light?
-            {
-               attenuation = 1.0; // no attenuation
-               lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-            } 
-            else // point or spot light
-            {
-               float3 vertexToLightSource = 
-                  _WorldSpaceLightPos0.xyz - input.posWorld.xyz;
-               float distance = length(vertexToLightSource);
-               attenuation = 1.0 / distance; // linear attenuation 
-               lightDirection = normalize(vertexToLightSource);
-            }
- 
+         
             float3 ambientLighting = 
                UNITY_LIGHTMODEL_AMBIENT.rgb * _BaseColor.rgb;
-            float3 _LightColor0 = (0,0,0);
-            float3 _SpecColor = (0,0,0);
-            float3 diffuseReflection = 
-               attenuation * _LightColor0.rgb * _BaseColor.rgb
-               * max(0.0, dot(normalDirection, lightDirection));
+
             ambientLighting = float3(0.2,0.6+60*input.displ,0.8+(20*input.displ));
+            
+            
+            
             //float3 specularReflection;
             //if (dot(normalDirection, lightDirection) < 0.0) 
             //   // light source on the wrong side?

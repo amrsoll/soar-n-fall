@@ -4,5 +4,6 @@
     Slope,
     SlopeAngle,
     Tree,
-    Tent
+    Tent,
+    River
 }

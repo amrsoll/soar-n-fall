@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.SceneManagement;
 
-public class playerMovement : MonoBehaviour {
+public class playerMovement2 : MonoBehaviour {
 
 	private float moveSpeed = 2.0f;
     private float jumpSpeed = 5.0f;
@@ -25,11 +24,6 @@ public class playerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.JoystickButton7))
-        {
-            SceneManager.LoadScene(0);
-        }
-
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
@@ -53,13 +47,8 @@ public class playerMovement : MonoBehaviour {
         }
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(KeyCode.JoystickButton12) || Input.GetKeyDown(KeyCode.Space)){
             rigidBody.velocity += jumpSpeed * Vector3.up;
-        }
-        if ( Input.GetKeyDown(KeyCode.H) )
-        {
-            Vector3 home = new Vector3(4.5f, 5.4f, 4.4f);
-            transform.position = home;
         }
 
     }

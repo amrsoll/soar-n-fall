@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4622fa797ee0f1f489d3c5b3b23385b4
+guid: 0c0272b949f751b409c4a0c521018a77
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -71,19 +71,6 @@ ModelImporter:
     4300020: Circle_003
     4300022: Circle_002
     4300024: Circle
-    6400000: Circle
-    6400002: Circle_002
-    6400004: Circle_003
-    6400006: Circle_004
-    6400008: Circle_005
-    6400010: Circle_006
-    6400012: Circle_007
-    6400014: Circle_008
-    6400016: Circle_009
-    6400018: Circle_010
-    6400020: Circle_011
-    6400022: Circle_012
-    6400024: Icosphere
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
@@ -113,41 +100,13 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Default Take
-      takeName: Default Take
-      firstFrame: 0
-      lastFrame: 120
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1

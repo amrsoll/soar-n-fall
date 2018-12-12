@@ -5,10 +5,11 @@ using UnityEngine;
 public class Axe : ItemController
 {
 	private static bool Movable = true;
-	
+    EventSoundTrigger SoundEvent;
 	
 	void Start()
 	{
+        SoundEvent = GameObject.Find("SoundManager").GetComponent<EventSoundTrigger>();
 	}
 	// Update is called once per frame
 	void Update () {
@@ -29,7 +30,10 @@ public class Axe : ItemController
             tree.gameObject.SetActive(false);
             treeStump.gameObject.SetActive(true);
 
-			return true;
+            SoundEvent.PlayClip("AxeSwing");
+
+
+            return true;
 		}
 		return false;
 	}

@@ -10,6 +10,9 @@ public class BiomeEditor : MonoBehaviour {
     public InputField inputField;
     public BlockController preview;
 
+    public Text currentTypeText;
+    public Text currentShapeText;
+
     Vector3 previewOffset;
 
     List<BlockType> types;
@@ -59,6 +62,12 @@ public class BiomeEditor : MonoBehaviour {
         }
         Destroy(newBlock.GetComponent<Collider>());
         preview = newBlock;
+
+        if (currentType == -1)
+            currentTypeText.text = "Type: Not used";
+        else
+            currentTypeText.text = "Type: " + types[currentType].ToString();
+        currentShapeText.text = "Shape: " + shapes[currentShape].ToString();
     }
 
     void MovePreview()
@@ -116,6 +125,16 @@ public class BiomeEditor : MonoBehaviour {
                 + Vector3.up * Input.GetAxis("Vertical");
             Camera.main.transform.LookAt(new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) * Biome.BlockSize * 0.5f);
 
+            if (Input.GetKeyUp(KeyCode.O))
+            {
+                currentType--;
+                if (currentType == -2)
+                {
+                    currentType = types.Count - 1;
+                }
+                RefreshPreview();
+            }
+
             if (Input.GetKeyUp(KeyCode.P))
             {
                 currentType++;
@@ -123,6 +142,18 @@ public class BiomeEditor : MonoBehaviour {
                 {
                     currentType = -1;
                 }
+                RefreshPreview();
+            }
+
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                currentShape--;
+                if (currentShape == -1)
+                {
+                    currentShape = shapes.Count - 1;
+                }
+                if (currentShape != 0)
+                    currentType = -1;
                 RefreshPreview();
             }
 
@@ -138,7 +169,7 @@ public class BiomeEditor : MonoBehaviour {
                 RefreshPreview();
             }
 
-            if (Input.GetKeyUp(KeyCode.O))
+            if (Input.GetKeyUp(KeyCode.R))
             {
                 currentRotation += 90;
                 if (currentRotation == 360)

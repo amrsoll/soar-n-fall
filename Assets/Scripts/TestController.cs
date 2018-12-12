@@ -8,10 +8,6 @@ public class TestController : MonoBehaviour {
 
     void Start()
     {
-        ConfigHandler c = new ConfigHandler();
-        c["a"] = 1;
-        c["b"] = Camera;
-        c.Save();
     }
     
 	void Update () {

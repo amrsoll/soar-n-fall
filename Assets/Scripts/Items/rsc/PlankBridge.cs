@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlankBridge : ItemController
 {
-	
+	private static bool Movable = false;
 	void Start()
 	{
 	}
@@ -13,29 +13,28 @@ public class PlankBridge : ItemController
 		
 	}
 	
-	
 	override public bool InteractWith(ItemController item)
 	{
-		GameObject obj = item.gameObject;
-		if (obj.GetComponent<BlockController>())
+		return false;
+	}
+	
+	override public bool Place(BlockController block)
+	{
+		if ((block.biomeCoords.x == Biome.XSize - 1 ||
+		     block.biomeCoords.x == 0 ||
+		     block.biomeCoords.z == Biome.ZSize - 1 ||
+		     block.biomeCoords.z == 0))
 		{
-			BlockController block = obj.GetComponent<BlockController>();
-			if ((block.biomeCoords.x == Biome.XSize - 1 ||
-			     block.biomeCoords.x == 0 ||
-			     block.biomeCoords.z == Biome.ZSize - 1 ||
-			     block.biomeCoords.z == 0))
+			Transform player = Manager.Player.transform;
+			Vector3 playerOrientation = Manager.Player.GetComponent<playerMovement>().currentDirection;
+			Vector3 biomeCenter = BiomeManager.BiomeToWorldPos(BiomeManager.WorldToBiomePos(player.position)) 
+			                      + CameraController.BiomeCenterOffset;
+			Vector3 relativePosInBiome = biomeCenter - player.position;
+			if (relativePosInBiome.x * playerOrientation.x >= 0 ||
+			    relativePosInBiome.z * playerOrientation.z >= 0)
 			{
-				Transform player = Manager.Player.transform;
-				Vector3 playerOrientation = Manager.Player.GetComponent<playerMovement>().currentDirection;
-				Vector3 biomeCenter = BiomeManager.BiomeToWorldPos(BiomeManager.WorldToBiomePos(player.position)) 
-				                      + CameraController.BiomeCenterOffset;
-				Vector3 relativePosInBiome = biomeCenter - player.position;
-				if (relativePosInBiome.x * playerOrientation.x >= 0 ||
-				    relativePosInBiome.z * playerOrientation.z >= 0)
-				{
-					//build bridge in playerOrientation
-					return false;
-				}
+				//build bridge in playerOrientation
+				return false;
 			}
 		}
 		return false;

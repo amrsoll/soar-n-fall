@@ -8,18 +8,16 @@ using UnityEngine.Serialization;
 
 public class ItemManager : MonoBehaviour {
 	public PlayerController Player;
-	public Transform Guide;
 
 	// The recipe ingredients should be listed in alphabetical order #performance
-	public Dictionary<List<string>, string> Recipees;
-	public Dictionary<string, ItemController> Items;
+	public Dictionary<List<Item>, Item> Recipees;
+	public Dictionary<Item, ItemController> Items;
 	
 	
 
 	// Use this for initialization
 	void Start ()
 	{
-		Guide = GameObject.Find("Guide").transform;
 		FillRecipeeBook();
 		LoadItems();
 	}
@@ -27,34 +25,39 @@ public class ItemManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.C)){
-			if (Player.inventory.Count > 0 && Player.collidingItems.Count > 0) {
-				ItemController result = Craft(Player.inventory.First(), Player.collidingItems.First());
-				Player.inventory.Add(result);
+			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
+				ItemController result = Craft(Player.Inventory.First(), Player.CollidingItems.First());
+				Player.Inventory.Add(result);
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
-			if (Player.inventory.Count == 0 && Player.collidingItems.Count > 0) {
-				Debug.Log(Player.collidingItems[0]);
-				Player.collidingItems.First().PickUp();
-				Debug.Log("Picking up");
+			if (Player.Inventory.Count == 0 && Player.CollidingItems.Count > 0) {
+				Player.PickUp(Player.CollidingItems.First());
 			}
-			else if(Player.inventory.Count > 0) {
-				Player.inventory.First().Release();
-				Debug.Log("Releasing");
+			else if(Player.Inventory.Count > 0) {
+				Player.Release(Player.Inventory.First());
 			}
-		} 
+		}
+
+		if ((/*Input.GetKeyDown(KeyCode.JoystickButton4) || */Input.GetKeyDown(KeyCode.Q))
+			&& Player.Inventory.Count > 0 
+		    && Player.CollidingItems.Count > 0)
+		{
+			Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
+		}
 	}
 	
-	public ItemController Craft(params ItemController[] items) {
-		List<string> ingredients = new List<string>();
+	
+	private ItemController Craft(params ItemController[] items) {
+		List<Item> ingredients = new List<Item>();
 		foreach (ItemController item in items)
-			ingredients.Add(item.name);
+			ingredients.Add(item.type);
 		ingredients.Sort();
 		if (Recipees.Keys.Contains(ingredients))
 		{
 			foreach (ItemController item in items)
 				Destroy(item.gameObject);
-			return Instantiate(Items[Recipees[ingredients]], Guide.transform);
+			return Instantiate(Items[Recipees[ingredients]], Player.Guide.transform);
 		}
 		return null;
 	}
@@ -63,9 +66,9 @@ public class ItemManager : MonoBehaviour {
 		tool.InteractWith(item);
 	}
 
-	private void AddRecipee(string result, params string[] ingredients)
+	private void AddRecipee(Item result, params Item[] ingredients)
 	{
-		List<string> ing = new List<string>();
+		List<Item> ing = new List<Item>();
 		foreach (var i in ingredients)
 			ing.Add(i);
 		ing.Sort();
@@ -74,18 +77,45 @@ public class ItemManager : MonoBehaviour {
 	
 	private void FillRecipeeBook()
 	{
-		Recipees = new Dictionary<List<string>, string>();
-		AddRecipee("Plank bridge", "Rope", "Plank");
+		Recipees = new Dictionary<List<Item>, Item>();
+		AddRecipee(Item.PlankBridge, Item.Rope, Item.Plank);
 	}
 	
 	private void LoadItems()
 	{
-		Items = new Dictionary<string, ItemController>();
-
-		ItemController[] items = Resources.LoadAll<ItemController>("Items/");
-		foreach (ItemController i in items)
+		Items = new Dictionary<Item, ItemController>();
+		foreach (Item i in Enum.GetValues(typeof(Item)))
 		{
-			Items.Add(i.name, i);
+			ItemController item = Resources.Load<ItemController>("Items/"+i);
+			Items.Add(i, item);
 		}
 	}
+	
+	public static ItemController Instantiate(ItemController item, Vector3 position, Quaternion rotation, Transform parent) 
+	{
+		// TODO check if object is inside a biome
+		GameObject a = Instantiate(item.gameObject, position, rotation, parent);
+		return a.GetComponent<ItemController>();
+	}
+	
+	public static ItemController Instantiate(ItemController item, Transform parent)
+	{
+		// TODO check if object is inside a biome
+		GameObject a = Instantiate(item.gameObject, parent);
+		return a.GetComponent<ItemController>();
+	}
+
+	public static ItemController Instantiate(ItemController item)
+	{
+		GameObject a = Instantiate(item.gameObject);
+		return a.GetComponent<ItemController>();
+	}
+	
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	{
+		ItemController item = Instantiate(Items[itemType], pos, q, this.transform);
+		item.Manager = this;
+		return item;
+	}
+	
 }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class playerMovement : MonoBehaviour {
 
 	private float moveSpeed = 2.0f;
-    private float jumpSpeed = 5.0f;
+    private float jumpSpeed = 250.0f;
     public Rigidbody rigidBody;
     public Camera camera;
     private float interpolation = 10.0f;
@@ -16,7 +16,7 @@ public class playerMovement : MonoBehaviour {
     float currentV = 0.0f;
     float currentH = 0.0f;
 
-    private Vector3 currentDirection = Vector3.zero;
+    public Vector3 currentDirection = Vector3.zero;
 
     // Use this for initialization
     void Start () {
@@ -25,10 +25,6 @@ public class playerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.JoystickButton7))
-        {
-            SceneManager.LoadScene(0);
-        }
 
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
@@ -54,7 +50,10 @@ public class playerMovement : MonoBehaviour {
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
-            rigidBody.velocity += jumpSpeed * Vector3.up;
+            //HARDCODED LIMIT FOR HOW HIGH YOU CAN JUMP
+            if (transform.position.y < 15.0) {
+                rigidBody.AddForce(Vector3.up * jumpSpeed);
+            }
         }
         if ( Input.GetKeyDown(KeyCode.H) )
         {

@@ -350,13 +350,26 @@ MonoBehaviour:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 404446259}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 20
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
 --- !u!114 &404446261
@@ -745,6 +758,7 @@ Camera:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 426673005}
   m_Enabled: 1
+<<<<<<< HEAD:Assets/Scenes/initialPlayerController.unity
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -881,12 +895,18 @@ AudioSource:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 426673005}
   m_Enabled: 1
+=======
+>>>>>>> waterEffect2:Assets/Scenes/initialPlayerController 1.unity
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243513585944544846, guid: 68d26842fff234798b27851454bdcfa4,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 712945477d8e14d82aefd147f8f48249, type: 3}
   m_PlayOnAwake: 1
+<<<<<<< HEAD:Assets/Scenes/initialPlayerController.unity
   m_Volume: 0.05
+=======
+  m_Volume: 0.025
+>>>>>>> waterEffect2:Assets/Scenes/initialPlayerController 1.unity
   m_Pitch: 1
   Loop: 1
   Mute: 0

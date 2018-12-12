@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.SceneManagement;
 
-public class playerMovement : MonoBehaviour {
+public class playerMovement2 : MonoBehaviour {
 
 	private float moveSpeed = 2.0f;
-    private float jumpSpeed = 250.0f;
+    private float jumpSpeed = 5.0f;
     public Rigidbody rigidBody;
     public Camera camera;
     private float interpolation = 10.0f;
@@ -16,7 +15,7 @@ public class playerMovement : MonoBehaviour {
     float currentV = 0.0f;
     float currentH = 0.0f;
 
-    public Vector3 currentDirection = Vector3.zero;
+    private Vector3 currentDirection = Vector3.zero;
 
     // Use this for initialization
     void Start () {
@@ -25,7 +24,6 @@ public class playerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
@@ -49,16 +47,8 @@ public class playerMovement : MonoBehaviour {
         }
         transform.position += currentDirection * moveSpeed * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
-            //HARDCODED LIMIT FOR HOW HIGH YOU CAN JUMP
-            if (transform.position.y < 15.0) {
-                rigidBody.AddForce(Vector3.up * jumpSpeed);
-            }
-        }
-        if ( Input.GetKeyDown(KeyCode.H) )
-        {
-            Vector3 home = new Vector3(4.5f, 5.4f, 4.4f);
-            transform.position = home;
+        if (Input.GetKeyDown(KeyCode.JoystickButton12) || Input.GetKeyDown(KeyCode.Space)){
+            rigidBody.velocity += jumpSpeed * Vector3.up;
         }
 
     }

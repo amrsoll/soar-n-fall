@@ -5,5 +5,6 @@
     SlopeAngle,
     Tree,
     Tent,
-    Lava
+    Lava,
+    River
 }

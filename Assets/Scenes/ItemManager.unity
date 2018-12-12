@@ -197,7 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 769530320}
-  Guide: {fileID: 2086582869}
 --- !u!4 &80768512
 Transform:
   m_ObjectHideFlags: 0
@@ -213,7 +212,7 @@ Transform:
   - {fileID: 1143470877}
   - {fileID: 414601307}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &110650491
 GameObject:
@@ -741,7 +740,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &769530319 stripped
 GameObject:
@@ -759,8 +758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061f9dd62d61942f4933315ca5317a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  collidingItems: []
+  Inventory: []
+  CollidingItems: []
+  Guide: {fileID: 0}
 --- !u!1 &888795485
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +911,10 @@ Prefab:
     - target: {fileID: 1338981412034204, guid: be6b8bbc99d211745a11c9309fe439d6, type: 2}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1343817553084400, guid: be6b8bbc99d211745a11c9309fe439d6, type: 2}
+      propertyPath: m_Name
+      value: Axe
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6b8bbc99d211745a11c9309fe439d6, type: 2}
@@ -1269,8 +1273,62 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &1851182700
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 5.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4691150164831142, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6673a912560794ed9853b7054bb68fa8, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1910035663
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,8 +1340,9 @@ GameObject:
   - component: {fileID: 1143470877}
   - component: {fileID: 1910035665}
   - component: {fileID: 1910035664}
+  - component: {fileID: 1910035666}
   m_Layer: 10
-  m_Name: Axe-ugly
+  m_Name: Axe
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1318,8 +1377,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &2086582869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1068007521940282, guid: 807bde9fa92424528b3882831db7c3c8,
-    type: 2}
-  m_PrefabInternal: {fileID: 135313492}
+--- !u!114 &1910035666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1910035663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf7a6e72a4054afc8d52726ffdf46e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Manager: {fileID: 80768511}

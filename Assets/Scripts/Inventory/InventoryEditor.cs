@@ -6,8 +6,8 @@ public class InventoryEditor : Editor
     private bool[] showItemSlots = new bool[Inventory.numItemSlots];
     private SerializedProperty itemImagesProperty;
     private SerializedProperty itemsProperty;
-    private const string inventoryPropItemImagesName = "itemImages";
-    private const string inventoryPropItemsName = "items";
+    private const string inventoryPropItemImagesName = "itemImagesInInventory";
+    private const string inventoryPropItemsName = "itemsInInventory";
     private void OnEnable ()
     {
         itemImagesProperty = serializedObject.FindProperty (inventoryPropItemImagesName);

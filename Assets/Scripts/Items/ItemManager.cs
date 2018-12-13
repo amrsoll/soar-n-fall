@@ -18,6 +18,7 @@ public class ItemManager : MonoBehaviour {
 	{
 		FillRecipeeBook();
 		LoadItems();
+		SpawnInItems();
 	}
 	
 	// Update is called once per frame
@@ -187,6 +188,13 @@ public class ItemManager : MonoBehaviour {
 		
 		if(youMayPlaceThis)
 			SpawnObject(item.type, pos, q);
+		return false;
+	}
+
+	private bool SpawnInItems()
+	{
+		SpawnObject(Item.Axe, new Vector3(7.8f, 5.4f, 6.1f), Quaternion.identity);
+		SpawnObject(Item.Tree, new Vector3(6f, 5f, 8f), Quaternion.identity);
 		return false;
 	}
 	

@@ -5,18 +5,15 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-    public Image[] itemImagesInInventory = new Image[numItemSlots];
-    public Item[] itemsInInventory = new Item[numItemSlots];
     public const int numItemSlots = 4;
+    public Image[] itemImagesInInventory;
+    public Item[] itemsInInventory = new Item[numItemSlots];
     public Dictionary<Item, Sprite> ItemImages;
+    public Sprite m_EmptySlotSprite;
+    public Image m_EmptySlotImg;
 
     void Start()
     {
-        //ItemImages.Add(Item.Axe, Axe);
-        /*ItemImages.Add(Item.PickAxe, PickAxe);
-        ItemImages.Add("Plank", Plank);
-        ItemImages.Add("Stone", Stone);
-        ItemImages.Add("Rope", Rope);*/
         LoadItems();
         Add(Item.PickAxe);
     }
@@ -27,12 +24,9 @@ public class Inventory : MonoBehaviour
         {
             if (itemsInInventory[i] == Item.Undefined)
             {
-                
                 itemsInInventory[i] = itemToAdd;
-                //Debug.Log("the sprite1: " + itemImagesInInventory[i].typeOf());
                 itemImagesInInventory[i].sprite = ItemImages[itemToAdd];
                 itemImagesInInventory[i].enabled = true;
-                Debug.Log("the sprite2: " + itemImagesInInventory[i]);
                 return;
             }
         }
@@ -50,6 +44,13 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+    }
+    
+    public void Remove(int index)
+    {
+        itemsInInventory[index] = Item.Undefined;
+        itemImagesInInventory[index].sprite = null;
+        itemImagesInInventory[index].enabled = false;
     }
 
     private void LoadItems()

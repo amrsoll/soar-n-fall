@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4569699330221532}
   - component: {fileID: 65488921504718000}
   - component: {fileID: 54305290236082412}
-  - component: {fileID: 114765718954694736}
+  - component: {fileID: 114260009020653796}
   m_Layer: 0
   m_Name: Metal
   m_TagString: Interactable
@@ -126,7 +126,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -142,7 +142,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.35, y: 0.38, z: 0.3}
   m_Center: {x: 0, y: 0.19, z: 0}
---- !u!114 &114765718954694736
+--- !u!114 &114260009020653796
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,7 +150,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1615037611481636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bf7a6e72a4054afc8d52726ffdf46e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 32c6756e018dc407ca4c6975b66931fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
+  Movable: 1
+  type: 10

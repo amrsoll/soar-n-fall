@@ -2,11 +2,16 @@
 {
 	Undefined,
 	Tree,
-	Axe,	
+	Axe,
+    PickAxe,
 	Flower,
 	Ladder,
 	Plank,
 	Rope,
-	PlankBridge,
 	TreasureChest
+	PlankBridge,
+    Stone,
+    Metal,
+    Fire,
+    Nails,
 }

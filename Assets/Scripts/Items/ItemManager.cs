@@ -110,6 +110,7 @@ public class ItemManager : MonoBehaviour {
 	{
 		Recipees = new Dictionary<List<Item>, Item>();
 		AddRecipee(Item.PlankBridge, Item.Rope, Item.Plank);
+        AddRecipee(Item.Ladder, Item.Nails, Item.Plank);
 	}
 	
 	private void LoadItems()
@@ -194,7 +195,7 @@ public class ItemManager : MonoBehaviour {
 	private bool SpawnInItems()
 	{
 		SpawnObject(Item.Axe, new Vector3(7.8f, 5.4f, 6.1f), Quaternion.identity);
-		SpawnObject(Item.Tree, new Vector3(6f, 5f, 8f), Quaternion.identity);
+        SpawnObject(Item.Tree, new Vector3(6f, 5f, 8f), Quaternion.AngleAxis(-90f, new Vector3(1, 0, 0)));
 		return false;
 	}
 	

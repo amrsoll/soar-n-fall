@@ -33,6 +33,11 @@ public class ItemController : MonoBehaviour {
 	{
 		return false;
 	}
+
+	public virtual bool InteractWith()
+	{
+		return false;
+	}
 	
 	
 	//TODO place bridges

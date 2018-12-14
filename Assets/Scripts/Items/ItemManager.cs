@@ -40,10 +40,13 @@ public class ItemManager : MonoBehaviour {
 		}
 
 		if ((/*Input.GetKeyDown(KeyCode.JoystickButton4) || */Input.GetKeyDown(KeyCode.Q))
-			&& Player.Inventory.Count > 0 
 		    && Player.CollidingItems.Count > 0)
 		{
-			Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
+			bool res = Player.CollidingItems.Last().InteractWith();
+			Debug.Log("Trying to interact with " + Player.CollidingItems.Last().type);
+			if (! res &&
+			    Player.Inventory.Count > 0)
+				Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
 		}
 	}
 	

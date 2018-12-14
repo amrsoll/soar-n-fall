@@ -228,6 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
+  Movable: 1
+  type: 0
 --- !u!114 &114997862778538950
 MonoBehaviour:
   m_ObjectHideFlags: 1

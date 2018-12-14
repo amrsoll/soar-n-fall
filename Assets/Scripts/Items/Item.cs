@@ -7,5 +7,6 @@
 	Ladder,
 	Plank,
 	Rope,
-	PlankBridge
+	PlankBridge,
+	TreasureChest
 }

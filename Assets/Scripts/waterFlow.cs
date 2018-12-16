@@ -3,29 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class waterFlow : MonoBehaviour {
-    // Use this for initialization
+    BiomeController biomeController;
+    Vector3Int myCordinates;
+    Transform waterfall;
 
     void Start () {
-        BiomeController biomeController = transform.parent.GetComponent<BiomeController>();
-        if (biomeController == null){
-            return;
-        }
-        Vector3Int myCordinates = GetComponent<BlockController>().biomeCoords;
-
-        if (biomeController.GetBlock(new Vector3Int(myCordinates.x, myCordinates.y + 1, myCordinates.z)) == null){
-            Debug.Log("boi");
-        }
-        //ym = biomeController.GetBlock(new Vector3Int(myCordinates.x, myCordinates.y - 1, myCordinates.z));
-        //xp = biomeController.GetBlock(new Vector3Int(myCordinates.x + 1, myCordinates.y, myCordinates.z));
-        //xm = biomeController.GetBlock(new Vector3Int(myCordinates.x - 1, myCordinates.y, myCordinates.z));
-
-
-
-
-
+        biomeController = transform.parent.GetComponent<BiomeController>();
+        if (biomeController == null) return;
+        myCordinates = GetComponent<BlockController>().biomeCoords; 
     }
-    // Update is called once per frame
+    
     void Update () {
-        
-	}
+        if (biomeController == null) return;
+
+        int blocksDown = HowManyBlocksDown(1, 0);
+        if (blocksDown > 0)
+        {
+            if (waterfall == null)
+            {
+                waterfall = Instantiate(biomeController.Manager.GetBlockShape(BlockShape.Waterfall), transform);
+                waterfall.localPosition = new Vector3(1, 0, 0);
+            }
+            Renderer re = waterfall.GetComponentInChildren<Renderer>();
+            re.material.SetFloat("_FallPlacement", transform.position.x + Biome.BlockSize + 0.2f);
+            re.material.SetFloat("_FallLength", blocksDown * 0.6f);
+        } else
+        {
+            if (waterfall != null)
+            {
+                Destroy(waterfall.gameObject);
+            }
+        }
+    }
+
+    int HowManyBlocksDown(int xOffset, int zOffset)
+    {
+        int counter = 0;
+        Vector3Int pos = new Vector3Int(myCordinates.x + xOffset, myCordinates.y, myCordinates.z + zOffset);
+        while (pos.y >= 0)
+        {
+            if (biomeController.GetBlock(pos) == null)
+            {
+                counter++;
+                pos.y--;
+            } else
+            {
+                break;
+            }
+        }
+        return counter;
+    }
 }

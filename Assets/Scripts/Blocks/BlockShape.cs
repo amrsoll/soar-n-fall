@@ -7,5 +7,6 @@ public enum BlockShape
     Tent,
     Lava,
     River,
-    Quicksand
+    Quicksand,
+    Waterfall
 }

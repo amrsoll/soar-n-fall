@@ -2,113 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class waterFlow : MonoBehaviour {
-    // Use this for initialization
+public class WaterFlow : MonoBehaviour {
     BiomeController biomeController;
     Vector3Int myCordinates;
-    BlockController blockController;
-    List<GameObject> waterfalls;
-
-
+    Transform waterfall;
 
     void Start () {
         biomeController = transform.parent.GetComponent<BiomeController>();
-        if (biomeController == null){
-            return;
-        }
-        blockController = GetComponent<BlockController>();
-        myCordinates = blockController.biomeCoords;
-
-
-
-
-        //ym = biomeController.GetBlock(new Vector3Int(myCordinates.x, myCordinates.y - 1, myCordinates.z));
-        //xp = biomeController.GetBlock(new Vector3Int(myCordinates.x + 1, myCordinates.y, myCordinates.z));
-        //xm = biomeController.GetBlock(new Vector3Int(myCordinates.x - 1, myCordinates.y, myCordinates.z));
-
-
-
-
-
+        if (biomeController == null) return;
+        myCordinates = GetComponent<BlockController>().biomeCoords; 
     }
-    // Update is called once per frame
+    
     void Update () {
-        
-	}
+        if (biomeController == null) return;
+
+        int blocksDown = HowManyBlocksDown(1, 0);
+        if (blocksDown > 0)
+        {
+            if (waterfall == null)
+            {
+                waterfall = Instantiate(biomeController.Manager.GetBlockShape(BlockShape.Waterfall), transform);
+                waterfall.localPosition = new Vector3(1, 0, 0);
+            }
+            Renderer re = waterfall.GetComponentInChildren<Renderer>();
+            re.material.SetFloat("_FallPlacement", transform.position.x + Biome.BlockSize + 0.2f);
+            re.material.SetFloat("_FallLength", blocksDown * 0.6f);
+        } else
+        {
+            if (waterfall != null)
+            {
+                Destroy(waterfall.gameObject);
+            }
+        }
+    }
+
     int HowManyBlocksDown(int xOffset, int zOffset)
     {
-        if (biomeController.GetBlock(new Vector3Int(myCordinates.x + xOffset, myCordinates.y, myCordinates.z + zOffset)) == null)
+        int counter = 0;
+        Vector3Int pos = new Vector3Int(myCordinates.x + xOffset, myCordinates.y, myCordinates.z + zOffset);
+        while (pos.y >= 0)
         {
-            if (biomeController.GetBlock(new Vector3Int(myCordinates.x + xOffset, myCordinates.y -1 , myCordinates.z + zOffset)) == null)
+            if (biomeController.GetBlock(pos) == null)
             {
-                if (biomeController.GetBlock(new Vector3Int(myCordinates.x + xOffset, myCordinates.y - 2, myCordinates.z + zOffset)) == null)
-                {
-                    return -3;
-                }
-                return -2;
-            }
-            return -1;
-        }
-        return 0;
-    }
-
-
-
-    public BlockController SetBlock(Vector3Int pos, BlockShape shape, BlockType material)
-    {
-        BlockController block = SetBlock(pos, shape);
-        if (block == null) return null;
-        block.SetType(material);
-        Material mat = Manager.GetBlockMaterial(material);
-        MeshRenderer mr = block.GetComponent<MeshRenderer>();
-        if (mr == null)
-        {
-            foreach (MeshRenderer mrchild in block.GetComponentsInChildren<MeshRenderer>())
+                counter++;
+                pos.y--;
+            } else
             {
-                if (mrchild != null) mrchild.material = mat;
+                break;
             }
         }
-        else
-        {
-            mr.material = mat;
-        }
-        return block;
+        return counter;
     }
-
-
-
-    public BlockController SetBlock(Vector3Int pos, BlockShape shape)
-    {
-
-
-        //CHECK if EXISTING
-        if (existingBlock != null)
-        {
-            Destroy(existingBlock.gameObject);
-        }
-        //if X or Y
-        Transform t = Instantiate(Manager.GetBlockShape(waterfall), transform);
-        t.name = String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z);
-        t.localPosition = (t.localPosition + pos) * Biome.BlockSize;
-        t.localScale *= Biome.BlockSize;
-
-        return t.gameObject.AddComponent<BlockController>().SetBiomeCoords(pos).SetShape(shape).SetType(BlockType.Missing);
-    }
-
-    public void WaterFallSpawn (int x, int y, int lengthOfFall){
-        //CHECK if EXISTING
-        if (existingBlock != null)
-        {
-            Destroy(existingBlock.gameObject);
-        }
-        //if X or Y change value of watefall
-
-        //gameObject waterfall = Waterfall X;
-
-
-        //shape 
-        Transform t = Instantiate(Manager.GetBlockShape(waterfall), transform);
-    }
-
-
 }

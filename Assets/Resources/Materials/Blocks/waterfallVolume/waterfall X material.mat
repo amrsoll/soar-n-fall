@@ -60,8 +60,8 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FallLength: 1
-    - _FallPlacement: 0
+    - _FallLength: 1.5
+    - _FallPlacement: -1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -76,7 +76,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - _height: 0
-    - _isX: 0
+    - _isX: 1
     - _waveAmplitude: 1.48
     m_Colors:
     - _BaseColor: {r: 0.54, g: 0.95, b: 0.99, a: 0.5}

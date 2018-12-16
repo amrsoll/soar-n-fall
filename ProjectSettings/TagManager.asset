@@ -11,6 +11,7 @@ TagManager:
   - tree
   - bridge
   - Interactable
+  - ItemManager
   layers:
   - Default
   - TransparentFX

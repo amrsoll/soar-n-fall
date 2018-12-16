@@ -1,5 +1,6 @@
 ﻿public enum Item
 {
+<<<<<<< HEAD
 	Undefined = 0,
 	Tree = 1,
 	Axe = 2,

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterFlow : MonoBehaviour {
+public class waterFlow : MonoBehaviour {
     BiomeController biomeController;
     Vector3Int myCordinates;
     Transform waterfall;

@@ -8,7 +8,7 @@
 	Ladder,
 	Plank,
 	Rope,
-	TreasureChest
+	TreasureChest,
 	PlankBridge,
     Stone,
     Metal,

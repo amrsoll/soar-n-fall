@@ -146,11 +146,16 @@ public class ItemManager : MonoBehaviour {
 		return a.GetComponent<ItemController>();
 	}
 	
-	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q, Transform parent)
 	{
-		ItemController item = Instantiate(Items[itemType], pos, q, this.transform);
+		ItemController item = Instantiate(Items[itemType], pos, q, parent);
 		item.Manager = this;
 		return item;
+	}
+	
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	{
+		return SpawnObject(itemType, pos, q, this.transform);
 	}
 	
 	// place an object on top of a block

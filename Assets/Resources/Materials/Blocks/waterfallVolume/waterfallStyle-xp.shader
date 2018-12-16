@@ -72,7 +72,7 @@ Shader "Unlit/waterfallStyle"
 			v2f vert (appdata v)
 			{   
 				v2f o;
-                float3 objectOrigin = mul(unity_ObjectToWorld, float4(0.0,0.0,0.0,1.0) );
+                float3 objectOrigin = mul(unity_ObjectToWorld, float4(0.0,1.0,0.0,0.0) );
                 float3 worldPos = mul (unity_ObjectToWorld, v.vertex).xyz;
                 half3 offsets = half3(0,0,0);
                 float3 placement = worldPos.x-objectOrigin.x;

@@ -110,6 +110,7 @@ public class BiomeController : MonoBehaviour
             writer.Write((byte)Type);
             writer.Write(transform.localPosition);
         }
+
         writer.Write(blockCount);
         for (int x = 0; x < Biome.XSize; x++)
         {
@@ -121,6 +122,13 @@ public class BiomeController : MonoBehaviour
                     if (block != null) block.Save(writer);
                 }
             }
+        }
+
+        ItemController[] items = GetComponentsInChildren<ItemController>();
+        writer.Write(items.Length);
+        foreach (ItemController item in items)
+        {
+            item.Save(writer);
         }
     }
 
@@ -143,6 +151,15 @@ public class BiomeController : MonoBehaviour
 
             block.name = name;
             block.transform.localRotation = reader.ReadQuaternion();
+        }
+
+        ItemManager itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+        int fileItemCount = reader.ReadInt32();
+        for (int i = 0; i < fileItemCount; i++)
+        {
+            ItemController newItem = Instantiate(itemManager.Items[(Item)reader.ReadByte()], transform);
+            newItem.transform.localPosition = reader.ReadVector3();
+            newItem.transform.localRotation = reader.ReadQuaternion();
         }
     }
 }

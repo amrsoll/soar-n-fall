@@ -14,4 +14,5 @@
     Metal,
     Fire,
     Nails,
+    Key
 }

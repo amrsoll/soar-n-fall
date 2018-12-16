@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 // Class attached to every item in the game
@@ -38,7 +40,13 @@ public class ItemController : MonoBehaviour {
 	{
 		return false;
 	}
-	
-	
-	//TODO place bridges
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write((byte)type);
+        writer.Write(transform.localPosition);
+        writer.Write(transform.localRotation);
+    }
+
+    //TODO place bridges
 }

@@ -79,11 +79,13 @@ public class BiomeManager : MonoBehaviour
         }
     }
 
-    void Start () {
+    void Awake () {
         RegisterBiomes();
         LoadBlocks();
         LoadShapes();
-
+    }
+	
+	void Start () {
         if (!isEditor)
         {
             CreateBiome(Vector3Int.zero, BiomeType.Home);
@@ -95,10 +97,6 @@ public class BiomeManager : MonoBehaviour
             CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
         }
     }
-	
-	void Update () {
-		
-	}
 
     /** <summary>
      * Creates a new biome at the specified biome-space coordinates with the specified type

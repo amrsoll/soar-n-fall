@@ -139,4 +139,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
   Movable: 0
-  type: 9
+  type: 10

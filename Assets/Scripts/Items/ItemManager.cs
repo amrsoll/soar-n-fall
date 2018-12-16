@@ -8,21 +8,31 @@ using UnityEngine.Serialization;
 
 public class ItemManager : MonoBehaviour {
 	public PlayerController Player;
+    public bool isEditor = false;
 
 	// The recipe ingredients should be listed in alphabetical order #performance
 	public Dictionary<List<Item>, Item> Recipees;
 	public Dictionary<Item, ItemController> Items;
 	
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
 		FillRecipeeBook();
 		LoadItems();
-		SpawnInItems();
 	}
+
+    void Start ()
+    {
+        if (!isEditor)
+        {
+            SpawnInItems();
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        if (isEditor) return;
+
 		if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.C)){
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
 				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
@@ -122,7 +132,11 @@ public class ItemManager : MonoBehaviour {
 		foreach (Item i in Enum.GetValues(typeof(Item)))
 		{
 			ItemController item = Resources.Load<ItemController>("Items/"+i);
-			Items.Add(i, item);
+            if (item == null)
+            {
+                Items.TryGetValue(Item.Undefined, out item);
+            }
+            Items.Add(i, item);
 		}
 	}
 	

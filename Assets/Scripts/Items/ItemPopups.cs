@@ -15,10 +15,11 @@ public class ItemPopups : MonoBehaviour {
         Collider[] near = Physics.OverlapSphere(transform.position, 2f);
         foreach (Collider col in near)
         {
-            if (col.GetComponent<ItemController>() == null) continue;
+            ItemController it = col.GetComponent<ItemController>();
+            if (it == null) continue;
             GameObject newPopup = Instantiate<GameObject>(popupPrefab, container);
             newPopup.transform.position = Camera.main.WorldToScreenPoint(col.transform.position + Vector3.up);
-            newPopup.GetComponent<TMPro.TextMeshProUGUI>().text = col.name;
+            newPopup.GetComponent<TMPro.TextMeshProUGUI>().text = it.type.ToString();
         }
 	}
 }

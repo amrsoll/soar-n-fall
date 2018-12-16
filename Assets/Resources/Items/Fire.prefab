@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
   Movable: 1
-  type: 11
+  type: 12
 --- !u!198 &198000011545952112
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -23,10 +23,7 @@ public class ItemManager : MonoBehaviour {
 
     void Start ()
     {
-        if (!isEditor)
-        {
-            SpawnInItems();
-        }
+        
     }
 	
 	// Update is called once per frame

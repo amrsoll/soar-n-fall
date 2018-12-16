@@ -5,5 +5,6 @@
     Forest,
     Desert,
     Ocean,
-    Volcano
+    Volcano,
+    QuickPremade
 }

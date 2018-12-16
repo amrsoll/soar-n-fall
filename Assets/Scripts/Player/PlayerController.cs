@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerExit(Collider c)
 	{
 		ItemController item = c.gameObject.GetComponent<ItemController>();
+        if (item == null) return;
+
 		CollidingItems.Remove(item);
 		item.Selected = false;
 		// TODO stop applying transparency shader to this item

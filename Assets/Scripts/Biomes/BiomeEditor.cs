@@ -316,7 +316,9 @@ public class BiomeEditor : MonoBehaviour {
                         }
                     } else
                     {
-                        Instantiate(preview, biome.transform);
+                        ItemController newItem = Instantiate(itemManager.Items[items[currentType]], biome.transform);
+                        newItem.transform.position = preview.position;
+                        newItem.transform.localRotation = preview.localRotation;
                     }
                 }
             }

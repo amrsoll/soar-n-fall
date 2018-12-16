@@ -41,6 +41,11 @@ public class ItemController : MonoBehaviour {
 		return false;
 	}
 
+	public virtual bool InteractWith(BlockController block)
+	{
+		return false;
+	}
+
     public void Save(BinaryWriter writer)
     {
         writer.Write((byte)type);

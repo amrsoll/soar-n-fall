@@ -15,7 +15,7 @@ public class Axe : ItemController
 		
 	}
 	
-	override public bool InteractWith(ItemController item)
+	public override bool InteractWith(ItemController item)
 	{
 		Debug.Log(item.name.ToString());
 		if (item.type == Item.Tree)

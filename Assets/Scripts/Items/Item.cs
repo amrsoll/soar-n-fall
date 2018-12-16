@@ -8,5 +8,8 @@
 	Plank,
 	Rope,
 	PlankBridge,
-	PickAxe
+	PickAxe,
+	Stone,
+	Tresaurechest,
+	Wateringpot
 }

@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
+  type: 6
 --- !u!136 &136319021793146718
 CapsuleCollider:
   m_ObjectHideFlags: 1

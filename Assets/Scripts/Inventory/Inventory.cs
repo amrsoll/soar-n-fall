@@ -6,15 +6,17 @@ using System.Collections.Generic;
 public class Inventory : MonoBehaviour
 {
     public const int numItemSlots = 4;
-    public Image[] itemImagesInInventory;
+    public Image[] itemImagesInInventory = new Image[numItemSlots];
     public Item[] itemsInInventory = new Item[numItemSlots];
     public Dictionary<Item, Sprite> ItemImages;
     public Sprite m_EmptySlotSprite;
     public Image m_EmptySlotImg;
+    public GameObject ItemManager;
 
     void Start()
     {
         LoadItems();
+        LoadItemList();
     }
 
     public void Add(Item itemToAdd)
@@ -30,8 +32,12 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    void Update()
+    {
+    }
     
-    public void Remove(Item itemToRemove)
+    /*public void Remove(Item itemToRemove)
     {
         for (int i = 0; i < itemsInInventory.Length; i++)
         {
@@ -43,13 +49,15 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
-    }
+    }*/
     
     public void Remove(int index)
     {
+        ItemManager.GetComponent<ItemManager>().SpawnObject(itemsInInventory[index], ItemManager.GetComponent<ItemManager>().Player.Guide.transform.position, Quaternion.identity);
         itemsInInventory[index] = Item.Undefined;
         itemImagesInInventory[index].sprite = null;
         itemImagesInInventory[index].enabled = false;
+        
     }
 
     private void LoadItems()
@@ -59,6 +67,14 @@ public class Inventory : MonoBehaviour
         {
             Sprite sprite = Resources.Load<Sprite>("ItemSprites/"+i);
             ItemImages.Add(i, sprite);
+        }
+    }
+
+    private void LoadItemList()
+    {
+        for(int i = 0; i < itemsInInventory.Length; i++)
+        {
+            itemsInInventory[i] = Item.Undefined;
         }
     }
 }

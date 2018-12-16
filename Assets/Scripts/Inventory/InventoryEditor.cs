@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using UnityEditor;
 [CustomEditor(typeof(Inventory))]
 public class InventoryEditor : Editor
@@ -36,4 +36,4 @@ public class InventoryEditor : Editor
         EditorGUI.indentLevel--;
         EditorGUILayout.EndVertical ();
     }
-}
+}*/

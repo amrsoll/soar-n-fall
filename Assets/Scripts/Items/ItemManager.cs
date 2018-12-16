@@ -26,7 +26,7 @@ public class ItemManager : MonoBehaviour {
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
 				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
 				if(result != Item.Undefined)
-					Player.Inventory.Add(SpawnObject(result, Player.Guide.transform.position, Quaternion.identity));
+					Player.GetComponent<Inventory>().Add(result);
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){

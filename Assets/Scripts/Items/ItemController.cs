@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 // Class attached to every item in the game
 public class ItemController : MonoBehaviour {
 	// Use if some object will interact with the environment
 	public ItemManager Manager;
-	private static bool Movable = true;
+	public bool Movable = true;
 	public Item type;
 	
 	// Use this for initialization
@@ -33,11 +35,18 @@ public class ItemController : MonoBehaviour {
 	{
 		return false;
 	}
-	
-	public virtual bool Place(BlockController block)
+
+	public virtual bool InteractWith()
 	{
 		return false;
 	}
-	
-	//TODO place bridges
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write((byte)type);
+        writer.Write(transform.localPosition);
+        writer.Write(transform.localRotation);
+    }
+
+    //TODO place bridges
 }

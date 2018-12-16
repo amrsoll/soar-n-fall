@@ -10,14 +10,15 @@ public class BiomeManager : MonoBehaviour
     public Dictionary<BlockType, Material> Blocks;
     public Dictionary<BlockShape, Transform> Shapes;
     public BiomeController BiomePrefab;
+    public bool isEditor = false;
 
     public static Vector3Int WorldToBiomePos(Vector3 worldPos)
     {
         worldPos /= Biome.BlockSize;
         Vector3Int biomePos = new Vector3Int(
-            (int)Math.Floor((worldPos.x + Biome.BiomeSpacing / 2) / (Biome.XSize + Biome.BiomeSpacing - 1)),
-            (int)Math.Floor((worldPos.y + Biome.BiomeSpacing / 2) / (Biome.YSize + Biome.BiomeSpacing - 1)),
-            (int)Math.Floor((worldPos.z + Biome.BiomeSpacing / 2) / (Biome.ZSize + Biome.BiomeSpacing - 1))
+            Mathf.FloorToInt((worldPos.x + Biome.BiomeSpacing / 2) / (Biome.XSize + Biome.BiomeSpacing - 1)),
+            Mathf.FloorToInt((worldPos.y + Biome.BiomeSpacing / 2) / (Biome.YSize + Biome.BiomeSpacing - 1)),
+            Mathf.FloorToInt((worldPos.z + Biome.BiomeSpacing / 2) / (Biome.ZSize + Biome.BiomeSpacing - 1))
         );
         return biomePos;
     }
@@ -31,6 +32,12 @@ public class BiomeManager : MonoBehaviour
             biomePos.z * (Biome.ZSize + Biome.BiomeSpacing - 1)
         );
         return worldPos;
+    }
+    
+    public static Vector3 BlockToWorldPos(Vector3Int biomePos, Vector3Int blockPos)
+    {
+        blockPos *= Biome.BlockSize;
+        return blockPos + BiomeToWorldPos(biomePos);
     }
 
     void RegisterBiomes()
@@ -49,7 +56,7 @@ public class BiomeManager : MonoBehaviour
         Blocks = new Dictionary<BlockType, Material>();
         foreach (BlockType bt in Enum.GetValues(typeof(BlockType)))
         {
-            Material m = Resources.Load<Material>("Materials/Blocks/" + bt);
+            Material m = Resources.Load<Material>("Blocks/" + bt);
             if (m == null)
             {
                 Blocks.TryGetValue(BlockType.Missing, out m);
@@ -63,7 +70,7 @@ public class BiomeManager : MonoBehaviour
         Shapes = new Dictionary<BlockShape, Transform>();
         foreach (BlockShape bs in Enum.GetValues(typeof(BlockShape)))
         {
-            Transform t = Resources.Load<Transform>("Materials/Shapes/" + bs);
+            Transform t = Resources.Load<Transform>("Shapes/" + bs);
             if (t == null)
             {
                 Shapes.TryGetValue(BlockShape.Cube, out t);
@@ -72,23 +79,24 @@ public class BiomeManager : MonoBehaviour
         }
     }
 
-    void Start () {
+    void Awake () {
         RegisterBiomes();
         LoadBlocks();
         LoadShapes();
-
-        CreateBiome(Vector3Int.zero, BiomeType.Home);
-        CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
-        CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
-        CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
-        CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
     }
 	
-	void Update () {
-		
-	}
+	void Start () {
+        if (!isEditor)
+        {
+            CreateBiome(Vector3Int.zero, BiomeType.Home);
+            //CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
+            CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
+            CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
+            CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+        }
+    }
 
     /** <summary>
      * Creates a new biome at the specified biome-space coordinates with the specified type

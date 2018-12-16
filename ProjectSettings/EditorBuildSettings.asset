@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/HelloWorld.unity
     guid: 6c9424b7dfad148d88b972d8be415a7c
+  - enabled: 0
+    path: Assets/Scenes/soundManager.unity
+    guid: 565d6d4d4bef54d008e997fefdb447ce
   m_configObjects: {}

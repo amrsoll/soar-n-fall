@@ -8,20 +8,31 @@ using UnityEngine.Serialization;
 
 public class ItemManager : MonoBehaviour {
 	public PlayerController Player;
+    public bool isEditor = false;
 
 	// The recipe ingredients should be listed in alphabetical order #performance
 	public Dictionary<List<Item>, Item> Recipees;
 	public Dictionary<Item, ItemController> Items;
 	
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
 		FillRecipeeBook();
 		LoadItems();
 	}
+
+    void Start ()
+    {
+        if (!isEditor)
+        {
+            SpawnInItems();
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        if (isEditor) return;
+
 		if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.C)){
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
 				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
@@ -39,10 +50,13 @@ public class ItemManager : MonoBehaviour {
 		}
 
 		if ((/*Input.GetKeyDown(KeyCode.JoystickButton4) || */Input.GetKeyDown(KeyCode.Q))
-			&& Player.Inventory.Count > 0 
 		    && Player.CollidingItems.Count > 0)
 		{
-			Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
+			bool res = Player.CollidingItems.Last().InteractWith();
+			Debug.Log("Trying to interact with " + Player.CollidingItems.Last().type);
+			if (! res &&
+			    Player.Inventory.Count > 0)
+				Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
 		}
 	}
 	
@@ -109,6 +123,7 @@ public class ItemManager : MonoBehaviour {
 	{
 		Recipees = new Dictionary<List<Item>, Item>();
 		AddRecipee(Item.PlankBridge, Item.Rope, Item.Plank);
+        AddRecipee(Item.Ladder, Item.Nails, Item.Plank);
 	}
 	
 	private void LoadItems()
@@ -117,7 +132,11 @@ public class ItemManager : MonoBehaviour {
 		foreach (Item i in Enum.GetValues(typeof(Item)))
 		{
 			ItemController item = Resources.Load<ItemController>("Items/"+i);
-			Items.Add(i, item);
+            if (item == null)
+            {
+                Items.TryGetValue(Item.Undefined, out item);
+            }
+            Items.Add(i, item);
 		}
 	}
 	
@@ -141,11 +160,66 @@ public class ItemManager : MonoBehaviour {
 		return a.GetComponent<ItemController>();
 	}
 	
-	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q, Transform parent)
 	{
-		ItemController item = Instantiate(Items[itemType], pos, q, this.transform);
+		ItemController item = Instantiate(Items[itemType], pos, q, parent);
 		item.Manager = this;
 		return item;
+	}
+	
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	{
+		return SpawnObject(itemType, pos, q, this.transform);
+	}
+	
+	// place an object on top of a block
+	public bool Place(ItemController item, BlockController block)
+	{
+		bool youMayPlaceThis = false;
+		Vector3 pos = Vector3.zero;
+		Quaternion q = Quaternion.identity;
+		// case of the bridge
+		if (item.type == Item.PlankBridge)
+		{
+			int bx = block.biomeCoords.x;
+			int by = block.biomeCoords.y;
+			int bz = block.biomeCoords.z;
+			if (bx == Biome.XSize - 1 ||
+			    bx == 0)
+			{
+				q = Quaternion.identity * Quaternion.AngleAxis(90,Vector3.up);
+				if (bx == 0) pos.x -= (float)Biome.BiomeSpacing / 2; 
+				else         pos.x += (float)Biome.BiomeSpacing / 2; 
+				youMayPlaceThis = true;
+			}
+			else if (bz == Biome.ZSize - 1 ||
+			         bz == 0)
+			{
+				q = Quaternion.identity;
+				if (bz == 0) pos.z -= (float)Biome.BiomeSpacing / 2; 
+				else         pos.z += (float)Biome.BiomeSpacing / 2; 
+				youMayPlaceThis = true;
+			}
+			if(youMayPlaceThis)
+			{
+				Vector3Int blockPos = new Vector3Int(bx, by, bz);
+				Vector3Int biomePos = BiomeManager.WorldToBiomePos(Player.transform.position);
+				pos += BiomeManager.BiomeToWorldPos(biomePos) + blockPos * Biome.BlockSize;
+			}
+			return true;
+		}
+		
+		if(youMayPlaceThis)
+			SpawnObject(item.type, pos, q);
+		return false;
+	}
+
+	private bool SpawnInItems()
+	{
+		SpawnObject(Item.Axe, new Vector3(7.8f, 5.4f, 6.1f), Quaternion.identity);
+        SpawnObject(Item.Tree, new Vector3(6f, 5f, 8f), Quaternion.AngleAxis(-90f, new Vector3(1, 0, 0)));
+		
+		return false;
 	}
 	
 }

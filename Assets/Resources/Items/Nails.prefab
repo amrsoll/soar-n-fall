@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23561111721693732}
   - component: {fileID: 65416096146632886}
   - component: {fileID: 54099132283479988}
-  - component: {fileID: 114924446181478310}
+  - component: {fileID: 114835287013805930}
   m_Layer: 0
   m_Name: Nails
   m_TagString: Interactable
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1181787243596430}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.1370893, y: 4.8925242, z: 3.1181872}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.10040718, y: 0.05983013, z: 0.11664204}
   m_Center: {x: 0.0001586477, y: 0.022407006, z: 0.000015879672}
---- !u!114 &114924446181478310
+--- !u!114 &114835287013805930
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,3 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
+  Movable: 1
+  type: 13

@@ -2868,4 +2868,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
-  type: 7
+  Movable: 1
+  type: 9

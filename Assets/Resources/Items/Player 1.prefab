@@ -178,10 +178,10 @@ GameObject:
   - component: {fileID: 114332993476557052}
   - component: {fileID: 54013294547908930}
   - component: {fileID: 65160447988529336}
-  - component: {fileID: 114394673940819522}
-  - component: {fileID: 114002642550653686}
   - component: {fileID: 82198054393897974}
   - component: {fileID: 114222081044492160}
+  - component: {fileID: 114643349274155500}
+  - component: {fileID: 114964229096354538}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Untagged
@@ -807,8 +807,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.6109319, z: 1}
-  m_Center: {x: 0, y: 0.031832933, z: 0}
+  m_Size: {x: 1, y: 0.5842762, z: 1}
+  m_Center: {x: 0, y: 0.018505096, z: 0}
 --- !u!65 &65258510563736976
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -953,30 +953,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114002642550653686
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1664271487628514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dad16055c866c54fa9a25ef09fe94cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bridge: {fileID: 1951336970986790, guid: 46272597e649e4299ba29245a4aac1a1, type: 2}
-  plank: {fileID: 1129646932672080, guid: 44dce12d3edf1e74fbaae9f339fbf667, type: 2}
-  metal: {fileID: 1615037611481636, guid: 92582820fbfdbe84183e57eecc8b2134, type: 2}
-  nails: {fileID: 1181787243596430, guid: 5640ffccc28ae1f47b1d022a53a69a40, type: 2}
-  ladder: {fileID: 1183371095698102, guid: 4516dd4ba900277498b0683c78bc445b, type: 2}
-  bigFlower: {fileID: 1041044505239254, guid: 0770e47ea10f13c4184b35f1f4dc1f16, type: 2}
-  treasureChestOpen: {fileID: 1302062540808864, guid: 5efe04b2df80b1a41a8bb3ab5728bd6e,
-    type: 2}
-  wateringPot: {fileID: 1278843996299348, guid: 08bf59d392332a9469a04f563e8e3bc2,
-    type: 2}
-  wateringPotFilled: {fileID: 1137593856579750, guid: fb9a82ac3bd2bba4498a9024f0f0b0a1,
-    type: 2}
-  collidingItem: {fileID: 0}
 --- !u!114 &114222081044492160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -991,6 +967,7 @@ MonoBehaviour:
   jumpSound: {fileID: 8300000, guid: 487d83b68461c4683b45aec35786bb00, type: 3}
   jumpSound2: {fileID: 8300000, guid: 781d4425cfa5b4528993d4dff444d02d, type: 3}
   distToGround: 0.35
+  source: {fileID: 0}
 --- !u!114 &114332993476557052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1004,7 +981,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 54013294547908930}
   camera: {fileID: 0}
---- !u!114 &114394673940819522
+  canMove: 0
+  currentDirection: {x: 0, y: 0, z: 0}
+--- !u!114 &114643349274155500
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1012,13 +991,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1664271487628514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b81a52e961615d4d83ecaa02d6ec011, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f066d95eb29fae4da05b5d885eca210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempParent: {fileID: 1068007521940282}
-  guide: {fileID: 4245353967554244}
-  pickedUpState: 0
-  item: {fileID: 0}
+  itemImagesInInventory:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemsInInventory: 00000000000000000000000000000000
+  m_EmptySlotSprite: {fileID: 0}
+  m_EmptySlotImg: {fileID: 0}
+  ItemManager: {fileID: 0}
+--- !u!114 &114964229096354538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1664271487628514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061f9dd62d61942f4933315ca5317a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Inventory: []
+  CollidingItems: []
+  Guide: {fileID: 4245353967554244}
 --- !u!136 &136403795069167148
 CapsuleCollider:
   m_ObjectHideFlags: 1

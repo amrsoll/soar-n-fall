@@ -37,7 +37,7 @@ public class ItemManager : MonoBehaviour {
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
 				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
 				if(result != Item.Undefined)
-					Player.Inventory.Add(SpawnObject(result, Player.Guide.transform.position, Quaternion.identity));
+					Player.GetComponent<Inventory>().Add(result);
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
@@ -160,11 +160,16 @@ public class ItemManager : MonoBehaviour {
 		return a.GetComponent<ItemController>();
 	}
 	
-	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q, Transform parent)
 	{
-		ItemController item = Instantiate(Items[itemType], pos, q, this.transform);
+		ItemController item = Instantiate(Items[itemType], pos, q, parent);
 		item.Manager = this;
 		return item;
+	}
+	
+	public ItemController SpawnObject(Item itemType, Vector3 pos, Quaternion q)
+	{
+		return SpawnObject(itemType, pos, q, this.transform);
 	}
 	
 	// place an object on top of a block
@@ -213,6 +218,7 @@ public class ItemManager : MonoBehaviour {
 	{
 		SpawnObject(Item.Axe, new Vector3(7.8f, 5.4f, 6.1f), Quaternion.identity);
         SpawnObject(Item.Tree, new Vector3(6f, 5f, 8f), Quaternion.AngleAxis(-90f, new Vector3(1, 0, 0)));
+		
 		return false;
 	}
 	

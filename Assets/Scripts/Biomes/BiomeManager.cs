@@ -16,9 +16,9 @@ public class BiomeManager : MonoBehaviour
     {
         worldPos /= Biome.BlockSize;
         Vector3Int biomePos = new Vector3Int(
-            (int)Math.Floor((worldPos.x + Biome.BiomeSpacing / 2) / (Biome.XSize + Biome.BiomeSpacing - 1)),
-            (int)Math.Floor((worldPos.y + Biome.BiomeSpacing / 2) / (Biome.YSize + Biome.BiomeSpacing - 1)),
-            (int)Math.Floor((worldPos.z + Biome.BiomeSpacing / 2) / (Biome.ZSize + Biome.BiomeSpacing - 1))
+            Mathf.FloorToInt((worldPos.x + Biome.BiomeSpacing / 2) / (Biome.XSize + Biome.BiomeSpacing - 1)),
+            Mathf.FloorToInt((worldPos.y + Biome.BiomeSpacing / 2) / (Biome.YSize + Biome.BiomeSpacing - 1)),
+            Mathf.FloorToInt((worldPos.z + Biome.BiomeSpacing / 2) / (Biome.ZSize + Biome.BiomeSpacing - 1))
         );
         return biomePos;
     }
@@ -32,6 +32,12 @@ public class BiomeManager : MonoBehaviour
             biomePos.z * (Biome.ZSize + Biome.BiomeSpacing - 1)
         );
         return worldPos;
+    }
+    
+    public static Vector3 BlockToWorldPos(Vector3Int biomePos, Vector3Int blockPos)
+    {
+        blockPos *= Biome.BlockSize;
+        return blockPos + BiomeToWorldPos(biomePos);
     }
 
     void RegisterBiomes()

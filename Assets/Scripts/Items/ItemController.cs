@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemController : MonoBehaviour {
 	// Use if some object will interact with the environment
 	public ItemManager Manager;
-	private static bool Movable = true;
+	public bool Movable = true;
 	public Item type;
 	
 	// Use this for initialization
@@ -33,11 +33,12 @@ public class ItemController : MonoBehaviour {
 	{
 		return false;
 	}
-	
-	public virtual bool Place(BlockController block)
+
+	public virtual bool InteractWith()
 	{
 		return false;
 	}
+	
 	
 	//TODO place bridges
 }

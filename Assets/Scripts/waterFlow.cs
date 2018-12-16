@@ -48,9 +48,9 @@ public class waterFlow : MonoBehaviour {
                 pos.y--;
             } else
             {
-                break;
+                return counter;
             }
         }
-        return counter;
+        return counter + 5;
     }
 }

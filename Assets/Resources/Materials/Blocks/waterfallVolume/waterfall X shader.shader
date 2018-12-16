@@ -87,7 +87,7 @@ Shader "Unlit/waterfallStyle"
                 
                 float fall = (0-step(0.3, 1 + placement)); //the last part goes from -1 to 0 and should output 0.1 to 5
                 fall = step(_FallPlacement, 1 + placement)/(30/_FallLength);
-                o.transparencyFromFall = 1-step(_FallPlacement-0.9, placement);
+                o.transparencyFromFall = 1-step(_FallPlacement-0.95, placement);
 
                 v.vertex.z += displacement - fall;
 

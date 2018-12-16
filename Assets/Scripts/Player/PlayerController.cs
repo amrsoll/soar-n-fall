@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour {
 		ItemController item = c.gameObject.GetComponent<ItemController>();
 		if (item)
 		{
-			CollidingItems.Last().Selected = false;
+            if (CollidingItems.Count > 0)
+			    CollidingItems.Last().Selected = false;
 			// TODO stop applying transparency shader to the last item
 			item.Selected = true;
 			// TODO start applying transparency shader to this item

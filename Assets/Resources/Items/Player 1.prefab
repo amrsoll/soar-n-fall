@@ -1016,6 +1016,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Inventory: []
   CollidingItems: []
+  BlockThePlayerWalksOn: {fileID: 0}
   Guide: {fileID: 4245353967554244}
 --- !u!136 &136403795069167148
 CapsuleCollider:

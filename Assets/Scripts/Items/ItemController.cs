@@ -10,6 +10,9 @@ public class ItemController : MonoBehaviour {
 	public ItemManager Manager;
 	public bool Movable = true;
 	public Item type;
+
+	public bool Selected; 
+	//TODO add transparency shader to the last item in Player.Inventory (that should be renamed by the way)
 	
 	// Use this for initialization
 	void Start () {
@@ -17,6 +20,7 @@ public class ItemController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 	}
 
 	
@@ -53,5 +57,5 @@ public class ItemController : MonoBehaviour {
         writer.Write(transform.localRotation);
     }
 
-    //TODO place bridges
+	
 }

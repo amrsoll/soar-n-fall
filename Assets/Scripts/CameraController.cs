@@ -8,15 +8,19 @@ public class CameraController : MonoBehaviour {
 	private static readonly float BIOME_CAM_SIZE = (float)Biome.BlockSize*5;
 	//load from JSON
 	
-	private const float PLAYER_CAM_SIZE = 2.7f;
+	public float PLAYER_CAM_SIZE;
 
 	public Camera thisCam;
 	public GameObject player;       //Public variable to store a reference to the player game object
 	public BiomeManager biomeManager;
 
+	public float CameraRollStrength;
+	public float CameraMovementStrength;
+	public float CameraZoomStrength;
+
 	public static readonly Vector3 BiomeCenterOffset = new Vector3((float) Biome.XSize / 2,
-															 (float) Biome.YSize / 2,
-															 (float) Biome.ZSize / 2);
+																   (float) Biome.YSize / 2,
+																   (float) Biome.ZSize / 2);
 
 	private Vector3 prevCamOffset;         //Private variable to store the offset distance between the player and camera
 	private Vector3 curCamOffset;         //Private variable to store the offset distance between the player and camera
@@ -29,15 +33,17 @@ public class CameraController : MonoBehaviour {
 	private bool isDoneRotating = true;
 	private byte rotationDirection = 0;
 	private bool followThePlayer = false;
+	
+	
 
 	// returns true if the camera is already centered on the position v
-	private bool Follow(Vector3 v, float size, float strength = 2f) {
+	private bool Follow(Vector3 v, float size) {
 		//TODO emulate distance with the size of the viewfield
-		thisCam.orthographicSize = Mathf.Lerp(thisCam.orthographicSize, size, strength*Time.deltaTime );
-		transform.position = Vector3.Slerp(transform.position, v+curCamOffset, strength*Time.deltaTime);
+		thisCam.orthographicSize = Mathf.Lerp(thisCam.orthographicSize, size, CameraZoomStrength*Time.deltaTime );
+		transform.position = Vector3.Slerp(transform.position, v+curCamOffset, CameraMovementStrength*Time.deltaTime);
 		Quaternion _w = transform.rotation;
 		transform.LookAt(camTarget, Vector3.up);
-		transform.rotation = Quaternion.Lerp(_w, transform.rotation, strength*Time.deltaTime);
+		transform.rotation = Quaternion.Lerp(_w, transform.rotation, CameraRollStrength*Time.deltaTime);
 		return transform.position == v+curCamOffset;
 	}
 

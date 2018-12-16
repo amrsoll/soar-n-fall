@@ -16,6 +16,5 @@
     Nails = 13,
     Key = 14,
     Mushrooms = 15,
-    WateringPot = 16,
-    WateringPotFilled = 17
+    WateringPot = 16
 }

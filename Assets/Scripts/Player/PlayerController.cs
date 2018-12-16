@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -33,12 +34,24 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter(Collider c)
 	{
 		ItemController item = c.gameObject.GetComponent<ItemController>();
-		if(item && item.Movable)
+		if (item)
+		{
+			CollidingItems.Last().Selected = false;
+			// TODO stop applying transparency shader to the last item
+			item.Selected = true;
+			// TODO start applying transparency shader to this item
 			CollidingItems.Add(item);
+		}
 	}
 	
-	void OnTriggerExit(Collider c) {
-		CollidingItems.Remove(c.gameObject.GetComponent<ItemController>());
+	void OnTriggerExit(Collider c)
+	{
+		ItemController item = c.gameObject.GetComponent<ItemController>();
+		CollidingItems.Remove(item);
+		item.Selected = false;
+		// TODO stop applying transparency shader to this item
+		CollidingItems.Last().Selected = true;
+		// TODO start applying transparency shader to the last item
 	}
 	
 	public void PickUp(ItemController item)

@@ -15,7 +15,6 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         LoadItems();
-        Add(Item.PickAxe);
     }
 
     public void Add(Item itemToAdd)

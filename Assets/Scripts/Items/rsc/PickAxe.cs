@@ -23,7 +23,7 @@ public class PickAxe : ItemController
             ItemController metal = Manager.SpawnObject(Item.Metal, item.transform.position + new Vector3(0.1f, 0.5f, 0f), Quaternion.identity);
 
 
-            SoundEvent.PlayClip("AxeSwing");
+            SoundEvent.PlayClip("pick-axe-sound");
 
 
             return true;

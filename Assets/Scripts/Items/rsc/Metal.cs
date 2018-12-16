@@ -23,7 +23,7 @@ public class Metal : ItemController
             ItemController nails = Manager.SpawnObject(Item.Nails, item.transform.position + new Vector3(0.5f, 0.5f, 0f), Quaternion.identity);
 
             Destroy(this.gameObject);
-            SoundEvent.PlayClip("AxeSwing");
+            //SoundEvent.PlayClip("AxeSwing");
 
 
             return true;

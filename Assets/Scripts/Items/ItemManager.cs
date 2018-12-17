@@ -49,10 +49,10 @@ public class ItemManager : MonoBehaviour {
 			}
 		}
 
-		if ((/*Input.GetKeyDown(KeyCode.JoystickButton4) || */Input.GetKeyDown(KeyCode.Q))
+		if ((Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKeyDown(KeyCode.Q))
 		    && Player.CollidingItems.Count > 0)
 		{
-			bool res = Player.CollidingItems.Last().InteractWith();
+			bool res = Player.CollidingItems.Last().InteractWith(Player.BlockThePlayerWalksOn);
             //Debug.Log("Trying to interact with " + Player.CollidingItems.Last().type);
             if (!res && Player.Inventory.Count > 0)
             {
@@ -191,10 +191,12 @@ public class ItemManager : MonoBehaviour {
                 case 0:
                     SpawnObject(item, new Vector3(0, 5, 12), Quaternion.identity);
                     bridgeCounter++;
+                    GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("firstBridgeNarration");
                     return true;
                 case 1:
                     SpawnObject(item, new Vector3(12, 5, 48), Quaternion.Euler(0, 90, 0));
                     bridgeCounter++;
+                    GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-final-island-reached");
                     return true;
                 default:
                     return false;
@@ -236,6 +238,7 @@ public class ItemManager : MonoBehaviour {
             newItem.GetComponent<Rigidbody>().useGravity = false;
             newItem.GetComponent<Rigidbody>().isKinematic = true;
             ladderPlaced = true;
+            GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-ladder-built");
             return true;
         }
 

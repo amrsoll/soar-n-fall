@@ -3594,7 +3594,7 @@ Prefab:
     - target: {fileID: 114222081044492160, guid: 807bde9fa92424528b3882831db7c3c8,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4291112913963808, guid: 807bde9fa92424528b3882831db7c3c8, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -3609,6 +3609,11 @@ Prefab:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 114222081044492160, guid: 807bde9fa92424528b3882831db7c3c8,
+        type: 2}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 2107911669}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 807bde9fa92424528b3882831db7c3c8, type: 2}
   m_IsPrefabAsset: 0
@@ -3643,6 +3648,11 @@ MonoBehaviour:
   container: {fileID: 1678207618}
   popupPrefab: {fileID: 1229884721990924, guid: dfcdfc963acbb1b4aae2289df2684533,
     type: 2}
+--- !u!82 &2107911669 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 82198054393897974, guid: 807bde9fa92424528b3882831db7c3c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 2107911664}
 --- !u!114 &2107911674
 MonoBehaviour:
   m_ObjectHideFlags: 0

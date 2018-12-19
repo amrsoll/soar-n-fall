@@ -32,8 +32,8 @@ public class Respawn : MonoBehaviour {
         player.transform.rotation = startRotation;
         player.transform.position = startPosition;
 
-        if (PauseMenu.GameIsPaused) {
-            GetComponent<PauseMenu>().Resume();
+        if (ToggleInventory.GameIsPaused) {
+            GetComponent<ToggleInventory>().Resume();
         }
     }
 }

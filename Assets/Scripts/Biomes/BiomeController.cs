@@ -158,6 +158,7 @@ public class BiomeController : MonoBehaviour
         for (int i = 0; i < fileItemCount; i++)
         {
             ItemController newItem = Instantiate(itemManager.Items[(Item)reader.ReadByte()], transform);
+            newItem.Manager = itemManager;
             newItem.transform.localPosition = reader.ReadVector3();
             newItem.transform.localRotation = reader.ReadQuaternion();
         }

@@ -17,13 +17,12 @@ public class Axe : ItemController
 	
 	public override bool InteractWith(ItemController item)
 	{
-		Debug.Log(item.name.ToString());
 		if (item.type == Item.Tree)
 		{
-            ItemController plank = Manager.SpawnObject(Item.Plank, item.transform.position + new Vector3(0.1f, 0.5f, 0f), Quaternion.identity);
+            ItemController plank = Manager.SpawnObject(Item.Plank, item.transform.position + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity);
 
-            Transform tree = item.transform.Find("Tree (1)");
-            Transform treeStump = item.transform.Find("tree-cut");
+            Transform tree = item.transform.Find("Tree Model");
+            Transform treeStump = item.transform.Find("TreeCut");
             
             tree.gameObject.SetActive(false);
             treeStump.gameObject.SetActive(true);

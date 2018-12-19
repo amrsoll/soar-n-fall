@@ -48,7 +48,6 @@ public class NarrationTrigger : MonoBehaviour
     public void PlayClip(string clipName)
     {
         if (narratorSource.isPlaying) {
-            Debug.Log("yay");
             narratorSource.Stop();
             narratorSource.PlayOneShot(audioClipDict[clipName]);
         }

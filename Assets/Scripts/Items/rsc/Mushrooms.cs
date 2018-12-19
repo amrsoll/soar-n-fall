@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Metal : ItemController
+public class Mushrooms : ItemController
 {
     EventSoundTrigger SoundEvent;
     

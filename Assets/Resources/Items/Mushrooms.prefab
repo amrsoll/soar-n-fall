@@ -155,3 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Manager: {fileID: 0}
+  Movable: 1
+  type: 15
+  Selected: 0

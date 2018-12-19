@@ -11,6 +11,7 @@ public class playerMovement : MonoBehaviour {
     public Rigidbody rigidBody;
     public Camera camera;
     private float interpolation = 10.0f;
+    public float jumpLimit = 15f;
 
     Vector3 currentD = new Vector3(1.0f, 0.0f, 0.0f);
     float currentV = 0.0f;
@@ -56,7 +57,7 @@ public class playerMovement : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.Space)){
                 //HARDCODED LIMIT FOR HOW HIGH YOU CAN JUMP
-                if (transform.position.y < 15.0) {
+                if (transform.position.y < jumpLimit) {
                     rigidBody.AddForce(Vector3.up * jumpSpeed);
                 }
             }

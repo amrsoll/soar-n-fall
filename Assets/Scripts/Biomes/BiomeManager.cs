@@ -88,14 +88,55 @@ public class BiomeManager : MonoBehaviour
 	void Start () {
         if (!isEditor)
         {
-            CreateBiome(Vector3Int.zero, BiomeType.Home);
+            //CreateBiome(Vector3Int.zero, BiomeType.Home);
             //CreateBiome(new Vector3Int(0, 0, -1), BiomeType.Volcano);
-            CreateBiome(new Vector3Int(0, 0, 1), BiomeType.Forest);
-            CreateBiome(new Vector3Int(0, 0, 2), BiomeType.Forest);
-            CreateBiome(new Vector3Int(0, 1, 1), BiomeType.Forest);
-            CreateBiome(new Vector3Int(1, 0, 1), BiomeType.Forest);
-            CreateBiome(new Vector3Int(-1, 0, 1), BiomeType.Forest);
+            CreatePremadeBiome(new Vector3Int(0, 0, 0), "first");
+            CreatePremadeBiome(new Vector3Int(0, 0, 1), "second");
+            CreatePremadeBiome(new Vector3Int(0, 1, 2), "third");
+            CreatePremadeBiome(new Vector3Int(0, 1, 3), "quickisland");
+            CreatePremadeBiome(new Vector3Int(0, 0, 3), "volcano");
+            CreatePremadeBiome(new Vector3Int(1, 0, 3), "last");
+
+            for (int i = 0; i < 15; i++)
+            {
+                float val = UnityEngine.Random.value;
+                if (val < 0.25f)
+                {
+                    CreatePremadeBiome(new Vector3Int(UnityEngine.Random.Range(5, 7), UnityEngine.Random.Range(-3, 3), UnityEngine.Random.Range(5, 7)), "background");
+                } else if (val < 0.5f)
+                {
+                    CreatePremadeBiome(new Vector3Int(UnityEngine.Random.Range(-7, -5), UnityEngine.Random.Range(-3, 3), UnityEngine.Random.Range(-7, -5)), "background");
+                } else if (val < 0.75f)
+                {
+                    CreatePremadeBiome(new Vector3Int(UnityEngine.Random.Range(-7, -5), UnityEngine.Random.Range(-3, 3), UnityEngine.Random.Range(5, 7)), "background");
+                } else
+                {
+                    CreatePremadeBiome(new Vector3Int(UnityEngine.Random.Range(5, 7), UnityEngine.Random.Range(-3, 3), UnityEngine.Random.Range(-7, -5)), "background");
+                }
+            }
+
+            /*CreatePremadeBiome(new Vector3Int(2, 0, 1), "biome0-0");
+            CreatePremadeBiome(new Vector3Int(0, 0, 0), "biome0-2");
+            CreatePremadeBiome(new Vector3Int(1, 0, 1), "biome1-1");
+            CreatePremadeBiome(new Vector3Int(0, 0, 1), "biome1-2");
+            CreatePremadeBiome(new Vector3Int(2, 0, 2), "biome2-2");*/
         }
+    }
+
+    public BiomeController CreatePremadeBiome(Vector3Int pos, string prefabName)
+    {
+        BiomeController b = Instantiate<BiomeController>(BiomePrefab, transform);
+        b.name = String.Format("{0}-{1}-{2}", pos.x, pos.y, pos.z);
+
+        b.Manager = this;
+        Vector3 worldPos = Biome.BlockSize * (new Vector3(Biome.XSize, Biome.YSize, Biome.ZSize) + Biome.BiomeSpacing * Vector3.one);
+        worldPos.Scale(pos);
+        b.transform.localPosition = worldPos;
+
+        b.Type = BiomeType.QuickPremade;
+        b.BiomeInstance = new BiomePremade(prefabName);
+        b.BiomeInstance.Generate(b);
+        return b;
     }
 
     /** <summary>

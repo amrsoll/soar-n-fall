@@ -33,10 +33,12 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider c)
 	{
+		Debug.Log("Object "+c.GetComponent<ItemController>()+" is entering trigger");
 		ItemController item = c.gameObject.GetComponent<ItemController>();
 		if (item)
 		{
-			CollidingItems.Last().Selected = false;
+            if (CollidingItems.Count > 0)
+			    CollidingItems.Last().Selected = false;
 			// TODO stop applying transparency shader to the last item
 			item.Selected = true;
 			// TODO start applying transparency shader to this item
@@ -47,10 +49,14 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerExit(Collider c)
 	{
 		ItemController item = c.gameObject.GetComponent<ItemController>();
-		CollidingItems.Remove(item);
-		item.Selected = false;
+		if (CollidingItems.Count > 0 && item)
+		{
+			CollidingItems.Remove(item);
+			item.Selected = false;
+		}
 		// TODO stop applying transparency shader to this item
-		CollidingItems.Last().Selected = true;
+		if (CollidingItems.Count > 0)
+			CollidingItems.Last().Selected = true;
 		// TODO start applying transparency shader to the last item
 	}
 	

@@ -13,10 +13,13 @@ public class Inventory : MonoBehaviour
     public Image m_EmptySlotImg;
     public GameObject ItemManager;
 
+    PlayerController player;
+
     void Start()
     {
         LoadItems();
         LoadItemList();
+        player = GetComponent<PlayerController>();
     }
 
     public void Add(Item itemToAdd)
@@ -53,7 +56,8 @@ public class Inventory : MonoBehaviour
     
     public void Remove(int index)
     {
-        ItemManager.GetComponent<ItemManager>().SpawnObject(itemsInInventory[index], ItemManager.GetComponent<ItemManager>().Player.Guide.transform.position, Quaternion.identity);
+        if (itemsInInventory[index] == Item.Undefined) return;
+        if (ItemManager.GetComponent<ItemManager>().Place(itemsInInventory[index], player.BlockThePlayerWalksOn) == false) return;
         itemsInInventory[index] = Item.Undefined;
         itemImagesInInventory[index].sprite = null;
         itemImagesInInventory[index].enabled = false;

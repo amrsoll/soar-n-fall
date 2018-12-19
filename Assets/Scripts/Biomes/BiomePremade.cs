@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 public class BiomePremade : Biome
@@ -23,7 +24,14 @@ public class BiomePremade : Biome
             BinaryReader reader = new BinaryReader(new MemoryStream(binFile.bytes))
         )
         {
-            biome.Read(reader);
+            try
+            {
+                biome.Read(reader);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error loading biome " + filename);
+            }
         }
     }
 

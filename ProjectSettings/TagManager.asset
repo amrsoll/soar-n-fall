@@ -12,6 +12,9 @@ TagManager:
   - bridge
   - Interactable
   - ItemManager
+  - ResumeGame
+  - EvenSystem
+  - FirstItem-UI
   layers:
   - Default
   - TransparentFX

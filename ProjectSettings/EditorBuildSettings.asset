@@ -11,8 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: e267c82e0c528422eafde4303027dbea
-  - enabled: 1
-    path: Assets/Scenes/initialPlayerController.unity
+  - enabled: 0
+    path: Assets/Scenes/Water Cntroll.unity
     guid: 8e0c877325ef7514ebaf18ff4d8b6a31
   - enabled: 0
     path: Assets/Scenes/HelloWorld.unity
@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/soundManager.unity
     guid: 565d6d4d4bef54d008e997fefdb447ce
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 0923f5b2771c69b43aff10da6f313412
   m_configObjects: {}

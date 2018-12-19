@@ -23,10 +23,7 @@ public class ItemManager : MonoBehaviour {
 
     void Start ()
     {
-        if (!isEditor)
-        {
-            SpawnInItems();
-        }
+        
     }
 	
 	// Update is called once per frame
@@ -37,7 +34,10 @@ public class ItemManager : MonoBehaviour {
 			if (Player.Inventory.Count > 0 && Player.CollidingItems.Count > 0) {
 				Item result = Craft(Player.Inventory.First(), Player.CollidingItems.Last());
 				if(result != Item.Undefined)
-					Player.GetComponent<Inventory>().Add(result);
+                {
+                    Player.GetComponent<Inventory>().Add(result);
+                    Player.CollidingItems.Clear();
+                }
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
@@ -49,14 +49,15 @@ public class ItemManager : MonoBehaviour {
 			}
 		}
 
-		if ((/*Input.GetKeyDown(KeyCode.JoystickButton4) || */Input.GetKeyDown(KeyCode.Q))
+		if ((Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKeyDown(KeyCode.Q))
 		    && Player.CollidingItems.Count > 0)
 		{
-			bool res = Player.CollidingItems.Last().InteractWith();
-			Debug.Log("Trying to interact with " + Player.CollidingItems.Last().type);
-			if (! res &&
-			    Player.Inventory.Count > 0)
-				Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
+			bool res = Player.CollidingItems.Last().InteractWith(Player.BlockThePlayerWalksOn);
+            //Debug.Log("Trying to interact with " + Player.CollidingItems.Last().type);
+            if (!res && Player.Inventory.Count > 0)
+            {
+                res = Player.Inventory.First().InteractWith(Player.CollidingItems.Last());
+            }
 		}
 	}
 	
@@ -124,7 +125,8 @@ public class ItemManager : MonoBehaviour {
 		Recipees = new Dictionary<List<Item>, Item>();
 		AddRecipee(Item.PlankBridge, Item.Rope, Item.Plank);
         AddRecipee(Item.Ladder, Item.Nails, Item.Plank);
-	}
+        AddRecipee(Item.PlankBridge, Item.Mushrooms, Item.Fire);
+    }
 	
 	private void LoadItems()
 	{
@@ -171,33 +173,52 @@ public class ItemManager : MonoBehaviour {
 	{
 		return SpawnObject(itemType, pos, q, this.transform);
 	}
-	
+
+    bool ladderPlaced = false;
+    int bridgeCounter = 0;
+
 	// place an object on top of a block
-	public bool Place(ItemController item, BlockController block)
+	public bool Place(Item item, BlockController block)
 	{
 		bool youMayPlaceThis = false;
 		Vector3 pos = Vector3.zero;
 		Quaternion q = Quaternion.identity;
 		// case of the bridge
-		if (item.type == Item.PlankBridge)
+		if (item == Item.PlankBridge)
 		{
-			int bx = block.biomeCoords.x;
+            switch (bridgeCounter)
+            {
+                case 0:
+                    SpawnObject(item, new Vector3(0, 5, 12), Quaternion.identity);
+                    bridgeCounter++;
+                    GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("firstBridgeNarration");
+                    return true;
+                case 1:
+                    SpawnObject(item, new Vector3(12, 5, 48), Quaternion.Euler(0, 90, 0));
+                    bridgeCounter++;
+                    GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-final-island-reached");
+                    return true;
+                default:
+                    return false;
+            }
+
+			/*int bx = block.biomeCoords.x;
 			int by = block.biomeCoords.y;
 			int bz = block.biomeCoords.z;
-			if (bx == Biome.XSize - 1 ||
+            if (bx == Biome.XSize - 1 ||
 			    bx == 0)
 			{
 				q = Quaternion.identity * Quaternion.AngleAxis(90,Vector3.up);
-				if (bx == 0) pos.x -= (float)Biome.BiomeSpacing / 2; 
-				else         pos.x += (float)Biome.BiomeSpacing / 2; 
+				if (bx == 0) pos.x -= Biome.BiomeSpacing; 
+				else         pos.x += Biome.BiomeSpacing; 
 				youMayPlaceThis = true;
 			}
 			else if (bz == Biome.ZSize - 1 ||
 			         bz == 0)
 			{
 				q = Quaternion.identity;
-				if (bz == 0) pos.z -= (float)Biome.BiomeSpacing / 2; 
-				else         pos.z += (float)Biome.BiomeSpacing / 2; 
+				if (bz == 0) pos.z -= Biome.BiomeSpacing; 
+				else         pos.z += Biome.BiomeSpacing; 
 				youMayPlaceThis = true;
 			}
 			if(youMayPlaceThis)
@@ -205,20 +226,27 @@ public class ItemManager : MonoBehaviour {
 				Vector3Int blockPos = new Vector3Int(bx, by, bz);
 				Vector3Int biomePos = BiomeManager.WorldToBiomePos(Player.transform.position);
 				pos += BiomeManager.BiomeToWorldPos(biomePos) + blockPos * Biome.BlockSize;
-			}
-			return true;
+                SpawnObject(item, pos, q);
+            }*
+			return true;*/
 		}
-		
-		if(youMayPlaceThis)
-			SpawnObject(item.type, pos, q);
+
+        if (item == Item.Ladder && !ladderPlaced)
+        {
+            ItemController newItem = SpawnObject(item, new Vector3(1, 5, 24), Quaternion.Euler(0, 90, 21));
+            newItem.transform.localScale = new Vector3(4, 10, 6);
+            newItem.GetComponent<Rigidbody>().useGravity = false;
+            newItem.GetComponent<Rigidbody>().isKinematic = true;
+            ladderPlaced = true;
+            GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-ladder-built");
+            return true;
+        }
+
 		return false;
 	}
 
 	private bool SpawnInItems()
 	{
-		SpawnObject(Item.Axe, new Vector3(7.8f, 5.4f, 6.1f), Quaternion.identity);
-        SpawnObject(Item.Tree, new Vector3(6f, 5f, 8f), Quaternion.AngleAxis(-90f, new Vector3(1, 0, 0)));
-		
 		return false;
 	}
 	

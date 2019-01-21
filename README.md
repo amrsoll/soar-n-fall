@@ -1,4 +1,4 @@
-# 555game5
+# Soar and Fall
 KTH Computer Game Design project team 5
 
 ## Synopsis

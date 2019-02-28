@@ -13,6 +13,7 @@ public class ItemManager : MonoBehaviour {
 	// The recipe ingredients should be listed in alphabetical order #performance
 	public Dictionary<List<Item>, Item> Recipees;
 	public Dictionary<Item, ItemController> Items;
+    public ToggleInventory InventoryMenu;
 	
 	// Use this for initialization
 	void Awake ()
@@ -37,6 +38,9 @@ public class ItemManager : MonoBehaviour {
                 {
                     Player.GetComponent<Inventory>().Add(result);
                     Player.CollidingItems.Clear();
+                    Debug.Log(result + " added to inventory!");
+                    InventoryMenu.InvMenu();
+
                 }
 			}
 		}
@@ -98,6 +102,7 @@ public class ItemManager : MonoBehaviour {
 			{
 				Player.Inventory.Remove(item);
 				Destroy(item.gameObject);
+                InventoryMenu.Resume();
 			}
 			return recipeeRes;
 		}
@@ -192,11 +197,13 @@ public class ItemManager : MonoBehaviour {
                     SpawnObject(item, new Vector3(0, 5, 12), Quaternion.identity);
                     bridgeCounter++;
                     GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("firstBridgeNarration");
+                    InventoryMenu.Resume();
                     return true;
                 case 1:
                     SpawnObject(item, new Vector3(12, 5, 48), Quaternion.Euler(0, 90, 0));
                     bridgeCounter++;
                     GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-final-island-reached");
+                    InventoryMenu.Resume();
                     return true;
                 default:
                     return false;
@@ -239,6 +246,7 @@ public class ItemManager : MonoBehaviour {
             newItem.GetComponent<Rigidbody>().isKinematic = true;
             ladderPlaced = true;
             GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-ladder-built");
+            InventoryMenu.Resume();
             return true;
         }
 

@@ -22,12 +22,20 @@ public class ToggleInventory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.JoystickButton6))
-		{
-            //Debug.Log("hej");
-            //isActive = !isActive;
-            //inventoryMenu.SetActive(true);
-            //inventoryArrow.SetActive(false);
+        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.JoystickButton7))
+        {
+            if (GameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                PauseMenu();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton6))
+        {
 
             if (GameIsPaused)
             {
@@ -35,19 +43,22 @@ public class ToggleInventory : MonoBehaviour {
             }
             else
             {
-                Pause();
+                InvMenu();
             }
         }
-		//if (isActive) {
-		//	//player.GetComponent<playerMovement>().canMove = false;
-  //          Pause();
+    }
 
-  //      }
-		//if (!isActive) {
-			////player.GetComponent<playerMovement>().canMove = true;
-        //    Resume();
-        //}
+    public void PauseMenu() {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
 
+    public void InvMenu() {
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+        inventoryMenu.SetActive(true);
+        inventoryArrow.SetActive(false);
     }
 
     public void Resume()

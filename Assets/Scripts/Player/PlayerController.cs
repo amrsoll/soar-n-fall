@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 	
@@ -10,11 +11,14 @@ public class PlayerController : MonoBehaviour {
 	public BlockController BlockThePlayerWalksOn;
 	public Transform Guide;
 	private BiomeManager _biomeManager;
-	
-	// Use this for initialization
-	void Start () {
+    EventSoundTrigger SoundEvent;
+    public GameObject addedToInventoryUI;
+
+    // Use this for initialization
+    void Start () {
 		Guide = GameObject.Find("Guide").transform;
-	}
+        SoundEvent = GameObject.Find("SoundManager").GetComponent<EventSoundTrigger>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -71,7 +75,20 @@ public class PlayerController : MonoBehaviour {
 			item.transform.rotation = Quaternion.identity;
 			item.transform.parent = Guide.transform;
 			Inventory.Add(item);
+            SoundEvent.PlayClip("inventory");
+            StartCoroutine(ShowAndWait());
+
 		}
+        else 
+        {
+            if (item.type == Item.Friend)
+            {
+                Debug.Log("yay");
+                SoundEvent.PlayClip("win-sound");
+
+                StartCoroutine(WaitAndEnd());
+            }
+        }
 	}
 
 	public void Release(ItemController item) {
@@ -91,4 +108,17 @@ public class PlayerController : MonoBehaviour {
 			Mathf.FloorToInt(transform.position.y / (Biome.YSize * Biome.BlockSize + Biome.BiomeSpacing)),
 			Mathf.FloorToInt(transform.position.z / (Biome.ZSize * Biome.BlockSize + Biome.BiomeSpacing)));
 	}
+
+    IEnumerator WaitAndEnd()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(1);
+    }
+
+    IEnumerator ShowAndWait()
+    {
+        addedToInventoryUI.SetActive(true);
+        yield return new WaitForSeconds(1);
+        addedToInventoryUI.SetActive(false);
+    }
 }

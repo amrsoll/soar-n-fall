@@ -15,7 +15,6 @@ public class waterFlow : MonoBehaviour {
     
     void Update () {
         if (biomeController == null) return;
-
         int blocksDown = HowManyBlocksDown(1, 0);
         if (blocksDown > 0)
         {
@@ -27,13 +26,19 @@ public class waterFlow : MonoBehaviour {
             Renderer re = waterfall.GetComponentInChildren<Renderer>();
             re.material.SetFloat("_FallPlacement", transform.position.x + Biome.BlockSize + 0.2f);
             re.material.SetFloat("_FallLength", blocksDown * 0.6f);
-        } else
+            re.material.SetFloat("_isX", 1.0f);
+
+        }
+        else
         {
             if (waterfall != null)
             {
                 Destroy(waterfall.gameObject);
             }
         }
+
+
+
     }
 
     int HowManyBlocksDown(int xOffset, int zOffset)

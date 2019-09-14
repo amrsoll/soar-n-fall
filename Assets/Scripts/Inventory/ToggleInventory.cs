@@ -46,6 +46,11 @@ public class ToggleInventory : MonoBehaviour {
                 InvMenu();
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            LoadMenu();
+        }
     }
 
     public void PauseMenu() {

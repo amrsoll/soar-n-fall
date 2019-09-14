@@ -1361,6 +1361,7 @@ MonoBehaviour:
   Player: {fileID: 2107911666}
   isEditor: 0
   InventoryMenu: {fileID: 106574155}
+  addedToInventoryUI: {fileID: 1693277728}
 --- !u!4 &829251875
 Transform:
   m_ObjectHideFlags: 0

@@ -14,9 +14,11 @@ public class ItemManager : MonoBehaviour {
 	public Dictionary<List<Item>, Item> Recipees;
 	public Dictionary<Item, ItemController> Items;
     public ToggleInventory InventoryMenu;
-	
-	// Use this for initialization
-	void Awake ()
+    EventSoundTrigger SoundEvent;
+    public GameObject addedToInventoryUI;
+
+    // Use this for initialization
+    void Awake ()
 	{
 		FillRecipeeBook();
 		LoadItems();
@@ -39,10 +41,12 @@ public class ItemManager : MonoBehaviour {
                     Player.GetComponent<Inventory>().Add(result);
                     Player.CollidingItems.Clear();
                     Debug.Log(result + " added to inventory!");
-                    InventoryMenu.InvMenu();
+                    //InventoryMenu.InvMenu();
+                    SoundEvent.PlayClip("inventory");
+                    StartCoroutine(ShowAndWait());
 
                 }
-			}
+            }
 		}
 		if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E)){
 			if (Player.Inventory.Count == 0 && Player.CollidingItems.Count > 0) {
@@ -257,5 +261,12 @@ public class ItemManager : MonoBehaviour {
 	{
 		return false;
 	}
-	
+
+    IEnumerator ShowAndWait()
+    {
+        addedToInventoryUI.SetActive(true);
+        yield return new WaitForSeconds(1);
+        addedToInventoryUI.SetActive(false);
+    }
+
 }

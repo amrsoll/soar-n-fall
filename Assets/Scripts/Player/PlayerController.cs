@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour {
 	public Transform Guide;
 	private BiomeManager _biomeManager;
     EventSoundTrigger SoundEvent;
-    public GameObject addedToInventoryUI;
 
     // Use this for initialization
     void Start () {
@@ -75,8 +74,6 @@ public class PlayerController : MonoBehaviour {
 			item.transform.rotation = Quaternion.identity;
 			item.transform.parent = Guide.transform;
 			Inventory.Add(item);
-            SoundEvent.PlayClip("inventory");
-            StartCoroutine(ShowAndWait());
 
 		}
         else 
@@ -113,12 +110,5 @@ public class PlayerController : MonoBehaviour {
     {
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene(1);
-    }
-
-    IEnumerator ShowAndWait()
-    {
-        addedToInventoryUI.SetActive(true);
-        yield return new WaitForSeconds(1);
-        addedToInventoryUI.SetActive(false);
     }
 }

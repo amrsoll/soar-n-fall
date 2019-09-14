@@ -26,7 +26,7 @@ public class ItemManager : MonoBehaviour {
 
     void Start ()
     {
-        
+        SoundEvent = GameObject.Find("SoundManager").GetComponent<EventSoundTrigger>();
     }
 	
 	// Update is called once per frame

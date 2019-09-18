@@ -16,7 +16,7 @@ public class FlowerAnimation : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.F))
         {
             GameObject.Find("SoundManager").GetComponent<NarrationTrigger>().PlayClip("on-flowers-watered");
-            anim.SetTrigger("Active");
+            anim.SetTrigger("Grow");
             m_Collider = GetComponent<Collider>();
             m_Collider.enabled = true;
         }

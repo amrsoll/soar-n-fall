@@ -3493,6 +3493,11 @@ Prefab:
       propertyPath: container
       value: 
       objectReference: {fileID: 1678207618}
+    - target: {fileID: 114245393075170722, guid: 807bde9fa92424528b3882831db7c3c8,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 807bde9fa92424528b3882831db7c3c8, type: 2}
   m_IsPrefabAsset: 0

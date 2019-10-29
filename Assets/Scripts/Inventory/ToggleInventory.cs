@@ -22,7 +22,7 @@ public class ToggleInventory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.JoystickButton7))
+/*         if (Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.JoystickButton7))
         {
             if (GameIsPaused)
             {
@@ -45,7 +45,7 @@ public class ToggleInventory : MonoBehaviour {
             {
                 InvMenu();
             }
-        }
+        } */
 
         if(Input.GetKeyDown(KeyCode.U))
         {
